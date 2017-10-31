@@ -32,7 +32,7 @@ export class MyApp {
       //fetch data and init store
       setTimeout(() =>{
         this.appStoreReady = true;
-      }, 3000);
+      }, 500);
     });
   }
 }

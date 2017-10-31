@@ -13,13 +13,22 @@
 </ion-header>
 
 
-<ion-content padding>
-
+<ion-content padding >
+<div style="margin-top:37px;">
   <ion-calendar [(ngModel)]="date"
                 (onChange)="onChange($event)"
                 [options]="options"
-                [type]="AppConst.calendarTypes.string"
-                [format]="AppConst.dateFormat">
+                [type]="AppConst.calendar.dataTypes.object"
+                [format]="AppConst.calendar.format">
   </ion-calendar>
+
+  <div style="margin-top: 7px; height: 1px; border: 1px solid white;"></div>
+
+
+  <div>
+
+  </div>
+
+</div>
 
 </ion-content>

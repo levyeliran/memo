@@ -1,3 +1,21 @@
 page-events {
+  ion-calendar-week {
+    .week-title {
+      color: white !important;
+      font-weight: 400;
+    }
+    .toolbar-content-md{
+      background-color: #488aff;
+    }
+  }
+
+  ion-calendar-month {
+    .days-btn{
+      small{
+        font-weight: 400;
+      }
+    }
+  }
+
 
 }
