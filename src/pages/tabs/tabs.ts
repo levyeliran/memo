@@ -8,9 +8,10 @@ import { EventsPage } from '../events/events';
 })
 export class TabsPage {
 
-  tab1Root = ProfilePage;
-  tab2Root = HomePage;
-  tab3Root = EventsPage;
+  profileTabRoot = ProfilePage;
+  homeTabRoot = HomePage;
+  eventsTabRoot:any = EventsPage;
+  eventsTabBadgeCount:any;
 
   //get referance to tabs child in the tabs view
   @ViewChild('myTabs') tabRef: any;
@@ -19,6 +20,9 @@ export class TabsPage {
 
   //select the home tab on load (ionic select the first by default)
   ionViewDidEnter() {
-    this.tabRef.select(1);
+    this.tabRef.select(2);
+
+    //add badge when there is an event "now"
+    this.eventsTabBadgeCount = 1;
   }
 }

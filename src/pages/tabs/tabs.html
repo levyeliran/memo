@@ -1,6 +1,6 @@
 <ion-tabs #myTabs>
   <!--https://ionicframework.com/docs/ionicons/-->
-  <ion-tab [root]="tab1Root" tabTitle="Profile" tabIcon="person"></ion-tab>
-  <ion-tab [root]="tab2Root" tabTitle="Home" tabIcon="home"></ion-tab>
-  <ion-tab [root]="tab3Root" tabTitle="Events" tabIcon="calendar"></ion-tab>
+  <ion-tab [root]="profileTabRoot" tabTitle="Profile" tabIcon="person"></ion-tab>
+  <ion-tab [root]="homeTabRoot" tabTitle="Home" tabIcon="home"></ion-tab>
+  <ion-tab [root]="eventsTabRoot" tabTitle="Events" tabIcon="calendar" tabBadgeStyle="secondary" [tabBadge]="eventsTabBadgeCount"></ion-tab>
 </ion-tabs>
