@@ -1,58 +1,83 @@
-import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
-import { AppConstants } from '../../api/constants/appConstants'
+import {Component, OnInit} from '@angular/core';
+import {NavController} from 'ionic-angular';
+import {AppConstants} from '../../api/constants/appConstants'
+import {AppUtils} from '../../api/appUtils'
+import {Event} from '../../api/constants/appTypes'
 
 @Component({
   selector: 'page-events',
   templateUrl: 'events.html',
 })
-export class EventsPage {
+export class EventsPage implements OnInit {
+
+  AppConst = AppConstants;
+  AppUtils = AppUtils;
+  calendarEvents: [Event] = [];
 
   //https://www.npmjs.com/package/ion2-calendar
-  date: string;
-  options:any;
-  AppConst = AppConstants;
+  calendarOptions: any;
+  selectedDate: any;
 
   constructor(public navCtrl: NavController) {
+  }
+
+  ngOnInit() {
 
     let _daysConfig: any[] = [];
-    for (let i = 0; i < 31; i++) {
+    this.calendarEvents.forEach((e: Event) => {
       _daysConfig.push({
-        date: new Date(2017, 9, i + 1),
-        subTitle: (i == 10 || i == 15) ? this.getExistingEventInitialsTitle() : '',
-        marked: (i == 20 || i == 5),
-        disable: (i == 25)
+        date: e.startDate,
+        subTitle: e.initials,
+        marked: this.AppUtils.isCurrentDate(e.endDate),
+        disable: this.AppUtils.isPassedDate(e.endDate)
       })
-    }
+    });
 
-    let today = new Date();
-    //until 6 month from now
-    let endDate = new Date(today.setMonth(today.getMonth() + 6));
+    //disable passed dates
+
 
     //disable the last date
     _daysConfig.push({
-      date: endDate,
+      date: this.AppUtils.getFutureDate(6),
       disable: true
     })
 
-    this.options = {
-      from: new Date(2017, 0, 1),
-      to: endDate,
+    this.calendarOptions = {
+      from: new Date(2017, 10, 1),
+      to: this.AppUtils.getFutureDate(6),
       daysConfig: _daysConfig,
-      defaultDate: today,
-      //color: this.AppConst.calendar.colors.secondary
+      defaultDate: new Date(),
     };
-
-    //console.log(this.options);
-
   }
 
-  getExistingEventInitialsTitle(){
-    return 'Y&R';
-  }
+  onDateChange(event: any) {
+    if (event) {
+      this.selectedDate = event
 
-  onChange(event) {
-    console.log(event);
+      //available date
+      if (!event.subTitle && !event.disable) {
+        //display create button
+        if(event.marked){
+          //today's date
+        }
+        else {
+          //future date
+        }
+      }
+      //occupied future/present date
+      if (event.subTitle && !event.disable) {
+        //display event preview
+        //display event status + navigation button
+      }
+      //occupied passed date
+      if (event.subTitle && event.disable) {
+        //display event preview
+      }
+      //empty passed date
+      if (event.disable) {
+        //display empty state
+      }
+    }
   }
 
 }

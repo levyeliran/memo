@@ -14,10 +14,10 @@
 
 
 <ion-content padding >
-<div style="margin-top:37px;">
-  <ion-calendar [(ngModel)]="date"
-                (onChange)="onChange($event)"
-                [options]="options"
+<div>
+  <ion-calendar [(ngModel)]="selectedDate"
+                (onChange)="onDateChange($event)"
+                [options]="calendarOptions"
                 [type]="AppConst.calendar.dataTypes.object"
                 [format]="AppConst.calendar.format">
   </ion-calendar>
