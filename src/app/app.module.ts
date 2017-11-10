@@ -12,6 +12,7 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { CalendarModule } from "ion2-calendar";
 
+import { PageHeaderComponent } from '../components/pageHeader/pageHeader.component'
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { CalendarModule } from "ion2-calendar";
     ProfilePage,
     HomePage,
     EventsPage,
-    TabsPage
+    TabsPage,
+    PageHeaderComponent
   ],
   imports: [
     BrowserModule,
@@ -32,7 +34,8 @@ import { CalendarModule } from "ion2-calendar";
     ProfilePage,
     HomePage,
     EventsPage,
-    TabsPage
+    TabsPage,
+    PageHeaderComponent
   ],
   providers: [
     StatusBar,

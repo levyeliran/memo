@@ -1,17 +1,13 @@
-/**
- * Created by eli on 04/11/2017.
- */
-
 export class AppUtils{
 
-  static isPassedDate(date:any, countHour = false) : boolean{
+  static isPassedDate(date, countHour = false) : boolean{
     if(!date){
       return false;
     }
     return (new Date()) - (new Date(date)) > 0;
   }
 
-  static isCurrentDate(date:any, countHour = false) : boolean{
+  static isCurrentDate(date, countHour = false) : boolean{
     if(!date){
       return false;
     }
@@ -25,21 +21,21 @@ export class AppUtils{
 
   }
 
-  static isFutureDate(date:any, countHour = false) : boolean{
+  static isFutureDate(date, countHour = false) : boolean{
     if(!date){
       return false;
     }
     return !this.isPassedDate(date, countHour) && !this.isCurrentDate(date, countHour);
   }
 
-  static getFutureDate(months:number = 0): any{
+  static getFutureDate(months:number = 0){
     if(months){
       return this.addMonthsDoDate(new Date(), months);
     }
     return new Date();
   }
 
-  static addMonthsDoDate(date:any, months:number = 0): any{
+  static addMonthsDoDate(date, months:number = 0){
     if(!date){
       return date;
     }
