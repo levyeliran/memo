@@ -1,0 +1,20 @@
+<ion-content padding>
+
+  <div style="position: absolute; top: 10px; height: 70%">
+    animation here
+  </div>
+  <div style="position: absolute; bottom: 10px; height: 30%">
+    <ion-list>
+      <ion-item>
+        <ion-label floating>E-Mail</ion-label>
+        <ion-input type="email" [(ngModel)]="loginData.email"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label floating>Password</ion-label>
+        <ion-input type="password" [(ngModel)]="loginData.password"></ion-input>
+      </ion-item>
+    </ion-list>
+    <button full ion-button (click)="onLogin()" [disabled]="onValidateCredentials()">Login</button>
+  </div>
+
+</ion-content>

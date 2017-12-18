@@ -1,11 +1,12 @@
-<page-header [pageTitle]="'Events'"></page-header>
+<page-header [isDisplayMenu]="true" [pageTitle]="'Events'"></page-header>
+
 <ion-content padding >
-<div>
+<div style="margin-top: 45px;">
   <ion-calendar [(ngModel)]="selectedDate"
                 (onChange)="onDateChange($event)"
                 [options]="calendarOptions"
-                [type]="AppConst.calendar.dataTypes.object"
-                [format]="AppConst.calendar.format">
+                [type]="appConst.calendar.dataTypes.object"
+                [format]="appConst.calendar.format">
   </ion-calendar>
 
   <div style="margin-top: 7px; height: 1px; border: 1px solid white;"></div>

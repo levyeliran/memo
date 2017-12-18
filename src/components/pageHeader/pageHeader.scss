@@ -1,0 +1,12 @@
+ion-header{
+ &.pageHeader{
+   .closeButton{
+     position: absolute;
+     right: 15px;
+     top: 15px;
+     font-size: 21px;
+     background: transparent;
+     color: white;
+   }
+ }
+}

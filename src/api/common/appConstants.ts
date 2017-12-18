@@ -1,4 +1,11 @@
 export const AppConstants = {
+  registration:{
+    isLoggedIn: 'isLoggedIn',
+    userName: 'userName',
+    password: 'password',
+    email: 'email',
+    nickName: 'nickName'
+  },
   calendar: {
     format: 'YYYY-MM-DD',
     dataTypes: {

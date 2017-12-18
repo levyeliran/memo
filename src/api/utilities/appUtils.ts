@@ -4,7 +4,7 @@ export class AppUtils{
     if(!date){
       return false;
     }
-    return (new Date()) - (new Date(date)) > 0;
+    return (new Date().getTime()) - (new Date(date).getTime()) > 0;
   }
 
   static isCurrentDate(date, countHour = false) : boolean{
@@ -12,11 +12,11 @@ export class AppUtils{
       return false;
     }
     if(countHour){
-      return (new Date()) - (new Date(date)) == 0;
+      return (new Date().getTime()) - (new Date(date).getTime()) == 0;
     }
     else {
       //remove hours**
-      return (new Date()) - (new Date(date)) == 0;
+      return (new Date().getTime()) - (new Date(date).getTime()) == 0;
     }
 
   }

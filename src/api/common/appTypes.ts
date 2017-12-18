@@ -1,3 +1,8 @@
+export class EventStore{
+  events: Event[] = [];
+  currentEvent: Event;
+};
+
 export class Event{
   key:any;
   typeKey:any;
@@ -13,4 +18,4 @@ export class Event{
   creationDate:any;
   updateDate:any;
   isActive:boolean;
-}
+};

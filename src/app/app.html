@@ -1,19 +1,23 @@
-<div *ngIf="!appStoreReady"
+<div *ngIf="!appStoreReady && !appLoginRequired"
      class="splash-animation"
      style="width:100%; height: 100%; border:8px solid white; margin: auto;">
 
   <!--set animation here-->
 </div>
-<ion-menu id="appMenu" [content]="content">
-  <ion-toolbar>
+
+<span>
+  <ion-menu *ngIf="appStoreReady" id="appMenu" [content]="content">
+  <ion-toolbar *ngIf="appStoreReady">
     <ion-title>Menu</ion-title>
   </ion-toolbar>
-  <ion-content>
-    <ion-list style="padding-top: 60px;">
-      <button ion-item *ngFor="let p of menuPages" (click)="openPage(p)">
+  <ion-content *ngIf="appStoreReady">
+    <ion-list >
+      <button ion-item *ngFor="let p of menuPages" (click)="onMenuPage(p)">
         {{p.title}}
       </button>
     </ion-list>
   </ion-content>
 </ion-menu>
 <ion-nav #content id="nav" [root]="rootPage"></ion-nav>
+</span>
+

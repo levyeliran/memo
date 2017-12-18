@@ -1,8 +1,10 @@
 import {Component, OnInit} from '@angular/core';
 import {NavController} from 'ionic-angular';
-import {AppConstants} from '../../api/constants/appConstants'
-import {AppUtils} from '../../api/appUtils'
-import {Event} from '../../api/constants/appTypes'
+import {AppConstants} from '../../api/common/appConstants'
+import {AppUtils} from '../../api/utilities/appUtils'
+import {Event} from "../../api/common/appTypes";
+import {AppStore} from "../../api/store/appStore";
+import {Store} from "@ngrx/store";
 
 @Component({
   selector: 'page-events',
@@ -10,26 +12,36 @@ import {Event} from '../../api/constants/appTypes'
 })
 export class EventsPage implements OnInit {
 
-  AppConst = AppConstants;
-  AppUtils = AppUtils;
-  calendarEvents: [Event] = [];
+
+  appConst = AppConstants;
+  appUtils = AppUtils;
+  calendarEvents:Event[] = [];
 
   //https://www.npmjs.com/package/ion2-calendar
   calendarOptions: any;
   selectedDate: any;
 
-  constructor(public navCtrl: NavController) {
+  constructor(public navCtrl: NavController,
+              public store: Store<AppStore>) {
   }
 
   ngOnInit() {
+    //update the
+    this.store.select(store => store.eventsStore.events).subscribe((events)=>{
+      this.calendarEvents = events;
+      this.setEventsToCalender();
+    });
+    this.setEventsToCalender();
+  }
 
+  setEventsToCalender(){
     let _daysConfig: any[] = [];
     this.calendarEvents.forEach((e: Event) => {
       _daysConfig.push({
         date: e.startDate,
         subTitle: e.initials,
-        marked: this.AppUtils.isCurrentDate(e.endDate),
-        disable: this.AppUtils.isPassedDate(e.endDate)
+        marked: this.appUtils.isCurrentDate(e.endDate),
+        disable: this.appUtils.isPassedDate(e.endDate)
       })
     });
 
@@ -38,13 +50,13 @@ export class EventsPage implements OnInit {
 
     //disable the last date
     _daysConfig.push({
-      date: this.AppUtils.getFutureDate(6),
+      date: this.appUtils.getFutureDate(6),
       disable: true
     })
 
     this.calendarOptions = {
       from: new Date(2017, 10, 1),
-      to: this.AppUtils.getFutureDate(6),
+      to: this.appUtils.getFutureDate(6),
       daysConfig: _daysConfig,
       defaultDate: new Date(),
     };
