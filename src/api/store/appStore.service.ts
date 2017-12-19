@@ -2,13 +2,22 @@ import {Injectable} from "@angular/core";
 import {EventCrud} from "./events/eventCrud.service";
 import {EventDispatcherService} from "../dispatcher/appEventDispathcer.service";
 import {EventActions} from "./events/eventActions";
+import {Observable} from "rxjs/Observable";
+import {EventStore} from "../common/appTypes";
+import {Store} from "@ngrx/store";
+import {AppStore} from "./appStore.interface";
 
 
 @Injectable()
 export class AppStoreService{
 
+  public eventStore: Observable<EventStore>;
+
   constructor(public eventCrud: EventCrud,
-              public eventDispatcherService: EventDispatcherService){  }
+              public store: Store<AppStore>,
+              public eventDispatcherService: EventDispatcherService){
+    this.eventStore = this.store.select(store => store.eventStore);
+  }
 
   public initAppStore(): Promise<any>{
     //init the store with all relevant events
@@ -20,9 +29,9 @@ export class AppStoreService{
     ])
   }
 
-  public addEvent(event:any){
+/*  public addEvent(event:any){
     this.eventCrud.createEvent(event);
-  }
+  }*/
 
 }
 

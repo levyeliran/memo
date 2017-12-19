@@ -9,7 +9,6 @@ import {AppDispatchTypes} from "../api/common/dispatchTypes";
 import {BaseComponent} from "../api/common/baseComponent/baseComponent";
 import {AngularFireAuth} from 'angularfire2/auth';
 import {AppStoreService} from "../api/store/appStore.service";
-import {Event} from "../api/common/appTypes";
 
 @Component({
   templateUrl: 'app.html',
@@ -76,7 +75,7 @@ export class MemoApp extends BaseComponent implements OnInit, OnDestroy {
       else {
 
 
-        let event: Event = new Event();
+/*        let event: Event = new Event();
         event.creationDate = new Date();
         event.description = "test event";
         event.creatorKey = auth.uid;
@@ -89,7 +88,7 @@ export class MemoApp extends BaseComponent implements OnInit, OnDestroy {
         event.typeKey = null;
         event.typeName = null;
 
-        this.appStoreService.addEvent(event);
+        this.appStoreService.addEvent(event);*/
 
         this.fetchDataAndInitApp();
       }

@@ -2,7 +2,7 @@ import {Injectable} from "@angular/core";
 import { EventDispatcherService } from "../../dispatcher/appEventDispathcer.service";
 import { Store } from "@ngrx/store";
 import { AngularFireDatabase } from "angularfire2/database";
-import {AppStore} from "../appStore";
+import {AppStore} from "../appStore.interface";
 import {EventActions} from "./eventActions";
 import {Event} from "../../common/appTypes";
 

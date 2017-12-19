@@ -1,37 +1,45 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {NavController} from 'ionic-angular';
 import {AppConstants} from '../../api/common/appConstants'
 import {AppUtils} from '../../api/utilities/appUtils'
 import {Event} from "../../api/common/appTypes";
-import {AppStore} from "../../api/store/appStore";
-import {Store} from "@ngrx/store";
+import {AppStoreService} from "../../api/store/appStore.service";
 
 @Component({
   selector: 'page-events',
   templateUrl: 'events.html',
 })
-export class EventsPage implements OnInit {
+export class EventsPage implements OnInit, OnDestroy {
 
 
   appConst = AppConstants;
   appUtils = AppUtils;
-  calendarEvents:Event[] = [];
+  eventStoreSubscription:any;
+  calendarEvents: Event[];
 
   //https://www.npmjs.com/package/ion2-calendar
   calendarOptions: any;
   selectedDate: any;
 
   constructor(public navCtrl: NavController,
-              public store: Store<AppStore>) {
+              public appStoreService: AppStoreService) {
+    this.calendarEvents = [];
   }
 
   ngOnInit() {
     //update the
-    this.store.select(store => store.eventsStore.events).subscribe((events)=>{
-      this.calendarEvents = events;
-      this.setEventsToCalender();
+    var a=9;
+    this.eventStoreSubscription = this.appStoreService.eventStore.subscribe((eventStore)=>{
+      if(eventStore){
+        this.calendarEvents = eventStore.events;
+        this.setEventsToCalender();
+      }
     });
     this.setEventsToCalender();
+  }
+
+  ngOnDestroy() {
+    this.eventStoreSubscription.unsubscribe();
   }
 
   setEventsToCalender(){

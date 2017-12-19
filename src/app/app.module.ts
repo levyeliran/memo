@@ -34,7 +34,6 @@ import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { StoreModule } from '@ngrx/store';
 import { eventReducer } from "../api/store/events/event.reducer";
 import {AppStoreService} from "../api/store/appStore.service";
-//import {AppDataProvider} from "../providers/appData/appData.provider";
 import {EventCrud} from "../api/store/events/eventCrud.service";
 import {IonicStorageModule} from "@ionic/storage";
 //https://medium.com/beautiful-angular/angular-2-with-redux-using-ngrx-store-2f93a8ad0dd
@@ -51,7 +50,7 @@ const FBConfig = {
 };
 
 @NgModule({
-  declarations: [
+  declarations: [//components for use in THIS module
     MemoApp,
     ProfilePage,
     HomePage,
@@ -88,16 +87,14 @@ const FBConfig = {
     TabsPage,
     PageHeaderComponent
   ],
-  providers: [
-    //StatusBar,
-    //SplashScreen,
+  providers: [ // SINGLETON services
     IonicStorageModule,
     EventDispatcherService,
-    AppStoreService,
     EventCrud,
+    AppStoreService,
     StoreModule,
-    {provide: ErrorHandler, useClass: IonicErrorHandler},
-    //AppDataProvider
-  ]
+    {provide: ErrorHandler, useClass: IonicErrorHandler}
+  ],
+  exports: [] //components that we want to make available
 })
 export class AppModule {}
