@@ -1,10 +1,58 @@
 <page-header [isDisplayMenu]="true" [pageTitle]="'Home'"></page-header>
 
-<ion-content padding>
-  <div style="border: 1px solid white;">
-    sdfsd
-    sdf
-    sfd
-
+<ion-content padding style="margin-top: 45px;">
+  <div *ngIf="cardsEvents.length <= 0" style="text-align: center;
+    margin-top: 50%; font-size: 20px;">
+    <ion-icon name="bowtie"></ion-icon>
+    <div style="font-weight: bold;">NO EVENTS</div>
+    <button ion-button icon-left clear small (click)="onCreateNewEvent()" style="margin-top: 20px; color: #FFC70F;">
+      <div>CREATE NOW!</div>
+    </button>
   </div>
+  <ion-list *ngIf="cardsEvents.length > 0">
+    <ion-item-sliding *ngFor="let event of cardsEvents">
+      <ion-item>
+
+        <ion-card>
+          <ion-item>
+            <ion-avatar item-start>
+              <!--place here an event icon-->
+              <div style="background: red; border-radius: 50%;     height: 40px;
+    padding-top: 13px;
+    font-size: 13.5px;
+    text-align: center;
+    font-weight: bold;">{{event.initials}}</div>
+            </ion-avatar>
+            <h2>{{event.title}}</h2>
+            <p>{{event.startDate}}</p>
+          </ion-item>
+
+          <img src="{{event.introPicUrl || 'default'}}">
+
+          <ion-card-content>
+            <p>{{event.description}}</p>
+          </ion-card-content>
+
+          <ion-row>
+            <ion-col>
+              <button ion-button icon-left clear small (click)="onEventOpen(event)">
+                <ion-icon name="eye"></ion-icon>
+                <div>{{event.numOfParticipates || 0}} Participates</div>
+              </button>
+            </ion-col>
+            <ion-col>
+            </ion-col>
+            <ion-col center text-center>
+              <ion-note>
+                {{event.passedTime}} ago
+              </ion-note>
+            </ion-col>
+          </ion-row>
+
+        </ion-card>
+
+      </ion-item>
+    </ion-item-sliding>
+  </ion-list>
+
 </ion-content>

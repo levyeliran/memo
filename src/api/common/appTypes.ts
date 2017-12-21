@@ -17,5 +17,7 @@ export class Event{
   endDate:any;
   creationDate:any;
   updateDate:any;
+  introPicUrl:string;
+  numOfParticipates:number;
   isActive:boolean;
 };

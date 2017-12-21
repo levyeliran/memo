@@ -5,6 +5,7 @@ import {AppUtils} from '../../api/utilities/appUtils'
 import {Event} from "../../api/common/appTypes";
 import {AppStoreService} from "../../api/store/appStore.service";
 
+
 @Component({
   selector: 'page-events',
   templateUrl: 'events.html',
@@ -24,18 +25,20 @@ export class EventsPage implements OnInit, OnDestroy {
   constructor(public navCtrl: NavController,
               public appStoreService: AppStoreService) {
     this.calendarEvents = [];
+    this.setEventsToCalender();
+
   }
 
+
   ngOnInit() {
-    //update the
-    var a=9;
-    this.eventStoreSubscription = this.appStoreService.eventStore.subscribe((eventStore)=>{
-      if(eventStore){
-        this.calendarEvents = eventStore.events;
+
+    //update the calender each time the store has been changed
+    this.eventStoreSubscription = this.appStoreService._eventStore().subscribe((_store)=>{
+      if(_store){
+        this.calendarEvents = _store.events;
         this.setEventsToCalender();
       }
     });
-    this.setEventsToCalender();
   }
 
   ngOnDestroy() {
@@ -46,15 +49,12 @@ export class EventsPage implements OnInit, OnDestroy {
     let _daysConfig: any[] = [];
     this.calendarEvents.forEach((e: Event) => {
       _daysConfig.push({
-        date: e.startDate,
+        date: new Date(e.startDate),
         subTitle: e.initials,
         marked: this.appUtils.isCurrentDate(e.endDate),
         disable: this.appUtils.isPassedDate(e.endDate)
       })
     });
-
-    //disable passed dates
-
 
     //disable the last date
     _daysConfig.push({
@@ -63,7 +63,7 @@ export class EventsPage implements OnInit, OnDestroy {
     })
 
     this.calendarOptions = {
-      from: new Date(2017, 10, 1),
+      from: new Date(2017, 11, 1),
       to: this.appUtils.getFutureDate(6),
       daysConfig: _daysConfig,
       defaultDate: new Date(),

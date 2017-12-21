@@ -59,7 +59,6 @@ export class MemoApp extends BaseComponent implements OnInit, OnDestroy {
     //after the user first time logged in
     this.registerToEvent(AppDispatchTypes.registration.onUserLogin).subscribe((payload:any) => {
       //this.fetchDataAndInitApp();
-
     });
   }
 

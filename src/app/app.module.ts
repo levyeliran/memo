@@ -67,7 +67,7 @@ const FBConfig = {
     //private modules
     StoreModule.provideStore({ //store api
       //reducers place
-      eventReducer
+      eventStore: eventReducer
     }),
     IonicStorageModule, //local storage api
     AngularFireDatabaseModule,

@@ -11,12 +11,13 @@ import {AppStore} from "./appStore.interface";
 @Injectable()
 export class AppStoreService{
 
-  public eventStore: Observable<EventStore>;
-
   constructor(public eventCrud: EventCrud,
               public store: Store<AppStore>,
               public eventDispatcherService: EventDispatcherService){
-    this.eventStore = this.store.select(store => store.eventStore);
+  }
+
+  public _eventStore(): Observable<EventStore>{
+    return this.store.select(store => store.eventStore);
   }
 
   public initAppStore(): Promise<any>{
