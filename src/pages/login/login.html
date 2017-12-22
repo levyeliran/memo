@@ -1,23 +1,27 @@
 <ion-content padding>
 
-  <div style="position: absolute; top: 10px; height: 70%">
+  <div >
     animation here
   </div>
-  <div style="position: absolute; bottom: 10px; height: 30%">
-    <ion-list>
-      <ion-item>
-        <ion-label floating>E-Mail</ion-label>
-        <ion-input type="email" [(ngModel)]="loginData.email"></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-label floating>Password</ion-label>
-        <ion-input type="password" [(ngModel)]="loginData.password"></ion-input>
-      </ion-item>
-    </ion-list>
-    <button ion-button full icon-left (click)="onLogin()" [disabled]="onValidateCredentials()">
-      <ion-icon name="log-in"></ion-icon>
-      Login
-    </button>
-  </div>
+
+  <ion-list style="position: absolute; bottom: 10px;">
+    <ion-item>
+      <ion-label floating>E-Mail</ion-label>
+      <ion-input type="email" [(ngModel)]="loginData.email"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label floating>Password</ion-label>
+      <ion-input type="password" [(ngModel)]="loginData.password"></ion-input>
+    </ion-item>
+    <ion-item>
+  <button ion-button clear icon-left (click)="onLogin()" [disabled]="onValidateCredentials()">
+    <ion-icon name="log-in"></ion-icon>
+    Login
+  </button>
+    </ion-item>
+  </ion-list>
+
+
+
 
 </ion-content>

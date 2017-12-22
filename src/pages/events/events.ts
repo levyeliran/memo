@@ -103,6 +103,8 @@ export class EventsPage implements OnInit, OnDestroy {
   }
 
   onCreateEvent(){
+    this.selectedDateEvent.startDate = this.selectedDate;
+    this.selectedDateEvent.endDate = this.selectedDate;
     this.navCtrl.parent.parent.push(CreateEventPage, {event: this.selectedDateEvent});
   }
 

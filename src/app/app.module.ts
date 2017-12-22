@@ -68,7 +68,9 @@ const FBConfig = {
   ],
   imports: [
     BrowserModule,
-    IonicModule.forRoot(MemoApp),
+    IonicModule.forRoot(MemoApp, {
+      scrollAssist: false
+    }),
     //private modules
     StoreModule.provideStore({ //store api
       //reducers place
