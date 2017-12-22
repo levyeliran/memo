@@ -53,7 +53,7 @@ export class MemoApp extends BaseComponent implements OnInit, OnDestroy {
   registerToEvents() {
     //menu page close button click
     this.registerToEvent(AppDispatchTypes.pageHeader.onCloseClick).subscribe(() => {
-      this.nav.setRoot(this.rootPage);
+      //this.nav.pop(); //setRoot(this.rootPage);
     });
 
     //after the user first time logged in
@@ -119,7 +119,7 @@ export class MemoApp extends BaseComponent implements OnInit, OnDestroy {
     }
 
     //display the selected page from the menu
-    this.nav.setRoot(page.component);
+    this.nav.push(page.component);// setRoot(page.component);
   }
 
   ngOnDestroy() {

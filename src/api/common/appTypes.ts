@@ -3,6 +3,17 @@ export class EventStore{
   currentEvent: Event;
 };
 
+export const EventStatus = {
+  //ui use
+  canCreateEvent: 1,
+  //fb use
+  invited: 2,
+  joined: 3,
+  rejected: 4,
+  active: 5,
+  passed: 6
+};
+
 export class Event{
   key:any;
   typeKey:any;
@@ -19,5 +30,5 @@ export class Event{
   updateDate:any;
   introPicUrl:string;
   numOfParticipates:number;
-  isActive:boolean;
+  status:number;
 };

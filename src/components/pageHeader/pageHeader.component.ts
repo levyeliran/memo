@@ -12,9 +12,9 @@ import {BaseComponent} from "../../api/common/baseComponent/baseComponent";
           <ion-icon name='menu'></ion-icon>
         </button>
         <ion-title>{{pageTitle}}</ion-title>
-        <button *ngIf="isDisplayClose" class="closeButton" (click)="onPageCloseClick()">
+       <!-- <button *ngIf="isDisplayClose" class="closeButton" (click)="onPageCloseClick()">
           <ion-icon  name="close"></ion-icon>
-        </button>
+        </button>-->
     </ion-navbar>
   </ion-header>
   `
@@ -22,6 +22,7 @@ import {BaseComponent} from "../../api/common/baseComponent/baseComponent";
 export class PageHeaderComponent extends  BaseComponent{
   @Input() pageTitle: string = 'Memo App';
   @Input() isDisplayMenu: boolean = false;
+  //todo remove this logic and btn
   @Input() isDisplayClose: boolean = false;
 
   constructor(public eventDispatcherService:EventDispatcherService) {

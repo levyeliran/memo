@@ -8,8 +8,11 @@ import { HomePage } from '../pages/home/home';
 import { EventsPage } from '../pages/events/events';
 import { LoginPage } from "../pages/login/login";
 import { TabsPage } from '../pages/tabs/tabs';
-import {AboutPage} from "../pages/about/about";
-import {AppSettingsPage} from "../pages/app-settings/app-settings";
+import {AboutPage } from "../pages/about/about";
+import {AppSettingsPage } from "../pages/app-settings/app-settings";
+import { CreateEventPage } from "../pages/events/create-event/create-event";
+import { EventAlbumPage } from "../pages/events/event-album/event-album";
+
 
 //import { StatusBar } from '@ionic-native/status-bar';
 //import { SplashScreen } from '@ionic-native/splash-screen';
@@ -59,6 +62,8 @@ const FBConfig = {
     AppSettingsPage,
     LoginPage,
     TabsPage,
+    CreateEventPage,
+    EventAlbumPage,
     PageHeaderComponent
   ],
   imports: [
@@ -85,6 +90,8 @@ const FBConfig = {
     AppSettingsPage,
     LoginPage,
     TabsPage,
+    CreateEventPage,
+    EventAlbumPage,
     PageHeaderComponent
   ],
   providers: [ // SINGLETON services

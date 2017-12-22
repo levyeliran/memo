@@ -23,6 +23,7 @@ export const eventReducer = (state: EventStore = new EventStore(), action: Actio
     default:
       return state;
   }
+
 };
 
 

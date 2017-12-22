@@ -42,4 +42,12 @@ export class AppUtils{
     return new Date(date.setMonth(date.getMonth() + months));
   }
 
+  static getDateStrFormat(date){
+    if(date){
+      const d = new Date(date)
+        return d.toLocaleDateString();
+    }
+    return '';
+  }
+
 }

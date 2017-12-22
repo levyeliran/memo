@@ -13,6 +13,9 @@
   <ion-content *ngIf="appStoreReady">
     <ion-list >
       <button ion-item *ngFor="let p of menuPages" (click)="onMenuPage(p)">
+         <ion-icon *ngIf="p.title === 'Sign out'" name="log-out"></ion-icon>
+         <ion-icon *ngIf="p.title === 'Settings'" name="settings"></ion-icon>
+         <ion-icon *ngIf="p.title === 'About App'" name="information-circle"></ion-icon>
         {{p.title}}
       </button>
     </ion-list>

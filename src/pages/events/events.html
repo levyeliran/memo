@@ -5,15 +5,36 @@
   <ion-calendar [(ngModel)]="selectedDate"
                 (onChange)="onDateChange($event)"
                 [options]="calendarOptions"
-                [type]="appConst.calendar.dataTypes.object"
+                [type]="appConst.calendar.dataTypes.moment"
                 [format]="appConst.calendar.format">
   </ion-calendar>
 
+  <!--separator-->
   <div style="margin-top: 7px; height: 1px; border: 1px solid white;"></div>
 
+<!--action buttons-->
+  <div class="event-action-btn" *ngIf="selectedDateEvent.status === eventStatus.canCreateEvent">
+    <button ion-button icon-left clear full (click)="onCreateEvent()">
+      <ion-icon name="add-circle"></ion-icon>
+      <div>CREATE EVENT</div>
+    </button>
+  </div>
 
-  <div>
+  <div class="event-action-btn" *ngIf="selectedDateEvent.status === eventStatus.invited">
+    <button ion-button icon-left clear full (click)="onJoinToEvent()">
+      <ion-icon name="checkmark-circle"></ion-icon>
+      <div>JOIN {{selectedDateEvent.initials}} EVENT</div>
+    </button>
+  </div>
 
+  <div class="event-action-btn" *ngIf="selectedDateEvent.status === eventStatus.active ||
+              selectedDateEvent.status === eventStatus.passed ||
+              selectedDateEvent.status === eventStatus.joined ||
+              selectedDateEvent.status === eventStatus.rejected">
+    <button ion-button icon-left clear full (click)="onViewEvent()">
+      <ion-icon name="eye"></ion-icon>
+      <div>VIEW {{selectedDateEvent.initials}}'s EVENT</div>
+    </button>
   </div>
 
 </div>

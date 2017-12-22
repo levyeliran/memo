@@ -14,7 +14,10 @@
         <ion-input type="password" [(ngModel)]="loginData.password"></ion-input>
       </ion-item>
     </ion-list>
-    <button full ion-button (click)="onLogin()" [disabled]="onValidateCredentials()">Login</button>
+    <button ion-button full icon-left (click)="onLogin()" [disabled]="onValidateCredentials()">
+      <ion-icon name="log-in"></ion-icon>
+      Login
+    </button>
   </div>
 
 </ion-content>
