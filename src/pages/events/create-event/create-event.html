@@ -1,0 +1,122 @@
+<page-header [isDisplayMenu]="false" [pageTitle]="'Create new event'"></page-header>
+
+<ion-content padding>
+
+  <ion-slides pager #slides>
+
+    <ion-slide>
+      <ion-icon name="bowtie"></ion-icon>
+      <ion-label style="margin: auto">{{appUtils.getDateStrFormat(event.startDate)}}</ion-label>
+      <!--separator-->
+      <div style="margin:auto; margin-top: 7px; width: 60%; height: 1px; border-top: 1px solid white; margin-bottom: 30px;">
+      </div>
+
+      <ion-list>
+        <ion-item>
+          <ion-label>Event Type</ion-label>
+          <ion-select interface="popover" [(ngModel)]="event.typeKey">
+            <ion-option value="1">Wedding</ion-option>
+            <ion-option value="-1">Other</ion-option>
+          </ion-select>
+        </ion-item>
+
+        <ion-item>
+          <ion-label floating>Event Title</ion-label>
+          <ion-input type="text" [(ngModel)]="event.title"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label floating>Event Name Initials (For example: R&T)</ion-label>
+          <ion-input type="text" [(ngModel)]="event.initials"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-card (click)="onUploadEventCard()" style="height: 100px;">
+            <ion-icon style="margin-top: 10px; margin-left: 10px;" name="open"></ion-icon>
+            <div class="card-title" style="font-size: 20px; text-align: center; padding-top: 30px;">EVENT CARD IMAGE</div>
+          </ion-card>
+        </ion-item>
+
+      </ion-list>
+    </ion-slide>
+
+    <ion-slide>
+
+      <ion-label style="margin: auto">
+        {{event.title || 'Event Title'}}
+        <ion-icon style="    font-size: 0.5em;
+    top: -2px;
+    position: relative;
+    margin: 0 4px;" name="heart"></ion-icon>
+        {{appUtils.getDateStrFormat(event.startDate)}}
+      </ion-label>
+      <!--separator-->
+
+      <img src="../../../assets/images/saveTheDate.png" style="margin: 20px 0px; width: 67%; "/>
+
+
+      <ion-item>
+        <ion-textarea rows="4" maxLength="200" placeholder="Enter a short description"
+                      [(ngModel)]="event.description"></ion-textarea>
+      </ion-item>
+
+      <ion-item>
+        <ion-label *ngIf="event.location">Location</ion-label>
+        <button  ion-button icon-left clear full (click)="onAddEventLocation()">
+          <ion-icon name="navigate"></ion-icon>
+          ADD EVENT LOCATION
+        </button>
+      </ion-item>
+
+    </ion-slide>
+
+    <ion-slide>
+
+      <button style="position: absolute; top: 50px; left: 40%;" ion-button icon-right clear full (click)="onSkipSlide()">
+        <div>SKIP</div>
+        <ion-icon name="arrow-forward"></ion-icon>
+      </button>
+
+
+      <div style="height: 80%;">
+        <ion-item>
+          <ion-label>Invite Friends</ion-label>
+          <ion-select multiple="true" cancelText="Cancel" okText="Done!" [(ngModel)]="invitedFriends">
+            <ion-option value="1">AMNON</ion-option>
+            <ion-option value="2">MOTI</ion-option>
+          </ion-select>
+        </ion-item>
+
+
+        <div>display selected friends here</div>
+
+      </div>
+
+    </ion-slide>
+
+
+    <ion-slide>
+
+      <div>
+        <ion-icon name="beer" style="    position: relative;
+    z-index: 99;
+    font-size: 100px;
+    transform: scaleX(-1) rotate(-15deg); color:#FFC70F;"></ion-icon>
+        <ion-icon name="beer" style="    position: relative;
+    z-index: 99;
+    font-size: 100px; transform: rotate(-9deg); color:#F09700;"></ion-icon>
+      </div>
+
+
+      <button style="font-size: 30px;
+    font-weight: bold;
+    position: absolute;
+    bottom: 100px;" ion-button clear full (click)="onCreateEvent()" [disabled]="validateEvent()">
+        <div>LET'S PARTY!</div>
+      </button>
+
+    </ion-slide>
+
+  </ion-slides>
+
+</ion-content>
