@@ -25,6 +25,7 @@ export class EventsPage implements OnInit, OnDestroy {
   //https://www.npmjs.com/package/ion2-calendar
   calendarOptions: any;
   selectedDate: any;
+  isCreationValidDate:boolean;
   selectedDateEvent: Event;
 
   constructor(public navCtrl: NavController,
@@ -32,6 +33,7 @@ export class EventsPage implements OnInit, OnDestroy {
               public appStoreService: AppStoreService) {
     this.calendarEvents = [];
     this.selectedDateEvent = new Event();
+    this.isCreationValidDate = false;
     this.setEventsToCalender();
 
   }
@@ -89,23 +91,30 @@ export class EventsPage implements OnInit, OnDestroy {
 
   onDateChange(e: any) {
     this.selectedDate = e;
+
     const eventDateKey = this.appUtils.getDateStrFormat(e);
+    this.isCreationValidDate = this.appUtils.isFutureDate(e);
     const event = this.calendarEventsToDateMap[eventDateKey];
 
     //find the event if exist on the selected date
     if(event && event.status) {
         this.selectedDateEvent = event;
+        this.isCreationValidDate = false;
         return;
     }
 
     this.selectedDateEvent = new Event();
-    this.selectedDateEvent.status = EventStatus.canCreateEvent;
   }
 
   onCreateEvent(){
-    this.selectedDateEvent.startDate = this.selectedDate;
-    this.selectedDateEvent.endDate = this.selectedDate;
-    this.navCtrl.parent.parent.push(CreateEventPage, {event: this.selectedDateEvent});
+    const d = this.appUtils.getDateStrFormat(this.selectedDate);
+    this.selectedDateEvent.startDate = d;
+
+    this.navCtrl.parent.parent.push(CreateEventPage,
+      {
+        event: this.selectedDateEvent,
+        selectedDate: this.selectedDate
+      });
   }
 
   onJoinToEvent(){
@@ -115,19 +124,16 @@ export class EventsPage implements OnInit, OnDestroy {
   }
 
   onViewEvent(){
-    if(this.selectedDateEvent.status === EventStatus.joined ||
-      this.selectedDateEvent.status === EventStatus.rejected){
 
-      //display details
-
-    }
-    else if(this.selectedDateEvent.status === EventStatus.active ||
-      this.selectedDateEvent.status === EventStatus.passed) {
-
+    if((this.selectedDateEvent.isActive || this.selectedDateEvent.isPassed) &&
+      (this.selectedDateEvent.status == EventStatus.joined ||
+        this.selectedDateEvent.status == EventStatus.own)){
       //navigate to album
       this.navCtrl.parent.parent.push(EventAlbumPage, {event: this.selectedDateEvent});
     }
-
+    else if (this.selectedDateEvent.status == EventStatus.rejected){
+      //display event details card
+    }
   }
 
 }

@@ -1,6 +1,10 @@
 export const AppConstants = {
+  userDetails:{
+    name:'name'
+  },
   registration:{
     isLoggedIn: 'isLoggedIn',
+    userKey:'userKey',
     userName: 'userName',
     password: 'password',
     email: 'email',

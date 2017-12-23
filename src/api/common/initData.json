@@ -1,0 +1,175 @@
+{
+  "eventType":{
+    "1":"Birthday",
+    "2":"Wedding",
+    "3":"New Born",
+    "4":"Ber Mitzvah",
+    "5":"Bachelor Party",
+    "6":"Prom",
+    "-1":"Other"
+  },
+  "eventStatus":{
+    "1":"own",
+    "2":"invited",
+    "3":"rejected",
+    "4":"joined"
+  },
+  "emoticonType":{
+    "1":"Like",
+    "2":"Tears Of Joy",
+    "3":"Blowing A Kiss",
+    "4":"Heart-eyes",
+    "5":"Crazy",
+    "6":"Shushing",
+    "7":"Winking",
+    "8":"Sunglasses",
+    "9":"Angry",
+    "10":"Grimacing",
+    "11":"Angry",
+    "12":"Dizzy",
+    "13":"Sleeping",
+    "14":"Smiling With Horns",
+    "15":"Pile Of Poo"
+  },
+  "events" : {
+    "-L0fkyihb4fZ28Xiqr5-": {
+      "key":"-L0fkyihb4fZ28Xiqr5-",
+      "creatorKey": "52w0SkcAASNacMNtQtcc5o4ANu43",
+      "creatorName": "Eliran Levy",
+      "description": "test event",
+      "initials": "R&T",
+      "numOfParticipates": 0,
+      "startDate": 1514230200000,
+      "title": "R&T Wedding",
+      "isActive":false,
+      "isPassed":false,
+      "typeKey": "1"
+    },
+    "-L0hWXHtjtiRATf8ObuU": {
+      "key":"-L0hWXHtjtiRATf8ObuU",
+      "creatorKey": "52w0SkcAASNacMNtQtcc5o4ANu43",
+      "creatorName": "Eliran Levy",
+      "description": "test event 2",
+      "initials": "W&M",
+      "numOfParticipates": 0,
+      "startDate": 1515704400000,
+      "isActive":false,
+      "isPassed":false,
+      "title": "W&M Wedding",
+      "typeKey": "2"
+    },
+    "-L126Neb6g4WwlRqUq8F": {
+      "key":"-L126Neb6g4WwlRqUq8F",
+      "creatorKey": "52w0SkcAASNacMNtQtcc5o4ANu43",
+      "creatorName": "Eliran Levy",
+      "description": "dfg",
+      "endDate": 1514498400000,
+      "initials": "E&C",
+      "numOfParticipates": 0,
+      "startDate": 1514455200000,
+      "isActive":false,
+      "isPassed":false,
+      "title": "dfg",
+      "typeKey": "5"
+    },
+    "-L129T5PnR7Va49yYXrR": {
+      "creatorKey": "52w0SkcAASNacMNtQtcc5o4ANu43",
+      "creatorName": "Eliran Levy",
+      "description": "dg",
+      "endDate": 1514412000000,
+      "initials": "R&M",
+      "key": "-L129T5PnR7Va49yYXrR",
+      "numOfParticipates": 0,
+      "isActive":false,
+      "isPassed":false,
+      "startDate": 1514368800000,
+      "title": "dfg",
+      "typeKey": "4"
+    }
+  },
+  "eventToUser": {
+    "-L129T5PnR7Va49yYXrR": {
+      "52w0SkcAASNacMNtQtcc5o4ANu43":{
+        "userKey":"52w0SkcAASNacMNtQtcc5o4ANu43",
+        "status": "1"
+      }
+    },
+    "-L126Neb6g4WwlRqUq8F": {
+      "52w0SkcAASNacMNtQtcc5o4ANu43": {
+        "userKey": "52w0SkcAASNacMNtQtcc5o4ANu43",
+        "status": "2"
+      }
+    },
+    "-L0hWXHtjtiRATf8ObuU": {
+      "52w0SkcAASNacMNtQtcc5o4ANu43": {
+        "userKey": "52w0SkcAASNacMNtQtcc5o4ANu43",
+        "status": "4"
+      }
+    }
+  },
+  "userToEvent":{
+    "52w0SkcAASNacMNtQtcc5o4ANu43":
+    {
+      "-L129T5PnR7Va49yYXrR": {
+        "eventKey":"-L129T5PnR7Va49yYXrR",
+        "status": "1"
+      },
+      "-L126Neb6g4WwlRqUq8F": {
+        "eventKey":"-L126Neb6g4WwlRqUq8F",
+          "status": "2"
+      },
+      "-L0hWXHtjtiRATf8ObuU": {
+        "eventKey":"-L0hWXHtjtiRATf8ObuU",
+          "status": "4"
+      }
+    }
+  },
+  "photoToEvent":{
+    "-L129T5PnR7Va49yYXrR":{
+      "-L129T5PnR7Va49yYYrR":{
+        "key":"-L129T5PnR7Va49yYYrR",
+        "eventKey":"-L129T5PnR7Va49yYXrR",
+        "creatorKey": "52w0SkcAASNacMNtQtcc5o4ANu43",
+        "creatorName": "Eliran Levy",
+        "creationDate": 1514230200000,
+        "URL":"https://firebasestorage.googleapis.com/v0/b/memo-11ade.appspot.com/o/IMG_20170124_174154.png?alt=media&token=eb45686b-19d9-40ff-9d0d-a27d8d8a50e8",
+        "tags":{
+          "1": {
+            "-L129T54nR7V449yY4rR":{
+              "creatorKey": "52w0SkcAASNacMNtQtcc5o4ANu43",
+              "creatorName": "Eliran Levy",
+              "creationDate": 1514230200000
+            }
+          },
+          "7": {
+            "-L122T5Pn17Va492YYrR":{
+              "creatorKey": "52w0SkcAASNacMNtQtcc5o4ANu43",
+              "creatorName": "Eliran Levy",
+              "creationDate": 1514230200000
+            }
+          },
+          "15": {
+            "-L177T5PnR7Va478YYrR":{
+              "creatorKey": "52w0SkcAASNacMNtQtcc5o4ANu43",
+              "creatorName": "Eliran Levy",
+              "creationDate": 1514230200000
+            }
+          }
+        }
+      }
+    }
+  },
+  "userToPhoto":{
+    "52w0SkcAASNacMNtQtcc5o4ANu43": {
+      "-L129T5PnR7Va49yYXrR":{
+        "eventKey":"-L129T5PnR7Va49yYXrR",
+        "photosURL": {
+          "-L129T5PnR7Va49yYYrR":{
+            "photoKey":"-L129T5PnR7Va49yYYrR",
+            "URL":"https://firebasestorage.googleapis.com/v0/b/memo-11ade.appspot.com/o/IMG_20170124_174154.png?alt=media&token=eb45686b-19d9-40ff-9d0d-a27d8d8a50e8"
+          }
+        }
+      }
+    }
+  }
+}

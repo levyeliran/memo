@@ -1,24 +1,35 @@
 export class AppUtils{
 
+  static userKey:String;
+  static userName:String;
+
   static isPassedDate(date, countHour = false) : boolean{
     if(!date){
       return false;
     }
-    return (new Date().getTime()) - (new Date(date).getTime()) > 0;
+    const now = new Date();
+    const d = new Date(date);
+
+    if(!countHour){
+      now.setHours(0,0,0,0);
+      d.setHours(0,0,0,0);
+    }
+    return (now.getTime()) - (d.getTime()) > 0;
   }
 
   static isCurrentDate(date, countHour = false) : boolean{
     if(!date){
       return false;
     }
-    if(countHour){
-      return (new Date().getTime()) - (new Date(date).getTime()) == 0;
-    }
-    else {
-      //remove hours**
-      return (new Date().getTime()) - (new Date(date).getTime()) == 0;
-    }
 
+    const now = new Date();
+    const d = new Date(date);
+
+    if(!countHour){
+      now.setHours(0,0,0,0);
+      d.setHours(0,0,0,0);
+    }
+    return (now.getTime()) - (d.getTime()) == 0;
   }
 
   static isFutureDate(date, countHour = false) : boolean{

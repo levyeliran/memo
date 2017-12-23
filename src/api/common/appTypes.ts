@@ -4,14 +4,10 @@ export class EventStore{
 };
 
 export const EventStatus = {
-  //ui use
-  canCreateEvent: 1,
-  //fb use
+  own: 1,
   invited: 2,
-  joined: 3,
-  rejected: 4,
-  active: 5,
-  passed: 6
+  rejected: 3,
+  joined: 4
 };
 
 export class Event{
@@ -31,4 +27,6 @@ export class Event{
   introPicUrl:string;
   numOfParticipates:number;
   status:number;
+  isActive:boolean;
+  isPassed:boolean;
 };

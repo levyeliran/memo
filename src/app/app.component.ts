@@ -9,6 +9,7 @@ import {AppDispatchTypes} from "../api/common/dispatchTypes";
 import {BaseComponent} from "../api/common/baseComponent/baseComponent";
 import {AngularFireAuth} from 'angularfire2/auth';
 import {AppStoreService} from "../api/store/appStore.service";
+import { AppLocalStorage} from "../api/utilities/appLocalStorage.service";
 
 @Component({
   templateUrl: 'app.html',
@@ -28,6 +29,7 @@ export class MemoApp extends BaseComponent implements OnInit, OnDestroy {
   constructor(public platform: Platform,
               private appAuth: AngularFireAuth,
               private appStoreService: AppStoreService,
+              public appLocalStorage: AppLocalStorage,
               public eventDispatcherService: EventDispatcherService) {
     super(eventDispatcherService);
   }
@@ -52,55 +54,42 @@ export class MemoApp extends BaseComponent implements OnInit, OnDestroy {
 
   registerToEvents() {
     //menu page close button click
-    this.registerToEvent(AppDispatchTypes.pageHeader.onCloseClick).subscribe(() => {
+/*    this.registerToEvent(AppDispatchTypes.pageHeader.onCloseClick).subscribe(() => {
       //this.nav.pop(); //setRoot(this.rootPage);
-    });
+    });*/
 
     //after the user first time logged in
-    this.registerToEvent(AppDispatchTypes.registration.onUserLogin).subscribe((payload:any) => {
-      //this.fetchDataAndInitApp();
+    this.registerToEvent(AppDispatchTypes.registration.onUserLogin).subscribe((payload) => {
+      //set the user key to local storage - for app internal use
+      //payload.getIdToken().then((token) =>{
+        this.appLocalStorage.setKey(this.appConst.registration.userKey, payload.uid);
+      //});
     });
   }
 
   loginToApp(){
     //check if the user is authenticated
-    this.appAuth.authState.subscribe(auth => {
-      if(!auth)
+    this.appAuth.authState.subscribe(payload => {
+      if(!payload)
       {
         //display login page
         this.rootPage = LoginPage;
         this.appLoginRequired = true;
       }
       else {
-
-
-/*        let event: Event = new Event();
-        event.creationDate = new Date();
-        event.description = "test event";
-        event.creatorKey = auth.uid;
-        event.startDate = (new Date()).setMonth(1);
-        event.title = "R&T Wedding";
-        event.creatorName = auth.displayName;
-        event.initials = "R&T";
-        event.isActive = false;
-        event.location = null;
-        event.typeKey = null;
-        event.typeName = null;
-
-        this.appStoreService.addEvent(event);*/
-
-        this.fetchDataAndInitApp();
+        this.appLocalStorage.setKey(this.appConst.registration.userKey, payload.uid);
+        this.fetchDataAndInitApp(payload.uid);
       }
     });
 
   }
 
-  fetchDataAndInitApp(){
+  fetchDataAndInitApp(userKey:string){
     //hide login page
     this.appLoginRequired = false;
 
     //fetch data and init store, when done - init home page
-    this.appStoreService.initAppStore().then((results)=>{
+    this.appStoreService.initAppStore(userKey).then((results)=>{
       this.rootPage = TabsPage;
       this.appStoreReady = true;
     });

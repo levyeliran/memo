@@ -13,24 +13,23 @@
   <div style="margin-top: 7px; height: 1px; border: 1px solid white;"></div>
 
 <!--action buttons-->
-  <div class="event-action-btn" *ngIf="selectedDateEvent.status === eventStatus.canCreateEvent">
+  <div class="event-action-btn" *ngIf="isCreationValidDate">
     <button ion-button icon-left clear full (click)="onCreateEvent()">
       <ion-icon name="add-circle"></ion-icon>
       <div>CREATE EVENT</div>
     </button>
   </div>
 
-  <div class="event-action-btn" *ngIf="selectedDateEvent.status === eventStatus.invited">
+  <div class="event-action-btn" *ngIf="selectedDateEvent.status == eventStatus.invited">
     <button ion-button icon-left clear full (click)="onJoinToEvent()">
       <ion-icon name="checkmark-circle"></ion-icon>
-      <div>JOIN {{selectedDateEvent.initials}} EVENT</div>
+      <div>JOIN {{selectedDateEvent.initials}}'s EVENT</div>
     </button>
   </div>
 
-  <div class="event-action-btn" *ngIf="selectedDateEvent.status === eventStatus.active ||
-              selectedDateEvent.status === eventStatus.passed ||
-              selectedDateEvent.status === eventStatus.joined ||
-              selectedDateEvent.status === eventStatus.rejected">
+  <div class="event-action-btn" *ngIf="selectedDateEvent.status == eventStatus.own ||
+              selectedDateEvent.status == eventStatus.joined ||
+              selectedDateEvent.status == eventStatus.rejected">
     <button ion-button icon-left clear full (click)="onViewEvent()">
       <ion-icon name="eye"></ion-icon>
       <div>VIEW {{selectedDateEvent.initials}}'s EVENT</div>

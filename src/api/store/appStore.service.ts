@@ -6,10 +6,12 @@ import {Observable} from "rxjs/Observable";
 import {EventStore} from "../common/appTypes";
 import {Store} from "@ngrx/store";
 import {AppStore} from "./appStore.interface";
-
+import { AppUtils } from "../utilities/appUtils";
 
 @Injectable()
 export class AppStoreService{
+
+
 
   constructor(public eventCrud: EventCrud,
               public store: Store<AppStore>,
@@ -20,7 +22,10 @@ export class AppStoreService{
     return this.store.select(store => store.eventStore);
   }
 
-  public initAppStore(): Promise<any>{
+  public initAppStore(userKey:String): Promise<any>{
+
+    AppUtils.userKey = userKey;
+
     //init the store with all relevant events
     //todo get by month & userId?
     this.eventCrud.getEvents();

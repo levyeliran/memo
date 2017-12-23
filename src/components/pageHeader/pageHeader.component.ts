@@ -29,9 +29,9 @@ export class PageHeaderComponent extends  BaseComponent{
     super(eventDispatcherService);
   }
 
-  onPageCloseClick(){
+/*  onPageCloseClick(){
     this.dispatchAnEvent({
       eventName: AppDispatchTypes.pageHeader.onCloseClick});
-  }
+  }*/
 
 }

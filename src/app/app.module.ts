@@ -1,6 +1,7 @@
 import { NgModule, ErrorHandler } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
+import { IonicStorageModule } from '@ionic/storage';
 import { MemoApp } from './app.component';
 
 import { ProfilePage } from '../pages/profile/profile';
@@ -38,7 +39,7 @@ import { StoreModule } from '@ngrx/store';
 import { eventReducer } from "../api/store/events/event.reducer";
 import {AppStoreService} from "../api/store/appStore.service";
 import {EventCrud} from "../api/store/events/eventCrud.service";
-import {IonicStorageModule} from "@ionic/storage";
+import {AppLocalStorage} from "../api/utilities/appLocalStorage.service";
 //https://medium.com/beautiful-angular/angular-2-with-redux-using-ngrx-store-2f93a8ad0dd
 
 
@@ -68,6 +69,7 @@ const FBConfig = {
   ],
   imports: [
     BrowserModule,
+    IonicStorageModule.forRoot(),
     IonicModule.forRoot(MemoApp, {
       scrollAssist: false
     }),
@@ -101,6 +103,7 @@ const FBConfig = {
     EventDispatcherService,
     EventCrud,
     AppStoreService,
+    AppLocalStorage,
     StoreModule,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ],
