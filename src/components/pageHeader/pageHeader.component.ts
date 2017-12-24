@@ -1,6 +1,5 @@
 import {Component, Input} from '@angular/core';
 import {EventDispatcherService} from "../../api/dispatcher/appEventDispathcer.service";
-import { AppDispatchTypes} from "../../api/common/dispatchTypes";
 import {BaseComponent} from "../../api/common/baseComponent/baseComponent";
 
 @Component({
