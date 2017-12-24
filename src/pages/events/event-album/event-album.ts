@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import {Event} from "../../../api/common/appTypes";
 
@@ -6,7 +6,7 @@ import {Event} from "../../../api/common/appTypes";
   selector: 'page-event-album',
   templateUrl: 'event-album.html',
 })
-export class EventAlbumPage {
+export class EventAlbumPage implements OnInit {
 
   event:Event;
   photos:any[];
@@ -14,6 +14,11 @@ export class EventAlbumPage {
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {
     this.event = this.navParams.get('event');
+  }
+
+  ngOnInit() {
+    this.photos = [];
+    this.photosModel = [];
   }
 
   //!!!!!!!!!!!!!! - should be on the photo object

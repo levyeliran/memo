@@ -130,11 +130,13 @@ export class EventsPage implements OnInit, OnDestroy {
     if((this.selectedDateEvent.isActive || this.selectedDateEvent.isPassed) &&
       (this.selectedDateEvent.status == EventStatus.joined ||
         this.selectedDateEvent.status == EventStatus.own)){
-      //navigate to album
+      //navigate to album (over the main-tabs)
       this.navCtrl.parent.parent.push(EventAlbumPage, {event: this.selectedDateEvent});
     }
     else if (this.selectedDateEvent.status == EventStatus.rejected){
-      //display event details card
+      //display event details card (or small div in this page)
+      //navigate to album (over the main-tabs)
+      //this.navCtrl.parent.parent.push(EventAlbumPage, {event: this.selectedDateEvent});
     }
   }
 

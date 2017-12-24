@@ -40,6 +40,8 @@ import { eventReducer } from "../api/store/events/event.reducer";
 import {AppStoreService} from "../api/store/appStore.service";
 import {EventCrud} from "../api/store/events/eventCrud.service";
 import {AppLocalStorage} from "../api/utilities/appLocalStorage.service";
+import {photoReducer} from "../api/store/photos/photo.reducer";
+import {PhotoCrud} from "../api/store/photos/photoCrud.service";
 //https://medium.com/beautiful-angular/angular-2-with-redux-using-ngrx-store-2f93a8ad0dd
 
 
@@ -76,7 +78,8 @@ const FBConfig = {
     //private modules
     StoreModule.provideStore({ //store api
       //reducers place
-      eventStore: eventReducer
+      eventStore: eventReducer,
+      photoStore: photoReducer,
     }),
     IonicStorageModule, //local storage api
     AngularFireDatabaseModule,
@@ -102,6 +105,7 @@ const FBConfig = {
     IonicStorageModule,
     EventDispatcherService,
     EventCrud,
+    PhotoCrud,
     AppStoreService,
     AppLocalStorage,
     StoreModule,

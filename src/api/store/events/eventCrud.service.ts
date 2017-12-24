@@ -12,7 +12,7 @@ import {Observable} from "rxjs/Observable";
 @Injectable()
 export class EventCrud{
 
-  storeTreeNode = 'events'
+  storeTreeNode = 'events';
 
   constructor(public eventDispatcherService: EventDispatcherService,
               public store: Store<AppStore>,

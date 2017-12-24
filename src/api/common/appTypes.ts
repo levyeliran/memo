@@ -1,15 +1,7 @@
 export class EventStore{
   events: Event[] = [];
   currentEvent: Event;
-};
-
-export const EventStatus = {
-  own: 1,
-  invited: 2,
-  rejected: 3,
-  joined: 4
-};
-
+}
 export class Event{
   key:any;
   typeKey:any;
@@ -24,9 +16,31 @@ export class Event{
   endDate:any;
   creationDate:any;
   updateDate:any;
-  introPicUrl:string;
+  introPhotoUrl:string;
   numOfParticipates:number;
   status:number;
   isActive:boolean;
   isPassed:boolean;
+}
+export const EventStatus = {
+  own: 1,
+  invited: 2,
+  rejected: 3,
+  joined: 4
+};
+
+
+
+/////////////////////////////////////////////////////////
+
+export class PhotoStore{
+};
+export class Photo{
+  key:any;
+  typeKey:any;
+  creatorKey:any;
+  creatorName:string;
+  creationDate:any;
+  fileName:string;
+  blob:any;
 };

@@ -11,8 +11,6 @@ import { AppUtils } from "../utilities/appUtils";
 @Injectable()
 export class AppStoreService{
 
-
-
   constructor(public eventCrud: EventCrud,
               public store: Store<AppStore>,
               public eventDispatcherService: EventDispatcherService){
