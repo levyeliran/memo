@@ -2,6 +2,18 @@
 
 <ion-content padding>
 
+  <ion-grid class="event-album-grid" *ngIf="photos.length">
 
+    <ion-row *ngFor="let row of photosModel">
+      <ion-col *ngFor="let col of row" class="{{col.class}}">
+        <img src="{{col.photo.photoURL}}" (press)="onImagePress(col.photo)" (dblclick)="onImageDblClick(col.photo)" />
+      </ion-col>
+    </ion-row>
+
+  </ion-grid>
+
+  <div class="empty-state" *ngIf="!photos.length">
+
+  </div>
 
 </ion-content>
