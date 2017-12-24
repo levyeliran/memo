@@ -1,14 +1,7 @@
 <page-header [isDisplayMenu]="true" [pageTitle]="'Home'"></page-header>
 
 <ion-content padding style="margin-top: 45px;">
-  <div *ngIf="cardsEvents.length <= 0" style="text-align: center;
-    margin-top: 50%; font-size: 20px;">
-    <ion-icon name="bowtie"></ion-icon>
-    <div style="font-weight: bold;">NO EVENTS</div>
-    <button ion-button icon-left clear small (click)="onCreateNewEvent()" style="margin-top: 20px; color: #FFC70F;">
-      <div>CREATE NOW!</div>
-    </button>
-  </div>
+
   <ion-list *ngIf="cardsEvents.length > 0">
     <ion-item-sliding *ngFor="let event of cardsEvents">
       <ion-item>
@@ -54,5 +47,15 @@
       </ion-item>
     </ion-item-sliding>
   </ion-list>
+
+  <div class="empty-state" *ngIf="!cardsEvents.length" style="text-align: center;
+    margin-top: 50%; font-size: 20px;">
+    <ion-icon name="bowtie"></ion-icon>
+    <div style="font-weight: bold;">NO EVENTS</div>
+    <button ion-button icon-left clear small (click)="onCreateNewEvent()" style="margin-top: 20px; color: #FFC70F;">
+      <div>CREATE NOW!</div>
+    </button>
+  </div>
+
 
 </ion-content>

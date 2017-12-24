@@ -48,6 +48,8 @@ export class EventsPage implements OnInit, OnDestroy {
         this.setEventsToCalender();
       }
     });
+    this.selectedDate = null;
+    this.selectedDateEvent = new Event();
   }
 
   ngOnDestroy() {
@@ -97,7 +99,7 @@ export class EventsPage implements OnInit, OnDestroy {
     const event = this.calendarEventsToDateMap[eventDateKey];
 
     //find the event if exist on the selected date
-    if(event && event.status) {
+    if(event) {
         this.selectedDateEvent = event;
         this.isCreationValidDate = false;
         return;

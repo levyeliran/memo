@@ -1,12 +1,12 @@
 import { Component , ViewChild } from '@angular/core';
-import { ProfilePage } from '../../profile/profile';
-import { HomePage } from '../home';
-import { EventsPage } from '../../events/events';
+import { ProfilePage } from '../profile/profile';
+import { HomePage } from '../home/home';
+import { EventsPage } from '../events/events';
 
 @Component({
-  templateUrl: 'homepage-tabs.html'
+  templateUrl: 'main-tabs.html'
 })
-export class HomeTabsPage {
+export class MainTabsPage {
 
   profileTabRoot = ProfilePage;
   homeTabRoot = HomePage;
@@ -14,7 +14,7 @@ export class HomeTabsPage {
   eventsTabBadgeCount:any;
 
   //get reference to tabs child in the tabs view
-  @ViewChild('homeTabs') tabRef: any;
+  @ViewChild('mainTabs') tabRef: any;
 
   constructor() {}
 
