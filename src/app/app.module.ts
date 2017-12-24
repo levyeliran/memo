@@ -8,7 +8,7 @@ import { ProfilePage } from '../pages/profile/profile';
 import { HomePage } from '../pages/home/home';
 import { EventsPage } from '../pages/events/events';
 import { LoginPage } from "../pages/login/login";
-import { TabsPage } from '../pages/tabs/tabs';
+import { MainTabsPage } from "../pages/main-tabs/main-tabs";
 import {AboutPage } from "../pages/about/about";
 import {AppSettingsPage } from "../pages/app-settings/app-settings";
 import { CreateEventPage } from "../pages/events/create-event/create-event";
@@ -62,7 +62,7 @@ const FBConfig = {
     AboutPage,
     AppSettingsPage,
     LoginPage,
-    TabsPage,
+    MainTabsPage,
     CreateEventPage,
     EventAlbumPage,
     PageHeaderComponent
@@ -93,7 +93,7 @@ const FBConfig = {
     AboutPage,
     AppSettingsPage,
     LoginPage,
-    TabsPage,
+    MainTabsPage,
     CreateEventPage,
     EventAlbumPage,
     PageHeaderComponent

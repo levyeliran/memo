@@ -2,7 +2,7 @@ import {Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import {Platform, Nav, Menu} from 'ionic-angular';
 import {AboutPage} from '../pages/about/about';
 import {LoginPage} from "../pages/login/login";
-import {TabsPage} from '../pages/tabs/tabs';
+import {MainTabsPage} from "../pages/main-tabs/main-tabs";
 import {AppSettingsPage} from "../pages/app-settings/app-settings";
 import {EventDispatcherService} from "../api/dispatcher/appEventDispathcer.service";
 import {AppDispatchTypes} from "../api/common/dispatchTypes";
@@ -90,7 +90,7 @@ export class MemoApp extends BaseComponent implements OnInit, OnDestroy {
 
     //fetch data and init store, when done - init home page
     this.appStoreService.initAppStore(userKey).then((results)=>{
-      this.rootPage = TabsPage;
+      this.rootPage = MainTabsPage;
       this.appStoreReady = true;
     });
   }
