@@ -9,11 +9,11 @@ import { FirebaseApp } from 'angularfire2';
 //import { AppUtils } from "../../utilities/appUtils";
 //import {Observable} from "rxjs/Observable";
 import * as firebase from 'firebase/app';
+//import {PhotoActions} from "./photoActions";
+import {Observable} from "rxjs/Observable";
 
 @Injectable()
 export class PhotoCrud{
-
-  storeTreeNode = 'photos';
 
   constructor(public eventDispatcherService: EventDispatcherService,
               public store: Store<AppStore>,
@@ -21,10 +21,32 @@ export class PhotoCrud{
               public db: AngularFireDatabase) {
   }
 
-  getEventPhotos(){
+  getEventPhotos(eventKey:string){
+
+    Observable.combineLatest<Photo[], any[]>(
+      this.db.list<Photo>(`photoToEvent/${eventKey}`).valueChanges(),
+      this.db.list<any>(`tagToEventPhoto/${eventKey}`).valueChanges())
+      .subscribe(([photos, photosTags])=> {
+
+
+      console.log(photos);
+      console.log(photosTags);
+
+
+      //update the store with the retrieved events
+      //this.store.dispatch({type: PhotoActions.getEventPhotos, payload: photos});
+
+      //dispatch an ack
+      //this.dispatchAck(PhotoActions.getEventPhotos);
+    });
 
   }
 
+/*  private getEventPhotosTags(eventKey:string){
+
+  }*/
+
+/*
   //https://angularfirebase.com/lessons/angular-file-uploads-to-firebase-storage/
   //https://firebase.google.com/docs/storage/web/upload-files
 
@@ -63,5 +85,6 @@ export class PhotoCrud{
       eventName: eventName });
   }
 
+*/
 
 }

@@ -1,6 +1,7 @@
 import {Component, Input} from '@angular/core';
 import {EventDispatcherService} from "../../api/dispatcher/appEventDispathcer.service";
 import {BaseComponent} from "../../api/common/baseComponent/baseComponent";
+import {HeaderButton} from "../../api/common/appTypes";
 
 @Component({
   selector: 'page-header',
@@ -11,9 +12,9 @@ import {BaseComponent} from "../../api/common/baseComponent/baseComponent";
           <ion-icon name='menu'></ion-icon>
         </button>
         <ion-title>{{pageTitle}}</ion-title>
-       <!-- <button *ngIf="isDisplayClose" class="closeButton" (click)="onPageCloseClick()">
-          <ion-icon  name="close"></ion-icon>
-        </button>-->
+       <button *ngFor="let btn of buttons" class="closeButton" (click)="btn.onClick()" [disabled]="btn.disabled">
+          <ion-icon  name="{{btn.iconName}}"></ion-icon>
+       </button>
     </ion-navbar>
   </ion-header>
   `
@@ -21,16 +22,10 @@ import {BaseComponent} from "../../api/common/baseComponent/baseComponent";
 export class PageHeaderComponent extends  BaseComponent{
   @Input() pageTitle: string = 'Memo App';
   @Input() isDisplayMenu: boolean = false;
-  //todo remove this logic and btn
-  @Input() isDisplayClose: boolean = false;
+  @Input() buttons:HeaderButton[] = [];
 
   constructor(public eventDispatcherService:EventDispatcherService) {
     super(eventDispatcherService);
   }
-
-/*  onPageCloseClick(){
-    this.dispatchAnEvent({
-      eventName: AppDispatchTypes.pageHeader.onCloseClick});
-  }*/
 
 }

@@ -1,8 +1,9 @@
 export const AppDispatchTypes = {
   registration:{
     onUserLogin: 'onUserLogin'
-  }/*,
-  pageHeader: {
-    onCloseClick:'onCloseClick'
-  }*/
+  },
+  album:{
+    onAddNewPhotoClose:'onAddNewPhotoClose',
+    onViewAnimationClose:'onViewAnimationClose'
+  }
 };

@@ -15,21 +15,20 @@
     "4":"joined"
   },
   "emoticonType":{
-    "1":"Like",
-    "2":"Tears Of Joy",
-    "3":"Blowing A Kiss",
-    "4":"Heart-eyes",
-    "5":"Crazy",
-    "6":"Shushing",
-    "7":"Winking",
-    "8":"Sunglasses",
-    "9":"Angry",
-    "10":"Grimacing",
-    "11":"Angry",
-    "12":"Dizzy",
-    "13":"Sleeping",
-    "14":"Smiling With Horns",
-    "15":"Pile Of Poo"
+    "-L129f5PnRxVa49yYXr7":"like",
+    "-L229TfPnRxVa49yYXr8":"tearsOfJoy",
+    "-L329T5Pnx7Va49yYXr1":"blowingAKiss",
+    "-L42fT5PxR7Va49yYXr2":"heartEyes",
+    "-L529T5PfR7Va49yYXx4":"crazy",
+    "-L629TxPnR7Va49yYXr6":"shushing",
+    "-L729T5xnf7Va49yYXre":"winking",
+    "-L829T5PnR7fa49yYXra":"sunglasses",
+    "-L929T5PnR7Vaf9xYXrF":"grimacing",
+    "-L109TxPnR7Va49fYXrH":"angry",
+    "-L119T5xnR7Va49yfXrL":"dizzy",
+    "-L12fT5PnR7xa49yYXrP":"sleeping",
+    "-L139T5PnR7fa49yYxrO":"smilingWithHorns",
+    "-L149T5PnR7Va49fYXrf":"pileOfPoo"
   },
   "events" : {
     "-L0fkyihb4fZ28Xiqr5-": {
@@ -126,48 +125,153 @@
   },
   "photoToEvent":{
     "-L129T5PnR7Va49yYXrR":{
-      "-L129T5PnR7Va49yYYrR":{
-        "key":"-L129T5PnR7Va49yYYrR",
+      "-L324h5P4R7Va49yh4rh":{
+        "key":"-L324h5P4R7Va49yh4rh",
         "eventKey":"-L129T5PnR7Va49yYXrR",
         "creatorKey": "52w0SkcAASNacMNtQtcc5o4ANu43",
         "creatorName": "Eliran Levy",
         "creationDate": 1514230200000,
-        "URL":"https://firebasestorage.googleapis.com/v0/b/memo-11ade.appspot.com/o/IMG_20170124_174154.png?alt=media&token=eb45686b-19d9-40ff-9d0d-a27d8d8a50e8",
-        "tags":{
-          "1": {
-            "-L129T54nR7V449yY4rR":{
-              "creatorKey": "52w0SkcAASNacMNtQtcc5o4ANu43",
-              "creatorName": "Eliran Levy",
-              "creationDate": 1514230200000
-            }
-          },
-          "7": {
-            "-L122T5Pn17Va492YYrR":{
-              "creatorKey": "52w0SkcAASNacMNtQtcc5o4ANu43",
-              "creatorName": "Eliran Levy",
-              "creationDate": 1514230200000
-            }
-          },
-          "15": {
-            "-L177T5PnR7Va478YYrR":{
-              "creatorKey": "52w0SkcAASNacMNtQtcc5o4ANu43",
-              "creatorName": "Eliran Levy",
-              "creationDate": 1514230200000
-            }
-          }
-        }
+        "fileName":"0.png",
+        "fileType":"image/png",
+        "fileSize":667.81,
+        "fileURL":"https://firebasestorage.googleapis.com/v0/b/memo-11ade.appspot.com/o/0.png?alt=media&token=55d028b7-5bbb-4f85-8f8a-1bec88eabb98"
+      },
+      "-L111h5P4R7Va49yh411":{
+        "key":"-L111h5P4R7Va49yh411",
+        "eventKey":"-L129T5PnR7Va49yYXrR",
+        "creatorKey": "52w0SkcAASNacMNtQtcc5o4ANu43",
+        "creatorName": "Eliran Levy",
+        "creationDate": 1514230200000,
+        "fileName":"1.png",
+        "fileType":"image/png",
+        "fileSize":471.52,
+        "fileURL":"https://firebasestorage.googleapis.com/v0/b/memo-11ade.appspot.com/o/1.PNG?alt=media&token=d0e70c62-b04b-4b19-8edb-e5e03f1352ae"
+      },
+      "-L122T5PnR7Va49yYX22":{
+        "key":"-L122T5PnR7Va49yYX22",
+        "eventKey":"-L129T5PnR7Va49yYXrR",
+        "creatorKey": "52w0SkcAASNacMNtQtcc5o4ANu43",
+        "creatorName": "Eliran Levy",
+        "creationDate": 1514230200000,
+        "fileName":"2.png",
+        "fileType":"image/png",
+        "fileSize":367.66,
+        "fileURL":"https://firebasestorage.googleapis.com/v0/b/memo-11ade.appspot.com/o/2.PNG?alt=media&token=8223a0df-d4fc-4a7d-85d3-185ef669c2ef"
+      },
+      "-L333T5PnR7Va49yYXr3":{
+        "key":"-L333T5PnR7Va49yYXr3",
+        "eventKey":"-L129T5PnR7Va49yYXrR",
+        "creatorKey": "52w0SkcAASNacMNtQtcc5o4ANu43",
+        "creatorName": "Eliran Levy",
+        "creationDate": 1514230200000,
+        "fileName":"3.png",
+        "fileType":"image/png",
+        "fileSize":23109,
+        "fileURL":"https://firebasestorage.googleapis.com/v0/b/memo-11ade.appspot.com/o/3.PNG?alt=media&token=ed3712c3-ba7b-410d-a1f1-e500f3ebc56a"
+      },
+      "-L444T5PnR7Va49yYXr4":{
+        "key":"-L444T5PnR7Va49yYXr4",
+        "eventKey":"-L129T5PnR7Va49yYXrR",
+        "creatorKey": "52w0SkcAASNacMNtQtcc5o4ANu43",
+        "creatorName": "Eliran Levy",
+        "creationDate": 1514230200000,
+        "fileName":"4.png",
+        "fileType":"image/png",
+        "fileSize":220.28,
+        "fileURL":"L444T5PnR7Va49yYXr4"
+      },
+      "-L555T5PnR7Va49yYXr5":{
+        "key":"-L555T5PnR7Va49yYXr5",
+        "eventKey":"-L129T5PnR7Va49yYXrR",
+        "creatorKey": "52w0SkcAASNacMNtQtcc5o4ANu43",
+        "creatorName": "Eliran Levy",
+        "creationDate": 1514230200000,
+        "fileName":"5.png",
+        "fileType":"image/png",
+        "fileSize":186.62,
+        "fileURL":"https://firebasestorage.googleapis.com/v0/b/memo-11ade.appspot.com/o/5.PNG?alt=media&token=4757fe22-e5b4-4f94-8c58-8cb2a965b534"
+      },
+      "-L666T5PnR7Va49yYXr6":{
+        "key":"-L666T5PnR7Va49yYXr6",
+        "eventKey":"-L129T5PnR7Va49yYXrR",
+        "creatorKey": "52w0SkcAASNacMNtQtcc5o4ANu43",
+        "creatorName": "Eliran Levy",
+        "creationDate": 1514230200000,
+        "fileName":"6.png",
+        "fileType":"image/png",
+        "fileSize":292.7,
+        "fileURL":"https://firebasestorage.googleapis.com/v0/b/memo-11ade.appspot.com/o/6.PNG?alt=media&token=a5cf8774-bb87-4bc6-86cb-06089c4112b6"
       }
     }
   },
-  "userToPhoto":{
+  "tagToEventPhoto":{
+    "-L129T5PnR7Va49yYXrR":{
+      "-L324h5P4R7Va49yh4rh":{
+        "photoKey":"-L324h5P4R7Va49yh4rh",
+        "eventKey":"-L129T5PnR7Va49yYXrR",
+        "tags":{
+          "-L777T5PnR7Va49yY7r7":{
+            "emoticonTagKey":"1",
+            "creatorKey": "52w0SkcAASNacMNtQtcc5o4ANu43",
+            "creatorName": "Eliran Levy",
+            "creationDate": 1514230200000
+          }
+        }
+      },
+      "-L122T5PnR7Va49yYX22":{
+        "photoKey":"-L122T5PnR7Va49yYX22",
+        "eventKey":"-L129T5PnR7Va49yYXrR",
+        "tags":{
+          "-L145T5PnR7Va19yY7r1":{
+            "emoticonTagKey":"5",
+            "creatorKey": "52w0SkcAASNacMNtQtcc5o4ANu43",
+            "creatorName": "Eliran Levy",
+            "creationDate": 1514230200000
+          }
+        }
+      },
+      "-L444T5PnR7Va49yYXr4":{
+        "photoKey":"-L444T5PnR7Va49yYXr4",
+        "eventKey":"-L129T5PnR7Va49yYXrR"
+      },
+      "-L666T5PnR7Va49yYXr6":{
+        "photoKey":"-L666T5PnR7Va49yYXr6",
+        "eventKey":"-L129T5PnR7Va49yYXrR"
+      }
+    }
+  },
+  "userToEventPhoto-dontNeed":{
     "52w0SkcAASNacMNtQtcc5o4ANu43": {
       "-L129T5PnR7Va49yYXrR":{
-        "eventKey":"-L129T5PnR7Va49yYXrR",
-        "photosURL": {
-          "-L129T5PnR7Va49yYYrR":{
-            "photoKey":"-L129T5PnR7Va49yYYrR",
-            "URL":"https://firebasestorage.googleapis.com/v0/b/memo-11ade.appspot.com/o/IMG_20170124_174154.png?alt=media&token=eb45686b-19d9-40ff-9d0d-a27d8d8a50e8"
-          }
+        "-L324h5P4R7Va49yh4rh":{
+          "photoKey":"-L129T5PnR7Va49yYYrR",
+          "eventKey":"-L129T5PnR7Va49yYXrR",
+          "emoticonTagKey":"1"
+        },
+        "-L111h5P4R7Va49yh411":{
+          "photoKey":"-L111h5P4R7Va49yh411",
+          "eventKey":"-L129T5PnR7Va49yYXrR"
+        },
+        "-L122T5PnR7Va49yYX22":{
+          "photoKey":"-L122T5PnR7Va49yYX22",
+          "eventKey":"-L129T5PnR7Va49yYXrR",
+          "emoticonTagKey":"5"
+        },
+        "-L333T5PnR7Va49yYXr3":{
+          "photoKey":"-L111h5P4R7Va49yh411",
+          "eventKey":"-L333T5PnR7Va49yYXr3"
+        },
+        "-L444T5PnR7Va49yYXr4":{
+          "photoKey":"-L444T5PnR7Va49yYXr4",
+          "eventKey":"-L129T5PnR7Va49yYXrR"
+        },
+        "-L555T5PnR7Va49yYXr5":{
+          "photoKey":"-L555T5PnR7Va49yYXr5",
+          "eventKey":"-L129T5PnR7Va49yYXrR"
+        },
+        "-L666T5PnR7Va49yYXr6":{
+          "photoKey":"-L666T5PnR7Va49yYXr6",
+          "eventKey":"-L129T5PnR7Va49yYXrR"
         }
       }
     }

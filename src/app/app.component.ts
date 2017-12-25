@@ -9,7 +9,7 @@ import {AppDispatchTypes} from "../api/common/dispatchTypes";
 import {BaseComponent} from "../api/common/baseComponent/baseComponent";
 import {AngularFireAuth} from 'angularfire2/auth';
 import {AppStoreService} from "../api/store/appStore.service";
-import { AppLocalStorage} from "../api/utilities/appLocalStorage.service";
+import {AppLocalStorage} from "../api/utilities/appLocalStorage.service";
 
 @Component({
   templateUrl: 'app.html',
@@ -53,11 +53,6 @@ export class MemoApp extends BaseComponent implements OnInit, OnDestroy {
   }
 
   registerToEvents() {
-    //menu page close button click
-/*    this.registerToEvent(AppDispatchTypes.pageHeader.onCloseClick).subscribe(() => {
-      //this.nav.pop(); //setRoot(this.rootPage);
-    });*/
-
     //after the user first time logged in
     this.registerToEvent(AppDispatchTypes.registration.onUserLogin).subscribe((payload) => {
       //set the user key to local storage - for app internal use

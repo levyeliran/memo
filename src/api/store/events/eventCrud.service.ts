@@ -22,8 +22,10 @@ export class EventCrud{
 
   getEvents(){
 
-    this.getUserEvents().subscribe((userEvents:any)=>{
-      this.db.list<Event>(`${this.storeTreeNode}`).valueChanges().subscribe((events)=>{
+    Observable.combineLatest<any[], Event[]>(
+      this.db.list(`userToEvent/${AppUtils.userKey}`).valueChanges(),
+      this.db.list<Event>(`${this.storeTreeNode}`).valueChanges())
+      .subscribe(( [userEvents, events] )=>{
 
         //get the user relevant events
         const _events: Event[] =[];
@@ -40,15 +42,13 @@ export class EventCrud{
         this.store.dispatch({type: EventActions.getEvents, payload: _events});
 
         //dispatch an ack
-        //dispatch an ack
         this.dispatchAck(EventActions.getEvents);
       });
-    });
   }
-
+/*
   private getUserEvents():Observable<any[]>{
     return this.db.list(`userToEvent/${AppUtils.userKey}`).valueChanges();
-  }
+  }*/
 
   getEvent(eventId: string){
     this.db.list<Event>(`${this.storeTreeNode}/${eventId}`).valueChanges().subscribe((event)=>{

@@ -1,3 +1,15 @@
+export class HeaderButton {
+  disabled:boolean = false;
+  onClick:any;
+  iconName:string;
+  constructor(iconName:string,onClick:any, disabled?:boolean){
+    this.iconName = iconName;
+    this.onClick = onClick;
+    this.disabled = disabled;
+  }
+}
+
+
 export class EventStore{
   events: Event[] = [];
   currentEvent: Event;
@@ -33,14 +45,86 @@ export const EventStatus = {
 
 /////////////////////////////////////////////////////////
 
-export class PhotoStore{
+export const emoticonMepper = {
+  like:{
+    title: "Like",
+    iconClass: ""
+  },
+  tearsOfJoy:{
+    title: "Tears Of Joy",
+    iconClass: ""
+  },
+  blowingAKiss:{
+    title: "Blowing A Kiss",
+    iconClass: ""
+  },
+  heartEyes:{
+    title: "Heart Eyes",
+    iconClass: ""
+  },
+  crazy:{
+    title: "Crazy",
+    iconClass: ""
+  },
+  shushing:{
+    title: "Shushing",
+    iconClass: ""
+  },
+  winking:{
+    title:  "Winking",
+    iconClass: ""
+  },
+  sunglasses:{
+    title: "Sunglasses",
+    iconClass: ""
+  },
+  grimacing:{
+    title: "Grimacing",
+    iconClass: ""
+  },
+  angry:{
+    title: "Angry",
+    iconClass: ""
+  },
+  dizzy:{
+    title: "Dizzy",
+    iconClass: ""
+  },
+  sleeping:{
+    title: "Sleeping",
+    iconClass: ""
+  },
+  smilingWithHorns:{
+    title: "Smiling With Horns",
+    iconClass: ""
+  },
+  pileOfPoo:{
+    title: "Pile Of Poo",
+    iconClass: ""
+  }
 };
+export class PhotoStore{
+  photos:Photo[] = [];
+};
+export class PhotoTagsMetaData {
+  emoticonTagKey:string;
+  creatorKey:string;
+  creatorName:string;
+}
 export class Photo{
   key:any;
-  typeKey:any;
+  eventKey:any;
   creatorKey:any;
+  isOwnPhoto:boolean;
+  isThumbnail:boolean;
   creatorName:string;
   creationDate:any;
   fileName:string;
+  fileType:string;
+  fileSize:number;
+  fileURL:string;
+  //fill here metadata about tags etc
+  tagsMetaData:PhotoTagsMetaData[];
+  myEmoticonTagKey:string;
   blob:any;
-};
+}

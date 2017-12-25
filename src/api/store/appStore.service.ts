@@ -3,7 +3,7 @@ import {EventCrud} from "./events/eventCrud.service";
 import {EventDispatcherService} from "../dispatcher/appEventDispathcer.service";
 import {EventActions} from "./events/eventActions";
 import {Observable} from "rxjs/Observable";
-import {EventStore} from "../common/appTypes";
+import {EventStore, PhotoStore} from "../common/appTypes";
 import {Store} from "@ngrx/store";
 import {AppStore} from "./appStore.interface";
 import { AppUtils } from "../utilities/appUtils";
@@ -18,6 +18,10 @@ export class AppStoreService{
 
   public _eventStore(): Observable<EventStore>{
     return this.store.select(store => store.eventStore);
+  }
+
+  public _photoStore(): Observable<PhotoStore>{
+    return this.store.select(store => store.photoStore);
   }
 
   public initAppStore(userKey:String): Promise<any>{

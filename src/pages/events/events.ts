@@ -7,6 +7,7 @@ import {AppStoreService} from "../../api/store/appStore.service";
 import { CreateEventPage } from "./create-event/create-event";
 import { EventAlbumPage } from "./event-album/event-album";
 import {EventCrud} from "../../api/store/events/eventCrud.service";
+import {PhotoCrud} from "../../api/store/photos/photoCrud.service";
 
 @Component({
   selector: 'page-events',
@@ -30,6 +31,7 @@ export class EventsPage implements OnInit, OnDestroy {
 
   constructor(public navCtrl: NavController,
               public eventCrud: EventCrud,
+              public photoCrud: PhotoCrud,
               public appStoreService: AppStoreService) {
     this.calendarEvents = [];
     this.selectedDateEvent = new Event();
@@ -130,6 +132,8 @@ export class EventsPage implements OnInit, OnDestroy {
     if((this.selectedDateEvent.isActive || this.selectedDateEvent.isPassed) &&
       (this.selectedDateEvent.status == EventStatus.joined ||
         this.selectedDateEvent.status == EventStatus.own)){
+      //get the event photos
+      this.photoCrud.getEventPhotos(this.selectedDateEvent.key);
       //navigate to album (over the main-tabs)
       this.navCtrl.parent.parent.push(EventAlbumPage, {event: this.selectedDateEvent});
     }
