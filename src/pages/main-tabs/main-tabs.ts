@@ -1,4 +1,4 @@
-import { Component , ViewChild } from '@angular/core';
+import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
 import { ProfilePage } from '../profile/profile';
 import { HomePage } from '../home/home';
 import { EventsPage } from '../events/events';
@@ -6,7 +6,7 @@ import { EventsPage } from '../events/events';
 @Component({
   templateUrl: 'main-tabs.html'
 })
-export class MainTabsPage {
+export class MainTabsPage implements OnInit, AfterViewInit {
 
   profileTabRoot = ProfilePage;
   homeTabRoot = HomePage;
@@ -18,11 +18,13 @@ export class MainTabsPage {
 
   constructor() {}
 
-  //select the home tab on load (ionic select the first by default)
-  //todo remove when done
-  ionViewDidEnter() {
-    this.tabRef.select(1);
+//select the home tab on load (ionic select the first by default)
+  ngOnInit() {
 
+  }
+
+  ngAfterViewInit(){
+    this.tabRef.select(1);
     //add badge when there is an event "now"
     this.eventsTabBadgeCount = 1;
   }

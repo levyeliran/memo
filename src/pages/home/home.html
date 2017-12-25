@@ -50,15 +50,16 @@
 
 
 <!--https://www.google.co.il/search?q=romatnic&tbm=isch&tbs=rimg:CfwP6-7brp7jIjj3YXLNhT5QgaEkQZ3-L4WoqywG_1QnFQzjoDafAVECFEQDP6KBTAPILBOLhT5bbW_1w05aDEkPdCQCoSCfdhcs2FPlCBEfuCwXWPvvjzKhIJoSRBnf4vhagRIPIJYT_1L3VUqEgmrLAb9CcVDOBE8vZDSBn8etioSCegNp8BUQIURESn29UIF3vZLKhIJAM_1ooFMA8gsRkl0e3EsxjvsqEgkE4uFPlttb_1BEg8glhP8vdVSoSCTTloMSQ90JAEW9fk92cml0N&tbo=u&sa=X&ved=0ahUKEwjb74ySu6XYAhULLMAKHZyqCIkQ9C8IHg&biw=1680&bih=919&dpr=1 -->
-  <ion-card *ngFor="let event of cardsEvents">
+  <ion-card *ngFor="let event of cardsEvents" (click)="isEventViewAvailable(event) && onEventOpen(event)">
     <img src="{{event.introPhotoURL || event.defaultIntroPhotoURL}}"/>
-    <div class="card-title">
+    <div class="card-title"  >
       {{event.initials}}
       <!--style="font-size: 0.5em;top: -2px;position: relative; margin: 0 4px;"-->
       <ion-icon name="heart" style="font-size: 0.5em;"></ion-icon>
       {{event.startDateStr}}
     </div>
     <div class="card-subtitle">SAVE THE DATE!</div>
+    <ion-icon name="eye" *ngIf="isEventViewAvailable(event)"></ion-icon>
   </ion-card>
 
 

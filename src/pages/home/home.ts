@@ -1,8 +1,10 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import { NavController } from 'ionic-angular';
 import {AppStoreService} from "../../api/store/appStore.service";
-import {Event} from "../../api/common/appTypes";
+import {Event, EventStatus} from "../../api/common/appTypes";
 import {AppUtils} from "../../api/utilities/appUtils";
+import {EventAlbumPage} from "../events/event-album/event-album";
+import {PhotoCrud} from "../../api/store/photos/photoCrud.service";
 
 @Component({
   selector: 'page-home',
@@ -15,6 +17,7 @@ export class HomePage implements OnInit, OnDestroy {
   appUtils = AppUtils;
 
   constructor(public navCtrl: NavController,
+              public photoCrud: PhotoCrud,
               public appStoreService: AppStoreService) {
     this.cardsEvents = [];
     this.setEventsToCards();
@@ -45,7 +48,7 @@ export class HomePage implements OnInit, OnDestroy {
 
   getDefaultCardBg(){
     const rnd = Math.floor((Math.random() * 7) + 1);
-    return "../../assets/images/eventDefaultCardBG"+ rnd + ".jpg";
+    return "assets/images/eventDefaultCardBG"+ rnd + ".jpg";
   }
 
   onCreateNewEvent(){
@@ -53,8 +56,18 @@ export class HomePage implements OnInit, OnDestroy {
     this.navCtrl.parent.select(2);
   }
 
+  isEventViewAvailable(event:Event){
+    return ((event.isActive || event.isPassed) &&
+      (event.status == EventStatus.joined ||
+        event.status == EventStatus.own));
+  }
+
   onEventOpen(event:Event){
     //navigate to event album - if its exist
+      //get the event photos
+      this.photoCrud.getEventPhotos(event.key);
+      //navigate to album (over the main-tabs)
+      this.navCtrl.parent.parent.push(EventAlbumPage, {event});
   }
 
 }
