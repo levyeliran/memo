@@ -1,13 +1,68 @@
 page-home {
 
-  ion-list{
-    ion-item-sliding{
+  /*
+  ion-list {
+    ion-item-sliding {
       background: transparent !important;
-      ion-item{
+      ion-item {
         background: transparent !important;
 
+        .item-inner{
+          border:none !important;
+        }
+
+        ion-card{
+          margin: 0 10px!important;
+        }
+
+        ion-label{
+          &.label-md{
+            margin-bottom: 0px !important;
+          }
+        }
       }
     }
   }
+  ion-content {
+    .scroll-content {
+      margin-bottom: 75px !important;
+    }
+  }
+  */
+
+
+  ion-content {
+    .scroll-content {
+      margin-bottom: 100px !important;
+    }
+  }
+
+    ion-card {
+      position: relative;
+      text-align: center;
+
+    }
+
+    .card-title {
+      position: absolute;
+      font-weight: bold;
+      top: 36%;
+      font-size: 2.5em;
+      width: 100%;
+      font-weight: bold;
+      color: #fff;
+      text-shadow: 0 0 200px black, 0 0 3px #FF0000;
+    }
+
+    .card-subtitle {
+      font-size: 1.2em;
+      font-weight: bold;
+      position: absolute;
+      top: 60%;
+      width: 100%;
+      color: $orange-color;
+    }
+
+
 
 }

@@ -2,14 +2,14 @@
 
 <ion-content>
 
-  <ion-list *ngIf="cardsEvents.length > 0">
+<!--  <ion-list *ngIf="cardsEvents.length > 0">
     <ion-item-sliding *ngFor="let event of cardsEvents">
       <ion-item>
 
         <ion-card>
           <ion-item>
             <ion-avatar item-start>
-              <!--place here an event icon-->
+              &lt;!&ndash;place here an event icon&ndash;&gt;
               <div style="background: red; border-radius: 50%;     height: 40px;
     padding-top: 13px;
     font-size: 13.5px;
@@ -20,7 +20,7 @@
             <p>{{event.startDate}}</p>
           </ion-item>
 
-          <img src="{{event.introPhotoUrl || 'default'}}">
+          <img src="{{event.introPhotoURL || 'default'}}">
 
           <ion-card-content>
             <p>{{event.description}}</p>
@@ -46,7 +46,22 @@
 
       </ion-item>
     </ion-item-sliding>
-  </ion-list>
+  </ion-list>-->
+
+
+<!--https://www.google.co.il/search?q=romatnic&tbm=isch&tbs=rimg:CfwP6-7brp7jIjj3YXLNhT5QgaEkQZ3-L4WoqywG_1QnFQzjoDafAVECFEQDP6KBTAPILBOLhT5bbW_1w05aDEkPdCQCoSCfdhcs2FPlCBEfuCwXWPvvjzKhIJoSRBnf4vhagRIPIJYT_1L3VUqEgmrLAb9CcVDOBE8vZDSBn8etioSCegNp8BUQIURESn29UIF3vZLKhIJAM_1ooFMA8gsRkl0e3EsxjvsqEgkE4uFPlttb_1BEg8glhP8vdVSoSCTTloMSQ90JAEW9fk92cml0N&tbo=u&sa=X&ved=0ahUKEwjb74ySu6XYAhULLMAKHZyqCIkQ9C8IHg&biw=1680&bih=919&dpr=1 -->
+  <ion-card *ngFor="let event of cardsEvents">
+    <img src="{{event.introPhotoURL || event.defaultIntroPhotoURL}}"/>
+    <div class="card-title">
+      {{event.initials}}
+      <!--style="font-size: 0.5em;top: -2px;position: relative; margin: 0 4px;"-->
+      <ion-icon name="heart" style="font-size: 0.5em;"></ion-icon>
+      {{event.startDateStr}}
+    </div>
+    <div class="card-subtitle">SAVE THE DATE!</div>
+  </ion-card>
+
+
 
   <div class="empty-state" *ngIf="!cardsEvents.length" style="text-align: center;
     margin-top: 50%; font-size: 20px;">

@@ -25,10 +25,12 @@ export class Event{
   description:string;
   location:any;
   startDate:any;
+  startDateStr:string;
   endDate:any;
   creationDate:any;
   updateDate:any;
-  introPhotoUrl:string;
+  introPhotoURL:string;
+  defaultIntroPhotoURL:string;
   numOfParticipates:number;
   status:number;
   isActive:boolean;

@@ -2,6 +2,7 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import { NavController } from 'ionic-angular';
 import {AppStoreService} from "../../api/store/appStore.service";
 import {Event} from "../../api/common/appTypes";
+import {AppUtils} from "../../api/utilities/appUtils";
 
 @Component({
   selector: 'page-home',
@@ -11,6 +12,7 @@ export class HomePage implements OnInit, OnDestroy {
 
   eventStoreSubscription:any;
   cardsEvents: Event[];
+  appUtils = AppUtils;
 
   constructor(public navCtrl: NavController,
               public appStoreService: AppStoreService) {
@@ -35,7 +37,15 @@ export class HomePage implements OnInit, OnDestroy {
   }
 
   setEventsToCards(){
+    this.cardsEvents.forEach((event)=>{
+      event.defaultIntroPhotoURL = this.getDefaultCardBg();
+      event.startDateStr = this.appUtils.getDateStrFormat(event.startDate);
+    })
+  }
 
+  getDefaultCardBg(){
+    const rnd = Math.floor((Math.random() * 7) + 1);
+    return "../../assets/images/eventDefaultCardBG"+ rnd + ".jpg";
   }
 
   onCreateNewEvent(){

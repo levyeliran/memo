@@ -21,7 +21,7 @@ export class MainTabsPage {
   //select the home tab on load (ionic select the first by default)
   //todo remove when done
   ionViewDidEnter() {
-    this.tabRef.select(2);
+    this.tabRef.select(1);
 
     //add badge when there is an event "now"
     this.eventsTabBadgeCount = 1;
