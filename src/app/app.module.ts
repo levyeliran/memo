@@ -32,7 +32,7 @@ import { AngularFireDatabaseModule } from 'angularfire2/database';
 //http://tphangout.com/ionic-2-authentication-using-firebase/ - facebook auth
 //https://devdactic.com/google-sign-in-ionic-firebase/
 
-
+import { Camera } from "@ionic-native/camera";
 
 //import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { StoreModule } from '@ngrx/store';
@@ -42,6 +42,8 @@ import {EventCrud} from "../api/store/events/eventCrud.service";
 import {AppLocalStorage} from "../api/utilities/appLocalStorage.service";
 import {photoReducer} from "../api/store/photos/photo.reducer";
 import {PhotoCrud} from "../api/store/photos/photoCrud.service";
+import {EventAlbumAnimationPage} from "../pages/events/event-album-animation/event-album-animation";
+import {EventAlbumPhotoPage} from "../pages/events/event-album-photo/event-album-photo";
 //https://medium.com/beautiful-angular/angular-2-with-redux-using-ngrx-store-2f93a8ad0dd
 
 
@@ -67,6 +69,8 @@ const FBConfig = {
     MainTabsPage,
     CreateEventPage,
     EventAlbumPage,
+    EventAlbumAnimationPage,
+    EventAlbumPhotoPage,
     PageHeaderComponent
   ],
   imports: [
@@ -99,6 +103,8 @@ const FBConfig = {
     MainTabsPage,
     CreateEventPage,
     EventAlbumPage,
+    EventAlbumAnimationPage,
+    EventAlbumPhotoPage,
     PageHeaderComponent
   ],
   providers: [ // SINGLETON services
@@ -109,6 +115,7 @@ const FBConfig = {
     AppStoreService,
     AppLocalStorage,
     StoreModule,
+    Camera,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ],
   exports: [] //components that we want to make available

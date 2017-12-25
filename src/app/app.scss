@@ -35,7 +35,7 @@ $black-color: #1A0A15;
 ion-content{
     background: $blue-dark-color; /* For browsers that do not support gradients */
     background: radial-gradient(circle, #488aff -113%, #18162A 69%);
-    //background-position-y: -50px;
+    background-position-y: -50px;
 }
 
 .menu-inner{
@@ -52,7 +52,7 @@ ion-menu{
   }
 
   ion-list{
-    padding-top: 60px;
+    padding-top: 15px;
     .item-md{
       background-color: $blue-dark-color;
       color:$yellow-color;
@@ -63,6 +63,10 @@ ion-menu{
       color:$blue-light-color;
     }*/
   }
+}
+
+ion-content{
+  margin-top: 45px;
 }
 
 //https://chriztalk.com/using-google-fonts-ionic-2/

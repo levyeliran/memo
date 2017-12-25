@@ -1,7 +1,7 @@
 <page-header [isDisplayMenu]="true" [pageTitle]="'Events'"></page-header>
 
 <ion-content padding >
-<div style="margin-top: 45px;">
+<div>
   <ion-calendar [(ngModel)]="selectedDate"
                 (onChange)="onDateChange($event)"
                 [options]="calendarOptions"

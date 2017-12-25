@@ -2,7 +2,7 @@ import {Injectable} from "@angular/core";
 import {EventCrud} from "./events/eventCrud.service";
 import {EventDispatcherService} from "../dispatcher/appEventDispathcer.service";
 import {EventActions} from "./events/eventActions";
-import {Observable} from "rxjs/Observable";
+import {Observable} from "rxjs/Rx";
 import {EventStore, PhotoStore} from "../common/appTypes";
 import {Store} from "@ngrx/store";
 import {AppStore} from "./appStore.interface";

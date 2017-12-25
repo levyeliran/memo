@@ -1,5 +1,5 @@
 import {EventDispatcherService} from "../../dispatcher/appEventDispathcer.service";
-import {Observable} from "rxjs/Observable";
+import {Observable} from "rxjs/Rx";
 import { AppConstants } from "../appConstants";
 
 export class BaseComponent {

@@ -44,8 +44,8 @@ export class EventAlbumPage extends BaseComponent implements OnInit {
     super(eventDispatcherService);
 
     this.event = this.navParams.get('event');
-    const animationBtn = new HeaderButton('film',this.omViewAnimation(), true);
-    const newPhotoBtn = new HeaderButton('camera',this.omAddNewPhoto(), true);
+    const animationBtn = new HeaderButton('film',this.omViewAnimation, true);
+    const newPhotoBtn = new HeaderButton('camera',this.omAddNewPhoto, true);
     this.headerButtons = [
       animationBtn,
       newPhotoBtn
@@ -114,7 +114,7 @@ export class EventAlbumPage extends BaseComponent implements OnInit {
     this.camera.getPicture(options).then((imageData) => {
       // imageData is either a base64 encoded string or a file URI
       // If it's base64:
-      let base64Image = 'data:image/jpeg;base64,' + imageData;
+      //let base64Image = 'data:image/jpeg;base64,' + imageData;
 
       //save the image - create thumnail - add it to photos list
       //this will refresh the photos gallery

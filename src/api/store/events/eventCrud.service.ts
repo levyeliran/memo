@@ -7,7 +7,7 @@ import {EventActions} from "./eventActions";
 import {Event} from "../../common/appTypes";
 import { FirebaseApp } from 'angularfire2';
 import { AppUtils } from "../../utilities/appUtils";
-import {Observable} from "rxjs/Observable";
+import {Observable} from 'rxjs/Rx'
 
 @Injectable()
 export class EventCrud{

@@ -8,9 +8,9 @@ import {Photo} from "../../common/appTypes";
 import { FirebaseApp } from 'angularfire2';
 //import { AppUtils } from "../../utilities/appUtils";
 //import {Observable} from "rxjs/Observable";
-import * as firebase from 'firebase/app';
+//import * as firebase from 'firebase/app';
 //import {PhotoActions} from "./photoActions";
-import {Observable} from "rxjs/Observable";
+import {Observable} from 'rxjs/Rx'
 
 @Injectable()
 export class PhotoCrud{

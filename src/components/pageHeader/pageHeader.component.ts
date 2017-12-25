@@ -12,9 +12,11 @@ import {HeaderButton} from "../../api/common/appTypes";
           <ion-icon name='menu'></ion-icon>
         </button>
         <ion-title>{{pageTitle}}</ion-title>
-       <button *ngFor="let btn of buttons" class="closeButton" (click)="btn.onClick()" [disabled]="btn.disabled">
+      <div class="header-buttons-wrapper">
+        <button *ngFor="let btn of buttons" class="headerButton" (click)="btn.onClick()" [disabled]="btn.disabled">
           <ion-icon  name="{{btn.iconName}}"></ion-icon>
-       </button>
+        </button>
+      </div>
     </ion-navbar>
   </ion-header>
   `
