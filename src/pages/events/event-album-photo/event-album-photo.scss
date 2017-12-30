@@ -1,3 +1,28 @@
 page-event-album-photo {
 
+  .photo-wrapper {
+    text-align: center;
+    img {
+
+    }
+    .heart-icon{
+      opacity: 0;
+      font-size: 15rem;
+      color: $red-color;
+      &.play-anim{
+        transition: opacity 2s ease-in-out;
+        opacity:1;
+        //animation: heart-anim 1s linear .5s;
+      }
+    }
+  }
+
+  .bottom-menu{
+    color: $black-color;
+    height: 50px;
+    position: absolute;
+    width: 100%;
+    background: white;
+    bottom: 50px;
+  }
 }

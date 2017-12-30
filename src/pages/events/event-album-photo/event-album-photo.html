@@ -1,25 +1,17 @@
-<!--
-  Generated template for the EventAlbumPhotoPage page.
-
-  See http://ionicframework.com/docs/components/#navigation for more info on
-  Ionic pages and navigation.
--->
 <ion-header>
-
   <ion-navbar>
     <ion-title>event-album-photo</ion-title>
   </ion-navbar>
-
 </ion-header>
+<ion-content>
 
+  <div class="photo-wrapper">
+    <img src="{{photo.fileURL}}" (dblclick)="onPhotoDblClick()" (press)="onPhotoPress()" />
+  </div>
 
-
-
-<!--(dblclick)="onPhotoDblClick(col.photo)"--> display heart - like
-<!--(press)="onImageDblClick(col.photo)"--> display emoticons menu
-
-
-
-<ion-content padding>
+  <!--create component?-->
+  <div class="bottom-menu">
+      dfgdfgfdg
+  </div>
 
 </ion-content>

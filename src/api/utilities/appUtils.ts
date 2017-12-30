@@ -3,7 +3,7 @@ export class AppUtils{
   static userKey:String;
   static userName:String;
 
-  static isPassedDate(date, countHour = false) : boolean{
+  static isPastDate(date, countHour = false) : boolean{
     if(!date){
       return false;
     }
@@ -36,7 +36,7 @@ export class AppUtils{
     if(!date){
       return false;
     }
-    return !this.isPassedDate(date, countHour) && !this.isCurrentDate(date, countHour);
+    return !this.isPastDate(date, countHour) && !this.isCurrentDate(date, countHour);
   }
 
   static getFutureDate(months:number = 0){

@@ -34,7 +34,7 @@ export class Event{
   numOfParticipates:number;
   status:number;
   isActive:boolean;
-  isPassed:boolean;
+  isPast:boolean;
 }
 export const EventStatus = {
   own: 1,

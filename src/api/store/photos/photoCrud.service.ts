@@ -4,16 +4,18 @@ import { Store } from "@ngrx/store";
 import { AngularFireDatabase } from "angularfire2/database";
 import {AppStore} from "../appStore.interface";
 //import {PhotoActions} from "./photoActions";
-import {Photo} from "../../common/appTypes";
+import {Photo, PhotoTagsMetaData} from "../../common/appTypes";
 import { FirebaseApp } from 'angularfire2';
-//import { AppUtils } from "../../utilities/appUtils";
+import { AppUtils } from "../../utilities/appUtils";
 //import {Observable} from "rxjs/Observable";
 //import * as firebase from 'firebase/app';
-//import {PhotoActions} from "./photoActions";
+import {PhotoActions} from "./photoActions";
 import {Observable} from 'rxjs/Rx'
 
 @Injectable()
 export class PhotoCrud{
+
+  appUtils = AppUtils;
 
   constructor(public eventDispatcherService: EventDispatcherService,
               public store: Store<AppStore>,
@@ -28,16 +30,30 @@ export class PhotoCrud{
       this.db.list<any>(`tagToEventPhoto/${eventKey}`).valueChanges())
       .subscribe(([photos, photosTags])=> {
 
-
-      console.log(photos);
-      console.log(photosTags);
-
+        photos.forEach((photo)=>{
+          const pTags = photosTags.find(pt => pt.photoKey == photo.key);
+          if(pTags && pTags.tags){
+            photo.tagsMetaData = [];
+            Object.values(pTags.tags).forEach((tag)=>{
+              if(tag.creatorKey !== this.appUtils.userKey){
+                const ptMeta = new PhotoTagsMetaData();
+                ptMeta.creatorKey = tag.creatorKey;
+                ptMeta.creatorName = tag.creatorName;
+                ptMeta.emoticonTagKey = tag.emoticonTagKey;
+                photo.tagsMetaData.push(ptMeta);
+              }
+              else {
+                photo.myEmoticonTagKey = tag.emoticonTagKey;
+              }
+            });
+          }
+        });
 
       //update the store with the retrieved events
-      //this.store.dispatch({type: PhotoActions.getEventPhotos, payload: photos});
+      this.store.dispatch({type: PhotoActions.getEventPhotos, payload: photos});
 
       //dispatch an ack
-      //this.dispatchAck(PhotoActions.getEventPhotos);
+      this.dispatchAck(PhotoActions.getEventPhotos);
     });
 
   }
@@ -79,12 +95,14 @@ export class PhotoCrud{
     return photo;
   }
 
+
+*/
+
+
   dispatchAck(eventName:string){
     //dispatch an ack
     this.eventDispatcherService.emit({
       eventName: eventName });
   }
-
-*/
 
 }

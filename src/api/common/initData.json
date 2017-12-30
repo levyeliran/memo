@@ -41,7 +41,7 @@
       "startDate": 1514230200000,
       "title": "R&T Wedding",
       "isActive":false,
-      "isPassed":false,
+      "isPast":false,
       "typeKey": "1"
     },
     "-L0hWXHtjtiRATf8ObuU": {
@@ -53,7 +53,7 @@
       "numOfParticipates": 0,
       "startDate": 1515704400000,
       "isActive":false,
-      "isPassed":false,
+      "isPast":false,
       "title": "W&M Wedding",
       "typeKey": "2"
     },
@@ -67,7 +67,7 @@
       "numOfParticipates": 0,
       "startDate": 1514455200000,
       "isActive":false,
-      "isPassed":false,
+      "isPast":false,
       "title": "dfg",
       "typeKey": "5"
     },
@@ -80,7 +80,7 @@
       "key": "-L129T5PnR7Va49yYXrR",
       "numOfParticipates": 0,
       "isActive":false,
-      "isPassed":false,
+      "isPast":false,
       "startDate": 1514368800000,
       "title": "dfg",
       "typeKey": "4"

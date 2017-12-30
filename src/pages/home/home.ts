@@ -57,7 +57,7 @@ export class HomePage implements OnInit, OnDestroy {
   }
 
   isEventViewAvailable(event:Event){
-    return ((event.isActive || event.isPassed) &&
+    return ((event.isActive || event.isPast) &&
       (event.status == EventStatus.joined ||
         event.status == EventStatus.own));
   }

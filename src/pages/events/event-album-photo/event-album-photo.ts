@@ -12,11 +12,12 @@ import {Photo} from "../../../api/common/appTypes";
 export class EventAlbumPhotoPage extends BaseComponent implements OnInit  {
 
   photo:Photo;
+  isDisplayHeartAnimation = false;
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
               public eventDispatcherService: EventDispatcherService) {
     super(eventDispatcherService);
-
+    this.photo = this.navParams.get('photo');
     //extract params
 
   }
@@ -37,14 +38,16 @@ export class EventAlbumPhotoPage extends BaseComponent implements OnInit  {
   }
 
 
-  //display on full page
-  onImagePress(){
+  onPhotoPress(){
     //toggle the emoji icons menu
+    this.isDisplayHeartAnimation = true;
+    console.log('photo pressed');
   }
 
-  //display on full page
-  onImageDblClick(){
+  onPhotoDblClick(){
     //toogle like emoji to this image (display "heart" on top)
+    this.isDisplayHeartAnimation = true;
+    console.log('photo dbl clicked');
   }
 
 

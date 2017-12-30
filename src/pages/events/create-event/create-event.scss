@@ -1,3 +1,16 @@
 page-create-event {
 
+  ion-list, ion-slide{
+    ion-item{
+      &.item-md{
+        background-color: transparent !important;
+      }
+    }
+  }
+
+  .beer-icons-wrapper{
+    position: relative;
+    top: -50px;
+  }
+
 }

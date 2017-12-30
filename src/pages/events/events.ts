@@ -67,13 +67,13 @@ export class EventsPage implements OnInit, OnDestroy {
       const eventDateKey = this.appUtils.getDateStrFormat(e.startDate);
       this.calendarEventsToDateMap[eventDateKey] = e;
 
-      const isPassed = this.appUtils.isPassedDate(e.endDate);
+      const isPast = this.appUtils.isPastDate(e.endDate);
       const isCurrent = this.appUtils.isCurrentDate(e.endDate);
       _daysConfig.push({
         date: new Date(e.startDate),
         subTitle: e.initials,
         marked: isCurrent,
-        disable: isPassed,
+        disable: isPast,
         cssClass: e.key //use the cssClass in order to hold the id
       })
     });
@@ -129,7 +129,7 @@ export class EventsPage implements OnInit, OnDestroy {
 
   onViewEvent(){
 
-    if((this.selectedDateEvent.isActive || this.selectedDateEvent.isPassed) &&
+    if((this.selectedDateEvent.isActive || this.selectedDateEvent.isPast) &&
       (this.selectedDateEvent.status == EventStatus.joined ||
         this.selectedDateEvent.status == EventStatus.own)){
       //get the event photos
