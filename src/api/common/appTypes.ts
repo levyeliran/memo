@@ -23,7 +23,7 @@ export class Event{
   title:string;
   initials:string; //Y&R for example
   description:string;
-  location:any;
+  location:EventLocation;
   startDate:any;
   startDateStr:string;
   endDate:any;
@@ -31,10 +31,25 @@ export class Event{
   updateDate:any;
   introPhotoURL:string;
   defaultIntroPhotoURL:string;
+  participatesDetails:any[];
   numOfParticipates:number;
   status:number;
   isActive:boolean;
+  hasAnimation:boolean;
   isPast:boolean;
+}
+
+export class EventLocation{
+  key:string;
+  placeId: string;
+  placeDescription: string;
+  reference: string;
+  terms: any[];
+  types: any[];
+  place: string;
+  lng:number;
+  lat:number;
+  address:any;
 }
 export const EventStatus = {
   own: 1,
@@ -128,5 +143,5 @@ export class Photo{
   //fill here metadata about tags etc
   tagsMetaData:PhotoTagsMetaData[];
   myEmoticonTagKey:string;
-  blob:any;
+  base64Image:any;
 }

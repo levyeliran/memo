@@ -2,73 +2,24 @@
 
 <ion-content>
 
-<!--  <ion-list *ngIf="cardsEvents.length > 0">
-    <ion-item-sliding *ngFor="let event of cardsEvents">
-      <ion-item>
-
-        <ion-card>
-          <ion-item>
-            <ion-avatar item-start>
-              &lt;!&ndash;place here an event icon&ndash;&gt;
-              <div style="background: red; border-radius: 50%;     height: 40px;
-    padding-top: 13px;
-    font-size: 13.5px;
-    text-align: center;
-    font-weight: bold;">{{event.initials}}</div>
-            </ion-avatar>
-            <h2>{{event.title}}</h2>
-            <p>{{event.startDate}}</p>
-          </ion-item>
-
-          <img src="{{event.introPhotoURL || 'default'}}">
-
-          <ion-card-content>
-            <p>{{event.description}}</p>
-          </ion-card-content>
-
-          <ion-row>
-            <ion-col>
-              <button ion-button icon-left clear small (click)="onEventOpen(event)">
-                <ion-icon name="eye"></ion-icon>
-                <div>{{event.numOfParticipates || 0}} Participates</div>
-              </button>
-            </ion-col>
-            <ion-col>
-            </ion-col>
-            <ion-col center text-center>
-              <ion-note>
-                {{event.passedTime}} ago
-              </ion-note>
-            </ion-col>
-          </ion-row>
-
-        </ion-card>
-
-      </ion-item>
-    </ion-item-sliding>
-  </ion-list>-->
-
-
-<!--https://www.google.co.il/search?q=romatnic&tbm=isch&tbs=rimg:CfwP6-7brp7jIjj3YXLNhT5QgaEkQZ3-L4WoqywG_1QnFQzjoDafAVECFEQDP6KBTAPILBOLhT5bbW_1w05aDEkPdCQCoSCfdhcs2FPlCBEfuCwXWPvvjzKhIJoSRBnf4vhagRIPIJYT_1L3VUqEgmrLAb9CcVDOBE8vZDSBn8etioSCegNp8BUQIURESn29UIF3vZLKhIJAM_1ooFMA8gsRkl0e3EsxjvsqEgkE4uFPlttb_1BEg8glhP8vdVSoSCTTloMSQ90JAEW9fk92cml0N&tbo=u&sa=X&ved=0ahUKEwjb74ySu6XYAhULLMAKHZyqCIkQ9C8IHg&biw=1680&bih=919&dpr=1 -->
-  <ion-card *ngFor="let event of cardsEvents" (click)="isEventViewAvailable(event) && onEventOpen(event)">
-    <img src="{{event.introPhotoURL || event.defaultIntroPhotoURL}}"/>
-    <div class="card-title"  >
+  <!--https://www.google.co.il/search?q=romatnic&tbm=isch&tbs=rimg:CfwP6-7brp7jIjj3YXLNhT5QgaEkQZ3-L4WoqywG_1QnFQzjoDafAVECFEQDP6KBTAPILBOLhT5bbW_1w05aDEkPdCQCoSCfdhcs2FPlCBEfuCwXWPvvjzKhIJoSRBnf4vhagRIPIJYT_1L3VUqEgmrLAb9CcVDOBE8vZDSBn8etioSCegNp8BUQIURESn29UIF3vZLKhIJAM_1ooFMA8gsRkl0e3EsxjvsqEgkE4uFPlttb_1BEg8glhP8vdVSoSCTTloMSQ90JAEW9fk92cml0N&tbo=u&sa=X&ved=0ahUKEwjb74ySu6XYAhULLMAKHZyqCIkQ9C8IHg&biw=1680&bih=919&dpr=1 -->
+  <ion-card *ngFor="let event of cardsEvents" (click)="(isEventViewAvailable(event) || isEventUpdateAvailable(event)) && onEventOpen(event)">
+    <img src="{{event.introPhotoURL || event.defaultIntroPhotoURL}}"
+         class="{{isEventViewAvailable(event) || isEventUpdateAvailable(event) ? '' : 'disabled'}}"/>
+    <div class="card-title">
       {{event.initials}}
-      <!--style="font-size: 0.5em;top: -2px;position: relative; margin: 0 4px;"-->
-      <ion-icon name="heart" style="font-size: 0.5em;"></ion-icon>
+      <ion-icon class="heart-separator" name="heart"></ion-icon>
       {{event.startDateStr}}
     </div>
     <div class="card-subtitle">SAVE THE DATE!</div>
-    <ion-icon name="eye" *ngIf="isEventViewAvailable(event)"></ion-icon>
+    <ion-icon name="eye" class="view-album" *ngIf="isEventViewAvailable(event)"></ion-icon>
+    <ion-icon name="images" class="update-album" *ngIf="isEventUpdateAvailable(event)"></ion-icon>
   </ion-card>
 
-
-
-  <div class="empty-state" *ngIf="!cardsEvents.length" style="text-align: center;
-    margin-top: 50%; font-size: 20px;">
+  <div class="empty-state" *ngIf="!cardsEvents.length">
     <ion-icon name="bowtie"></ion-icon>
-    <div style="font-weight: bold;">NO EVENTS</div>
-    <button ion-button icon-left clear small (click)="onCreateNewEvent()" style="margin-top: 20px; color: #FFC70F;">
+    <div class="no-events">NO EVENTS</div>
+    <button ion-button icon-left clear small (click)="onCreateNewEvent()">
       <div>CREATE NOW!</div>
     </button>
   </div>

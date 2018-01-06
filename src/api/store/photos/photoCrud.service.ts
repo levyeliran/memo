@@ -3,14 +3,12 @@ import { EventDispatcherService } from "../../dispatcher/appEventDispathcer.serv
 import { Store } from "@ngrx/store";
 import { AngularFireDatabase } from "angularfire2/database";
 import {AppStore} from "../appStore.interface";
-//import {PhotoActions} from "./photoActions";
 import {Photo, PhotoTagsMetaData} from "../../common/appTypes";
 import { FirebaseApp } from 'angularfire2';
 import { AppUtils } from "../../utilities/appUtils";
-//import {Observable} from "rxjs/Observable";
-//import * as firebase from 'firebase/app';
-import {PhotoActions} from "./photoActions";
+import * as firebase from 'firebase/app';
 import {Observable} from 'rxjs/Rx'
+import {PhotoActions} from "./photoActions";
 
 @Injectable()
 export class PhotoCrud{
@@ -55,49 +53,68 @@ export class PhotoCrud{
       //dispatch an ack
       this.dispatchAck(PhotoActions.getEventPhotos);
     });
-
   }
 
-/*  private getEventPhotosTags(eventKey:string){
-
-  }*/
-
-/*
   //https://angularfirebase.com/lessons/angular-file-uploads-to-firebase-storage/
   //https://firebase.google.com/docs/storage/web/upload-files
-
   //convert canvas to blob & save - create thumbnail
   //https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/toBlob
   //https://www.html5canvastutorials.com/advanced/html5-canvas-save-drawing-as-an-image/
-  savePhoto(photo: Photo){
-    let uploadTask = this.fb.storage().ref().child(photo.fileName).put(photo.blob);
-    uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED,
+  savePhotoToStorage(photo: Photo){
+    let uploadTask = this.fb.storage().ref().child(photo.fileName).put(photo.base64Image);
+    return uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED,
       (snapshot:any) =>  {
         // upload in progress
-        //photo.blob.progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
         console.log('upload progress: ' + (snapshot.bytesTransferred / snapshot.totalBytes) * 100);
       },
       (error) => {
         // upload failed
-        console.log(error)
+        console.log(error);
+        this.dispatchAck(PhotoActions.uploadEventPhotoFailed);
       },
       () => {
         console.log('upload completed');
+        this.dispatchAck(PhotoActions.uploadEventPhoto);
       }
     );
   }
 
+  addPhotoToAlbum(photo: Photo){
+
+    photo = this.removeUIProperties(photo);
+
+    const pushRef = this.fb.database().ref().child(`photoToEvent/${photo.eventKey}`).push();
+    photo.key = pushRef.key;
+    photo.creatorKey = this.appUtils.userKey;
+    photo.creatorName = this.appUtils.userName.toString();
+    photo.creationDate = new Date();
+
+    pushRef.set(photo).then((p)=>{
+      //update the store with the created photo
+      this.store.dispatch({type: PhotoActions.saveEventPhoto, payload: p});
+
+      //dispatch an ack
+      this.dispatchAck(PhotoActions.saveEventPhoto);
+    });
+
+
+  }
+
+
+/*
   tagPhoto(photo: Photo){
 
   }
 
-  removeUIProperties(photo: Photo){
-    return photo;
-  }
+
 
 
 */
 
+  removeUIProperties(photo: Photo){
+    photo.base64Image = null;
+    return photo;
+  }
 
   dispatchAck(eventName:string){
     //dispatch an ack

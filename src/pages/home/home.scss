@@ -1,68 +1,80 @@
 page-home {
 
-  /*
-  ion-list {
-    ion-item-sliding {
-      background: transparent !important;
-      ion-item {
-        background: transparent !important;
-
-        .item-inner{
-          border:none !important;
-        }
-
-        ion-card{
-          margin: 0 10px!important;
-        }
-
-        ion-label{
-          &.label-md{
-            margin-bottom: 0px !important;
-          }
-        }
-      }
-    }
-  }
-  ion-content {
-    .scroll-content {
-      margin-bottom: 75px !important;
-    }
-  }
-  */
-
-
   ion-content {
     .scroll-content {
       margin-bottom: 100px !important;
     }
   }
 
-    ion-card {
-      position: relative;
-      text-align: center;
+  ion-card {
+    position: relative;
+    text-align: center;
 
+    img {
+      &.disabled {
+        opacity: 0.2;
+      }
     }
 
-    .card-title {
-      position: absolute;
+    ion-icon {
+      &.heart-separator {
+        font-size: 0.8em;
+      }
+
+      &.view-album, &.update-album {
+        position: absolute;
+        right: -44%;
+        width: 100%;
+      }
+      &.view-album {
+        font-size: 1.7em;
+        color: $orange-color;
+        font-weight: bold;
+        top: 87%;
+      }
+      &.update-album {
+        color: $green-light-color;
+        font-size: 1.8em;
+        top: 83%;
+      }
+    }
+  }
+
+  .card-title {
+    position: absolute;
+    font-weight: bold;
+    top: 36%;
+    font-size: 2.3em;
+    width: 100%;
+    font-weight: bold;
+    color: white;
+    text-shadow: 0 0 200px $black-color, 0 0 3px $red-color;
+  }
+
+  .card-subtitle {
+    font-size: 1.2em;
+    font-weight: bold;
+    position: absolute;
+    top: 60%;
+    width: 100%;
+    color: $orange-color;
+  }
+
+  .empty-state {
+    text-align: center;
+    margin-top: 50%;
+    font-size: 20px;
+
+    .no-events {
       font-weight: bold;
-      top: 36%;
-      font-size: 2.5em;
-      width: 100%;
-      font-weight: bold;
-      color: #fff;
-      text-shadow: 0 0 200px black, 0 0 3px #FF0000;
     }
 
-    .card-subtitle {
-      font-size: 1.2em;
-      font-weight: bold;
-      position: absolute;
-      top: 60%;
-      width: 100%;
-      color: $orange-color;
+    ion-icon {
+      &.gg {
+        margin-top: 20px;
+        color: $orange-color;
+      }
     }
-
-
+  }
 
 }

@@ -5,5 +5,8 @@ export const AppDispatchTypes = {
   album:{
     onAddNewPhotoClose:'onAddNewPhotoClose',
     onViewAnimationClose:'onViewAnimationClose'
+  },
+  photo:{
+    onPhotoUploaded:'onPhotoUploaded'
   }
 };

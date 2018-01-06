@@ -1,23 +1,37 @@
 page-event-album-photo {
 
+  ion-content {
+    .scroll-content {
+      margin-top: 0px !important;
+    }
+  }
+
   .photo-wrapper {
     text-align: center;
     img {
-
-    }
-    .heart-icon{
+      width: 100%;
+  }
+    .heart-icon {
       opacity: 0;
       font-size: 15rem;
       color: $red-color;
-      &.play-anim{
+      &.play-anim {
         transition: opacity 2s ease-in-out;
-        opacity:1;
+        opacity: 1;
         //animation: heart-anim 1s linear .5s;
+      }
+    }
+
+    canvas {
+      height: 100%;
+      width: 100%;
+      &.hideCanvas {
+        display: none;
       }
     }
   }
 
-  .bottom-menu{
+  .bottom-menu {
     color: $black-color;
     height: 50px;
     position: absolute;

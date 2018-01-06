@@ -22,7 +22,7 @@ export class MemoApp extends BaseComponent implements OnInit, OnDestroy {
   rootPage: any;
   menuPages: Array<{ title: string, component: any }>;
 
-  //create references to html elements
+  //create references to nav & menu html elements
   @ViewChild(Nav) nav: Nav;
   @ViewChild(Menu) menu: Menu;
 

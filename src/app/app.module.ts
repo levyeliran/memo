@@ -13,7 +13,7 @@ import {AboutPage } from "../pages/about/about";
 import {AppSettingsPage } from "../pages/app-settings/app-settings";
 import { CreateEventPage } from "../pages/events/create-event/create-event";
 import { EventAlbumPage } from "../pages/events/event-album/event-album";
-
+import {EventDetailsPage} from "../pages/events/event-details/event-details";
 
 //import { StatusBar } from '@ionic-native/status-bar';
 //import { SplashScreen } from '@ionic-native/splash-screen';
@@ -47,6 +47,10 @@ import {EventAlbumPhotoPage} from "../pages/events/event-album-photo/event-album
 //https://medium.com/beautiful-angular/angular-2-with-redux-using-ngrx-store-2f93a8ad0dd
 
 
+//import {GoogleMaps} from '@ionic-native/google-maps';
+
+
+
 // Initialize Firebase configuration
 const FBConfig = {
   apiKey: "AIzaSyDzgudY6933I48sr8be-TzjHpLGNXI6o5A",
@@ -71,6 +75,7 @@ const FBConfig = {
     EventAlbumPage,
     EventAlbumAnimationPage,
     EventAlbumPhotoPage,
+    EventDetailsPage,
     PageHeaderComponent
   ],
   imports: [
@@ -105,6 +110,7 @@ const FBConfig = {
     EventAlbumPage,
     EventAlbumAnimationPage,
     EventAlbumPhotoPage,
+    EventDetailsPage,
     PageHeaderComponent
   ],
   providers: [ // SINGLETON services
@@ -115,6 +121,7 @@ const FBConfig = {
     AppStoreService,
     AppLocalStorage,
     StoreModule,
+    //GoogleMaps,
     Camera,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ],

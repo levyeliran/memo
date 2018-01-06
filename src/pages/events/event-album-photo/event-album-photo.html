@@ -1,17 +1,22 @@
-<ion-header>
-  <ion-navbar>
-    <ion-title>event-album-photo</ion-title>
-  </ion-navbar>
-</ion-header>
+<page-header [isDisplayMenu]="false"
+             [pageTitle]="isNewPhoto ? 'Add new photo to album!' : 'Photo Details'"
+             [buttons]="headerButtons"></page-header>
+
 <ion-content>
 
-  <div class="photo-wrapper">
-    <img src="{{photo.fileURL}}" (dblclick)="onPhotoDblClick()" (press)="onPhotoPress()" />
+  <div class="photo-wrapper" [style.height]="screenHeight">
+    <img *ngIf="!isNewPhoto" src="{{photo.fileURL}}" (dblclick)="onPhotoDblClick()" (press)="onPhotoPress()"/>
+    <canvas id="photoPreviewCanvas" class="{{isNewPhoto ? '' : 'hideCanvas'}}"></canvas>
   </div>
 
   <!--create component?-->
   <div class="bottom-menu">
-      dfgdfgfdg
+    <div class="design-toolbar" *ngIf="isNewPhoto">
+      <!--photo design toolbar-->
+    </div>
+    <div class="tag-toolbar" *ngIf="!isNewPhoto">
+      <!--photo tag toolbar-->
+    </div>
   </div>
 
 </ion-content>

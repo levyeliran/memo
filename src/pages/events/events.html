@@ -10,7 +10,7 @@
   </ion-calendar>
 
   <!--separator-->
-  <div style="margin-top: 7px; height: 1px; border: 1px solid white;"></div>
+  <div class="calender-separator"></div>
 
 <!--action buttons-->
   <div class="event-action-btn" *ngIf="isCreationValidDate">
@@ -20,7 +20,7 @@
     </button>
   </div>
 
-  <div class="event-action-btn" *ngIf="selectedDateEvent.status == eventStatus.invited">
+  <div class="event-action-btn" *ngIf="selectedDateEvent.status == eventStatus.invited && !selectedDateEvent.isPast">
     <button ion-button icon-left clear full (click)="onJoinToEvent()">
       <ion-icon name="checkmark-circle"></ion-icon>
       <div>JOIN {{selectedDateEvent.initials}}'s EVENT</div>

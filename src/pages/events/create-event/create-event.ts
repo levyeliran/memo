@@ -1,22 +1,26 @@
-import {Component, ViewChild} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {NavController, NavParams, Slides} from 'ionic-angular';
-import {Event} from "../../../api/common/appTypes";
+import {Event, EventLocation} from "../../../api/common/appTypes";
 import {EventCrud} from "../../../api/store/events/eventCrud.service";
-import {EventActions } from "../../../api/store/events/eventActions";
+import {EventActions} from "../../../api/store/events/eventActions";
 import {BaseComponent} from "../../../api/common/baseComponent/baseComponent";
 import {EventDispatcherService} from "../../../api/dispatcher/appEventDispathcer.service";
-import { AppLocalStorage } from "../../../api/utilities/appLocalStorage.service";
+import {AppLocalStorage} from "../../../api/utilities/appLocalStorage.service";
+import {googlemaps} from "googlemaps";
 
 @Component({
   selector: 'page-create-event',
   templateUrl: 'create-event.html',
 })
-export class CreateEventPage extends BaseComponent {
+export class CreateEventPage extends BaseComponent implements OnInit {
 
-  event:Event;
-  invitedFriends:any[];
-  eventStartHour:any = "12:00";
-  selectedDate:any;
+  event: Event;
+  invitedFriends: any[];
+  eventStartHour: any = "12:00";
+  selectedDate: any;
+  autocompleteItems: any = [];
+  autocomplete: any = {};
+  acService: any;
 
   @ViewChild(Slides) slides: Slides;
 
@@ -29,42 +33,79 @@ export class CreateEventPage extends BaseComponent {
     super(eventDispatcherService);
     this.event = this.navParams.get('event');
     this.selectedDate = this.navParams.get('selectedDate');
+    this.event.location = new EventLocation();
     this.invitedFriends = [];
     this.eventStartHour = "12:00";
   }
 
-  onSkipSlide(){
-    this.slides.slideNext(1000);
+  ngOnInit() {
+    this.event.description = '';
+    this.acService = new google.maps.places.AutocompleteService();
+    this.autocompleteItems = [];
+    this.autocomplete = {
+      query: ''
+    };
   }
 
+  onUpdateSearchPlace() {
+    console.log('modal > updateSearch');
+    if (this.autocomplete.query == '') {
+      this.autocompleteItems = [];
+      return;
+    }
+    let config = {
+      input: this.autocomplete.query,//types:  ['geocode'], // other types available in the API: 'establishment', 'regions', and 'cities'
+      componentRestrictions: {}
+    }
+    this.acService.getPlacePredictions(config, (predictions, status) => {
+      console.log('modal > getPlacePredictions > status > ', status);
+      this.autocompleteItems = [];
+      if (predictions) {
+        predictions.forEach((prediction) => {
+          this.autocompleteItems.push(prediction);
+        });
+      }
+    });
+  }
 
-  onInviteFriendsChanged(){
-    if(this.invitedFriends.length > 10){
+  onCancelPlaceItem() {
+    this.event.location = new EventLocation();
+  }
+
+  onSelectPlaceItem(item: any) {
+    console.log(item);
+    this.autocomplete.query = item.description;
+    this.event.location.placeId = item.description;
+    this.event.location.placeDescription = item.description;
+    this.event.location.reference = item.reference;
+    this.event.location.terms = item.terms;
+    this.event.location.types = item.types;
+    this.event.location.place = item.structured_formatting.main_text;
+    this.autocompleteItems = [];
+  }
+
+  onInviteFriendsChanged() {
+    if (this.invitedFriends.length > 10) {
       //alert here
       this.invitedFriends.pop();
     }
   }
 
-  onUploadEventCard(){
+  onUploadEventCard() {
 
   }
 
-  onAddEventLocation(){
-
-  }
-
-  validateEvent(): Boolean{
-    return !!(this.event.title &&
+  validateEvent(): Boolean {
+    return !(this.event.title &&
       this.event.initials &&
       this.event.typeKey &&
       this.event.startDate &&
-      this.event.endDate &&
-    this.event.description
-    //&& this.event.location
+      this.event.description &&
+      this.event.location.placeId
     );
   }
 
-  onCreateEvent(){
+  onCreateEvent() {
 
     this.prepareForSave();
 
@@ -78,10 +119,10 @@ export class CreateEventPage extends BaseComponent {
     });
   }
 
-  prepareForSave(){
+  prepareForSave() {
     const h = this.eventStartHour.split(":");
     let startDate: any;
-    if(!h.length){
+    if (!h.length) {
       startDate = new Date(this.selectedDate).setHours(12, 0, 0);
     }
     else {
@@ -89,7 +130,7 @@ export class CreateEventPage extends BaseComponent {
     }
     this.event.startDate = startDate;
     this.event.endDate = new Date(this.selectedDate).setHours(24, 0, 0);
-    this.appLocalStorage.readKey(this.appConst.userDetails.name).then((payload)=>{
+    this.appLocalStorage.readKey(this.appConst.userDetails.name).then((payload) => {
       this.event.creatorName = payload;
     });
     this.event.numOfParticipates = this.invitedFriends.length;

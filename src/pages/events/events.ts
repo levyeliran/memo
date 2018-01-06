@@ -5,9 +5,8 @@ import {AppUtils} from '../../api/utilities/appUtils'
 import {Event, EventStatus} from "../../api/common/appTypes";
 import {AppStoreService} from "../../api/store/appStore.service";
 import { CreateEventPage } from "./create-event/create-event";
-import { EventAlbumPage } from "./event-album/event-album";
 import {EventCrud} from "../../api/store/events/eventCrud.service";
-import {PhotoCrud} from "../../api/store/photos/photoCrud.service";
+import {EventDetailsPage} from "./event-details/event-details";
 
 @Component({
   selector: 'page-events',
@@ -31,7 +30,6 @@ export class EventsPage implements OnInit, OnDestroy {
 
   constructor(public navCtrl: NavController,
               public eventCrud: EventCrud,
-              public photoCrud: PhotoCrud,
               public appStoreService: AppStoreService) {
     this.calendarEvents = [];
     this.selectedDateEvent = new Event();
@@ -67,13 +65,12 @@ export class EventsPage implements OnInit, OnDestroy {
       const eventDateKey = this.appUtils.getDateStrFormat(e.startDate);
       this.calendarEventsToDateMap[eventDateKey] = e;
 
-      const isPast = this.appUtils.isPastDate(e.endDate);
+      e.isPast = this.appUtils.isPastDate(e.endDate);
       const isCurrent = this.appUtils.isCurrentDate(e.endDate);
       _daysConfig.push({
         date: new Date(e.startDate),
         subTitle: e.initials,
         marked: isCurrent,
-        disable: isPast,
         cssClass: e.key //use the cssClass in order to hold the id
       })
     });
@@ -91,7 +88,6 @@ export class EventsPage implements OnInit, OnDestroy {
       defaultDate: new Date(),
     };
   }
-
 
   onDateChange(e: any) {
     this.selectedDate = e;
@@ -128,20 +124,17 @@ export class EventsPage implements OnInit, OnDestroy {
   }
 
   onViewEvent(){
-
-    if((this.selectedDateEvent.isActive || this.selectedDateEvent.isPast) &&
-      (this.selectedDateEvent.status == EventStatus.joined ||
-        this.selectedDateEvent.status == EventStatus.own)){
-      //get the event photos
-      this.photoCrud.getEventPhotos(this.selectedDateEvent.key);
-      //navigate to album (over the main-tabs)
-      this.navCtrl.parent.parent.push(EventAlbumPage, {event: this.selectedDateEvent});
-    }
+/*
+    if((this.selectedDateEvent.status == EventStatus.joined ||
+        this.selectedDateEvent.status == EventStatus.own)){*/
+      //navigate to event detail page
+      this.navCtrl.parent.parent.push(EventDetailsPage, {event: this.selectedDateEvent});
+/*    }
     else if (this.selectedDateEvent.status == EventStatus.rejected){
       //display event details card (or small div in this page)
       //navigate to album (over the main-tabs)
       //this.navCtrl.parent.parent.push(EventAlbumPage, {event: this.selectedDateEvent});
-    }
+    }*/
   }
 
 }

@@ -1,14 +1,112 @@
 page-create-event {
 
-  ion-list, ion-slide{
-    ion-item{
-      &.item-md{
+  ion-list, ion-slide {
+    ion-item {
+      &.item-md {
         background-color: transparent !important;
       }
     }
   }
 
-  .beer-icons-wrapper{
+  ion-slide {
+    &.step1 {
+      .event-date {
+        margin: auto
+      }
+      .event-date-separator {
+        margin: auto;
+        margin-top: 7px;
+        width: 60%;
+        height: 1px;
+        border-top: 1px solid white;
+        margin-bottom: 30px;
+      }
+
+      ion-card {
+        height: 120px;
+        .upload-image {
+          margin-top: 10px;
+          margin-left: 10px;
+        }
+        .card-title {
+          font-size: 1.5em;
+          text-align: center;
+          padding-top: 30px;
+        }
+      }
+
+    }
+    &.step2 {
+
+      .event-title{
+        margin: auto
+      }
+      .heart-icon {
+        font-size: 0.5em;
+        top: -2px;
+        position: relative;
+        margin: 0 4px;
+      }
+      img {
+        &.save-the-date {
+          margin-top:20px;
+          width: 48%;
+        }
+      }
+
+      ion-list{
+        &.list-md{
+          margin-bottom: 0px !important;
+        }
+        &.autocomplete-locations{
+          height: 100px;
+          overflow: auto;
+        }
+      }
+    }
+    &.step3 {
+      .skip-btn {
+        position: absolute;
+        top: 0px;
+        left: 40%;
+      }
+
+      .invited-friends-list {
+
+      }
+
+
+    }
+    &.step4 {
+      .beer-icons-wrapper {
+        ion-icon {
+
+          &.beer-icon {
+            position: relative;
+            z-index: 99;
+            font-size: 100px;
+          }
+          &.left {
+            transform: scaleX(-1) rotate(-15deg);
+            color: $yellow-color;
+          }
+          &.right {
+            transform: rotate(-9deg);
+            color: $orange-color;
+          }
+        }
+      }
+
+      .create-event-btn {
+        font-size: 30px;
+        font-weight: bold;
+        position: absolute;
+        bottom: 100px;
+      }
+    }
+  }
+
+  .beer-icons-wrapper {
     position: relative;
     top: -50px;
   }

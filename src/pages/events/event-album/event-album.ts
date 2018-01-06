@@ -43,8 +43,8 @@ export class EventAlbumPage extends BaseComponent implements OnInit {
     super(eventDispatcherService);
 
     this.event = this.navParams.get('event');
-    const animationBtn = new HeaderButton('film', this.omViewAnimation, true);
-    const newPhotoBtn = new HeaderButton('camera', this.omAddNewPhoto, true);
+    const animationBtn = new HeaderButton('film', this.onViewAnimation.bind(this), !this.event.hasAnimation);
+    const newPhotoBtn = new HeaderButton('camera', this.onAddNewPhoto.bind(this), !this.event.isActive);
     this.headerButtons = [
       animationBtn,
       newPhotoBtn
@@ -98,11 +98,11 @@ export class EventAlbumPage extends BaseComponent implements OnInit {
     }
   }
 
-  omViewAnimation() {
+  onViewAnimation() {
     this.navCtrl.push(EventAlbumAnimationPage, {event: this.event});
   }
 
-  omAddNewPhoto() {
+  onAddNewPhoto() {
     const options: CameraOptions = {
       quality: 100,
       destinationType: this.camera.DestinationType.DATA_URL,
@@ -113,11 +113,11 @@ export class EventAlbumPage extends BaseComponent implements OnInit {
     this.camera.getPicture(options).then((imageData) => {
       // imageData is either a base64 encoded string or a file URI
       // If it's base64:
-      //let base64Image = 'data:image/jpeg;base64,' + imageData;
+      const photo = new Photo();
+      photo.base64Image = 'data:image/jpeg;base64,' + imageData;
 
-      //save the image - create thumnail - add it to photos list
-      //this will refresh the photos gallery
-
+      //navigate to photo page with the data
+      this.navCtrl.push(EventAlbumPhotoPage, {photo, event: this.event});
 
     }, (err) => {
       // Handle error

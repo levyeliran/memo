@@ -1,10 +1,12 @@
 import {EventDispatcherService} from "../../dispatcher/appEventDispathcer.service";
 import {Observable} from "rxjs/Rx";
 import { AppConstants } from "../appConstants";
+import {AppUtils} from "../../utilities/appUtils";
 
 export class BaseComponent {
 
   public appConst = AppConstants;
+  public appUtils = AppUtils;
 
   //constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, private screenOrientation: ScreenOrientation) {
   constructor(public eventDispatcherService: EventDispatcherService) {
