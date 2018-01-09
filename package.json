@@ -56,8 +56,7 @@
         "moment": "2.19.1",
         "rxjs": "^5.5.6",
         "sw-toolbox": "3.6.0",
-        "zone.js": "0.8.12",
-        "cordova-plugin-googlemaps": "^2.1.1"
+        "zone.js": "0.8.12"
     },
     "devDependencies": {
         "@ionic/app-scripts": "^3.0.1",
@@ -76,11 +75,7 @@
             "cordova-sqlite-storage": {},
             "cordova-plugin-file": {},
             "cordova-plugin-compat": {},
-            "cordova-plugin-file-transfer": {},
-            "cordova-plugin-googlemaps": {
-                "API_KEY_FOR_ANDROID": "AIzaSyB0sPwKQumtXnnCVaMX7I1UnOpYLbdMAcg",
-                "API_KEY_FOR_IOS": "AIzaSyBYMxHlpzkB6hpQgTxKPoT5-Y8em_P7pgA"
-            }
+            "cordova-plugin-file-transfer": {}
         },
         "platforms": [
             "android"
