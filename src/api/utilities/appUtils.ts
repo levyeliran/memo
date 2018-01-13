@@ -1,7 +1,7 @@
 export class AppUtils{
 
-  static userKey:String;
-  static userName:String;
+  static userKey:string;
+  static userName:string;
 
   static isPastDate(date, countHour = false) : boolean{
     if(!date){

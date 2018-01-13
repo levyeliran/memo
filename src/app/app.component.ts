@@ -10,6 +10,7 @@ import {BaseComponent} from "../api/common/baseComponent/baseComponent";
 import {AngularFireAuth} from 'angularfire2/auth';
 import {AppStoreService} from "../api/store/appStore.service";
 import {AppLocalStorage} from "../api/utilities/appLocalStorage.service";
+import {AppPermission} from "../api/utilities/appPermission.service";
 
 @Component({
   templateUrl: 'app.html',
@@ -30,6 +31,7 @@ export class MemoApp extends BaseComponent implements OnInit, OnDestroy {
               private appAuth: AngularFireAuth,
               private appStoreService: AppStoreService,
               public appLocalStorage: AppLocalStorage,
+              public appPermission: AppPermission,
               public eventDispatcherService: EventDispatcherService) {
     super(eventDispatcherService);
   }
@@ -46,9 +48,13 @@ export class MemoApp extends BaseComponent implements OnInit, OnDestroy {
     this.registerToEvents();
 
     this.platform.ready().then(() => {
-      //login on app ready
-      this.loginToApp();
-
+      //this.appPermission.getPermission(this.appConst.permissions.INTERNET).then(result=>{
+        //login on app ready
+        this.loginToApp();
+      //}, reject =>{
+        //console.log('User did not allow internet access');
+        //display the animation page.
+      //})
     });
   }
 

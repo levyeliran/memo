@@ -6,7 +6,7 @@
 
   <div class="photo-wrapper" [style.height]="screenHeight">
     <img *ngIf="!isNewPhoto" src="{{photo.fileURL}}" (dblclick)="onPhotoDblClick()" (press)="onPhotoPress()"/>
-    <canvas id="photoPreviewCanvas" class="{{isNewPhoto ? '' : 'hideCanvas'}}"></canvas>
+    <canvas #photoPreviewCanvas class="{{isNewPhoto ? '' : 'hideCanvas'}}"></canvas>
   </div>
 
   <!--create component?-->

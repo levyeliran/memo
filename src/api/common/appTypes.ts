@@ -143,5 +143,6 @@ export class Photo{
   //fill here metadata about tags etc
   tagsMetaData:PhotoTagsMetaData[];
   myEmoticonTagKey:string;
-  base64Image:any;
+  base64ImageData:string;
+  photoImage:any;
 }

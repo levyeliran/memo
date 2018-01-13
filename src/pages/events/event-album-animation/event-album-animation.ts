@@ -22,6 +22,14 @@ export class EventAlbumAnimationPage extends BaseComponent implements OnInit {
 
   }
 
+  startAnimationMusic(){
+
+  }
+
+  stopAnimationMusic(){
+
+  }
+
   registerToEvents(){
 
   }

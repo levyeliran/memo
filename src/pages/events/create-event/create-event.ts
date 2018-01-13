@@ -56,7 +56,7 @@ export class CreateEventPage extends BaseComponent implements OnInit {
     let config = {
       input: this.autocomplete.query,//types:  ['geocode'], // other types available in the API: 'establishment', 'regions', and 'cities'
       componentRestrictions: {}
-    }
+    };
     this.acService.getPlacePredictions(config, (predictions, status) => {
       console.log('modal > getPlacePredictions > status > ', status);
       this.autocompleteItems = [];

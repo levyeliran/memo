@@ -24,7 +24,7 @@ export class AppStoreService{
     return this.store.select(store => store.photoStore);
   }
 
-  public initAppStore(userKey:String): Promise<any>{
+  public initAppStore(userKey:string): Promise<any>{
 
     AppUtils.userKey = userKey;
 

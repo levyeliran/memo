@@ -8,10 +8,12 @@ import {EventDispatcherService} from "../../../api/dispatcher/appEventDispathcer
 //import {AppDispatchTypes} from "../../../api/common/dispatchTypes";
 import {Camera, CameraOptions} from '@ionic-native/camera';
 import {AppStoreService} from "../../../api/store/appStore.service";
+import {AppPermission} from "../../../api/utilities/appPermission.service";
 
 @Component({
   selector: 'page-event-album',
   templateUrl: 'event-album.html',
+  providers: [Camera]
 })
 export class EventAlbumPage extends BaseComponent implements OnInit {
 
@@ -39,6 +41,7 @@ export class EventAlbumPage extends BaseComponent implements OnInit {
               public navParams: NavParams,
               public camera: Camera,
               public appStoreService: AppStoreService,
+              public appPermission: AppPermission,
               public eventDispatcherService: EventDispatcherService) {
     super(eventDispatcherService);
 
@@ -58,8 +61,6 @@ export class EventAlbumPage extends BaseComponent implements OnInit {
     this.photoStoreSubscription = this.appStoreService._photoStore().subscribe((_store) => {
       if (_store) {
         this.photos = _store.photos;
-        this.createAlbumModel();
-        this.createAlbumModel();
         this.createAlbumModel();
         this.createAlbumModel();
       }
@@ -103,24 +104,28 @@ export class EventAlbumPage extends BaseComponent implements OnInit {
   }
 
   onAddNewPhoto() {
-    const options: CameraOptions = {
-      quality: 100,
-      destinationType: this.camera.DestinationType.DATA_URL,
-      encodingType: this.camera.EncodingType.JPEG,
-      mediaType: this.camera.MediaType.PICTURE
-    }
+    this.appPermission.getPermission(this.appConst.permissions.CAMERA).then(result=> {
+      const options: CameraOptions = {
+        quality: 100,
+        destinationType: this.camera.DestinationType.DATA_URL,
+        encodingType: this.camera.EncodingType.JPEG,
+        mediaType: this.camera.MediaType.PICTURE
+      };
 
-    this.camera.getPicture(options).then((imageData) => {
-      // imageData is either a base64 encoded string or a file URI
-      // If it's base64:
-      const photo = new Photo();
-      photo.base64Image = 'data:image/jpeg;base64,' + imageData;
+      this.camera.getPicture(options).then((imageData:string) => {
+        // imageData is either a base64 encoded string or a file URI
+        // If it's base64:
+        const photo = new Photo();
+        photo.base64ImageData = 'data:image/png;base64,' + imageData;
 
-      //navigate to photo page with the data
-      this.navCtrl.push(EventAlbumPhotoPage, {photo, event: this.event});
+        //navigate to photo page with the data
+        this.navCtrl.push(EventAlbumPhotoPage, {photo, event: this.event});
 
-    }, (err) => {
-      // Handle error
+      }, (err) => {
+        // Handle error
+        console.log(err);
+      });
+
     });
   }
 

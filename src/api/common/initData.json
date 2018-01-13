@@ -78,8 +78,8 @@
       "endDate": 1514412000000,
       "initials": "R&M",
       "key": "-L129T5PnR7Va49yYXrR",
-      "numOfParticipates": 0,
-      "isActive":false,
+      "numOfParticipates": 2,
+      "isActive":true,
       "isPast":false,
       "startDate": 1514368800000,
       "title": "dfg",
@@ -210,11 +210,17 @@
         "photoKey":"-L324h5P4R7Va49yh4rh",
         "eventKey":"-L129T5PnR7Va49yYXrR",
         "tags":{
-          "-L777T5PnR7Va49yY7r7":{
-            "emoticonTagKey":"1",
+          "52w0SkcAASNacMNtQtcc5o4ANu43":{
+            "emoticonTagKey":"-L129f5PnRxVa49yYXr7",
             "creatorKey": "52w0SkcAASNacMNtQtcc5o4ANu43",
             "creatorName": "Eliran Levy",
             "creationDate": 1514230200000
+          },
+          "33w0SkcAfSNacMNtQtcc5o3ANu41":{
+            "emoticonTagKey":"-L129f5PnRxVa49yYXr7",
+            "creatorKey": "33w0SkcAfSNacMNtQtcc5o3ANu41",
+            "creatorName": "Other",
+            "creationDate": 1514230300300
           }
         }
       },
@@ -222,8 +228,8 @@
         "photoKey":"-L122T5PnR7Va49yYX22",
         "eventKey":"-L129T5PnR7Va49yYXrR",
         "tags":{
-          "-L145T5PnR7Va19yY7r1":{
-            "emoticonTagKey":"5",
+          "52w0SkcAASNacMNtQtcc5o4ANu43":{
+            "emoticonTagKey":"-L629TxPnR7Va49yYXr6",
             "creatorKey": "52w0SkcAASNacMNtQtcc5o4ANu43",
             "creatorName": "Eliran Levy",
             "creationDate": 1514230200000
@@ -237,42 +243,6 @@
       "-L666T5PnR7Va49yYXr6":{
         "photoKey":"-L666T5PnR7Va49yYXr6",
         "eventKey":"-L129T5PnR7Va49yYXrR"
-      }
-    }
-  },
-  "userToEventPhoto-dontNeed":{
-    "52w0SkcAASNacMNtQtcc5o4ANu43": {
-      "-L129T5PnR7Va49yYXrR":{
-        "-L324h5P4R7Va49yh4rh":{
-          "photoKey":"-L129T5PnR7Va49yYYrR",
-          "eventKey":"-L129T5PnR7Va49yYXrR",
-          "emoticonTagKey":"1"
-        },
-        "-L111h5P4R7Va49yh411":{
-          "photoKey":"-L111h5P4R7Va49yh411",
-          "eventKey":"-L129T5PnR7Va49yYXrR"
-        },
-        "-L122T5PnR7Va49yYX22":{
-          "photoKey":"-L122T5PnR7Va49yYX22",
-          "eventKey":"-L129T5PnR7Va49yYXrR",
-          "emoticonTagKey":"5"
-        },
-        "-L333T5PnR7Va49yYXr3":{
-          "photoKey":"-L111h5P4R7Va49yh411",
-          "eventKey":"-L333T5PnR7Va49yYXr3"
-        },
-        "-L444T5PnR7Va49yYXr4":{
-          "photoKey":"-L444T5PnR7Va49yYXr4",
-          "eventKey":"-L129T5PnR7Va49yYXrR"
-        },
-        "-L555T5PnR7Va49yYXr5":{
-          "photoKey":"-L555T5PnR7Va49yYXr5",
-          "eventKey":"-L129T5PnR7Va49yYXrR"
-        },
-        "-L666T5PnR7Va49yYXr6":{
-          "photoKey":"-L666T5PnR7Va49yYXr6",
-          "eventKey":"-L129T5PnR7Va49yYXrR"
-        }
       }
     }
   }

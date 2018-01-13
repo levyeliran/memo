@@ -16,6 +16,7 @@ export class EventAlbumPhotoPage extends BaseComponent implements OnInit {
   screenHeight: number;
   event: Event;
   photo: Photo;
+  photoCanvas:any;
   isNewPhoto: boolean;
   isDisplayHeartAnimation = false;
   headerButtons: HeaderButton[];
@@ -50,15 +51,24 @@ export class EventAlbumPhotoPage extends BaseComponent implements OnInit {
     }
     //design photo
     else {
-      const addPhotoBtn = new HeaderButton('checkmark', this.onAddPhoto, false);
+      const addPhotoBtn = new HeaderButton('checkmark', this.onAddPhoto.bind(this), false);
       this.headerButtons = [
         addPhotoBtn
       ];
 
       //https://stackoverflow.com/questions/4409445/base64-png-data-to-html5-canvas
+      //https://stackoverflow.com/questions/37873043/how-to-draw-on-image-angular2-ionic2
       this.isNewPhoto = true;
-      let ctx = this.canvasRef.getContext("2d");
-      ctx.drawImage(this.photo.base64Image, 0, 0);
+      this.photoCanvas = this.canvasRef.nativeElement;
+      let ctx = this.photoCanvas.getContext("2d");
+      this.photo.photoImage = new Image();
+      const img = this.photo.photoImage;
+      img.onload = () =>{
+        ctx.drawImage(img,
+          0, 0, img.width, img.height,// source rectangle
+          0, 0, this.photoCanvas.width, this.photoCanvas.height); // destination rectangle
+      };
+      this.photo.photoImage.src = this.photo.base64ImageData;
     }
   }
 
@@ -80,7 +90,7 @@ export class EventAlbumPhotoPage extends BaseComponent implements OnInit {
   }
 
   onAddPhoto() {
-    this.photo.fileName = `event_${this.event.key}_user_${this.appUtils.userKey}.png`;
+    this.photo.fileName = `${this.event.key}_${this.appUtils.userKey}.png`;
     this.photo.eventKey = this.event.key;
     this.photoCrud.savePhotoToStorage(this.photo);
   }

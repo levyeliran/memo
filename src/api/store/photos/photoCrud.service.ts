@@ -7,6 +7,7 @@ import {Photo, PhotoTagsMetaData} from "../../common/appTypes";
 import { FirebaseApp } from 'angularfire2';
 import { AppUtils } from "../../utilities/appUtils";
 import * as firebase from 'firebase/app';
+import 'firebase/storage';
 import {Observable} from 'rxjs/Rx'
 import {PhotoActions} from "./photoActions";
 
@@ -32,7 +33,11 @@ export class PhotoCrud{
           const pTags = photosTags.find(pt => pt.photoKey == photo.key);
           if(pTags && pTags.tags){
             photo.tagsMetaData = [];
-            Object.values(pTags.tags).forEach((tag)=>{
+
+            //check if the current user had tags photos
+            let userKeys = Object.keys(pTags.tags);
+            userKeys.forEach((key)=>{
+              const tag = pTags.tags[key];
               if(tag.creatorKey !== this.appUtils.userKey){
                 const ptMeta = new PhotoTagsMetaData();
                 ptMeta.creatorKey = tag.creatorKey;
@@ -60,8 +65,9 @@ export class PhotoCrud{
   //convert canvas to blob & save - create thumbnail
   //https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/toBlob
   //https://www.html5canvastutorials.com/advanced/html5-canvas-save-drawing-as-an-image/
+  //https://aaronczichon.de/2017/04/18/ionic-firebase-storage/
   savePhotoToStorage(photo: Photo){
-    let uploadTask = this.fb.storage().ref().child(photo.fileName).put(photo.base64Image);
+    let uploadTask = this.fb.storage().ref().child(photo.fileName).putString(photo.base64ImageData,'data_url');
     return uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED,
       (snapshot:any) =>  {
         // upload in progress
@@ -86,7 +92,7 @@ export class PhotoCrud{
     const pushRef = this.fb.database().ref().child(`photoToEvent/${photo.eventKey}`).push();
     photo.key = pushRef.key;
     photo.creatorKey = this.appUtils.userKey;
-    photo.creatorName = this.appUtils.userName.toString();
+    photo.creatorName = this.appUtils.userName;
     photo.creationDate = new Date();
 
     pushRef.set(photo).then((p)=>{
@@ -112,7 +118,8 @@ export class PhotoCrud{
 */
 
   removeUIProperties(photo: Photo){
-    photo.base64Image = null;
+    photo.base64ImageData = null;
+    photo.photoImage = null;
     return photo;
   }
 
