@@ -85,12 +85,11 @@ export class EventAlbumPhotoPage extends BaseComponent implements OnInit {
     this.registerToEvent(PhotoActions.saveEventPhoto).subscribe(() => {
       //navigate back to the album
       this.navCtrl.pop();
-
     });
   }
 
   onAddPhoto() {
-    this.photo.fileName = `${this.event.key}_${this.appUtils.userKey}.png`;
+    this.photo.fileName = `${this.event.key}_${this.appUtils.userKey}_RND${Math.floor((Math.random() * 10000) + 1)}.png`;
     this.photo.eventKey = this.event.key;
     this.photoCrud.savePhotoToStorage(this.photo);
   }

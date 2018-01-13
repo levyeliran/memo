@@ -8,6 +8,7 @@ import {Event} from "../../common/appTypes";
 import { FirebaseApp } from 'angularfire2';
 import { AppUtils } from "../../utilities/appUtils";
 import {Observable} from 'rxjs/Rx'
+import {  Action } from '@ngrx/store';
 
 @Injectable()
 export class EventCrud{
@@ -42,7 +43,7 @@ export class EventCrud{
         this.store.dispatch({type: EventActions.getEvents, payload: _events});
 
         //dispatch an ack
-        this.dispatchAck(EventActions.getEvents);
+        this.dispatchAck({type: EventActions.getEvents});
       });
   }
 /*
@@ -57,7 +58,7 @@ export class EventCrud{
 
       //dispatch an ack
       //dispatch an ack
-      this.dispatchAck(EventActions.getEvent);
+      this.dispatchAck({type: EventActions.getEvent});
     });
   }
 
@@ -73,7 +74,7 @@ export class EventCrud{
       this.store.dispatch({type: EventActions.createEvent, payload: event});
 
       //dispatch an ack
-      this.dispatchAck(EventActions.createEvent);
+      this.dispatchAck({type: EventActions.createEvent});
     });
   }
 
@@ -84,7 +85,7 @@ export class EventCrud{
       this.store.dispatch({type: EventActions.updateEvent, payload: event});
 
       //dispatch an ack
-      this.dispatchAck(EventActions.updateEvent);
+      this.dispatchAck({type: EventActions.updateEvent});
     });
   }
 
@@ -93,10 +94,9 @@ export class EventCrud{
     return event;
   }
 
-  dispatchAck(eventName:string){
+  dispatchAck(action:Action){
     //dispatch an ack
-    this.eventDispatcherService.emit({
-      eventName: eventName });
+    this.eventDispatcherService.emit(action);
   }
 
 

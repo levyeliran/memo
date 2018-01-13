@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import { Observable } from "rxjs";
+import {  Action } from '@ngrx/store';
 
 @Injectable()
 export class EventDispatcherService {
@@ -20,9 +21,9 @@ export class EventDispatcherService {
     return this.appEvents[eventName].subject.asObservable();
   }
 
-  public emit( payload: any): void {
-    if (this.isEventExit(payload.eventName)) {
-      this.appEvents[payload.eventName].subject.next(payload);
+  public emit(action:Action): void {
+    if (this.isEventExit(action.type)) {
+      this.appEvents[action.type].subject.next(action.payload);
     }
   }
 

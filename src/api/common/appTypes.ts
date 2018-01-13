@@ -138,9 +138,11 @@ export class Photo{
   creationDate:any;
   fileName:string;
   fileType:string;
-  fileSize:number;
+  width:number;
+  height:number;
+  size:number;
   fileURL:string;
-  //fill here metadata about tags etc
+  storageMetadata:any;
   tagsMetaData:PhotoTagsMetaData[];
   myEmoticonTagKey:string;
   base64ImageData:string;

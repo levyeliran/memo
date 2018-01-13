@@ -77,19 +77,19 @@ export class EventAlbumPage extends BaseComponent implements OnInit {
   createAlbumModel() {
 
     const flexRange = this.flexStyle.length - 1;
-    let w = 0;
+/*    let w = 0;
     while (w < 5) {
-      w++;
-      //while(this.photos.length){
+      w++;*/
+      while(this.photos.length){
       const rowFlex = this.flexStyle[Math.floor((Math.random() * flexRange) + 1)].flex;
       console.log(rowFlex);
       let data: any[] = [];
       let rowLength = this.photos.length >= rowFlex.length ? rowFlex.length : this.photos.length;
       for (let i = 0; i < rowLength; i++) {
-        const photo = this.photos[i]; //this.photos.pop();
+        const photo = this.photos.pop();
+        //const photo = this.photos[i]; //this.photos.pop();
         data.push({
           photo: photo,
-          //photo: this.photos.pop(),
           count: rowFlex.length,
           class: `${rowFlex[i]} ${i == 0 ? 'left' : 'right'}`,
           hasEmoticon: !!photo.myEmoticonTagKey

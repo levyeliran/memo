@@ -2,6 +2,7 @@ import {EventDispatcherService} from "../../dispatcher/appEventDispathcer.servic
 import {Observable} from "rxjs/Rx";
 import { AppConstants } from "../appConstants";
 import {AppUtils} from "../../utilities/appUtils";
+import {Action} from "@ngrx/store";
 
 export class BaseComponent {
 
@@ -16,8 +17,8 @@ export class BaseComponent {
     return this.eventDispatcherService.on(eventName);
   }
 
-  dispatchAnEvent(payload:any): void{
-    return this.eventDispatcherService.emit(payload)
+  dispatchAnEvent(action:Action): void{
+    return this.eventDispatcherService.emit(action);
   }
 
 }

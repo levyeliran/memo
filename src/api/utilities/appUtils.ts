@@ -53,10 +53,14 @@ export class AppUtils{
     return new Date(date.setMonth(date.getMonth() + months));
   }
 
-  static getDateStrFormat(date){
+  static getDateStrFormat(date = null, withHours = false){
+    date = date || new Date()
     if(date){
-      const d = new Date(date)
+      const d = new Date(date);
+      if(withHours){
         return d.toLocaleDateString();
+      }
+      return d.toLocaleDateString();
     }
     return '';
   }

@@ -34,8 +34,8 @@ export class LoginPage extends BaseComponent  {
       .then(auth => {
         //dispatch the  event
         this.dispatchAnEvent({
-          eventName: AppDispatchTypes.registration.onUserLogin,
-          data: auth
+          type: AppDispatchTypes.registration.onUserLogin,
+          payload: auth
         });
       })
       .catch(err => {
@@ -59,8 +59,8 @@ export class LoginPage extends BaseComponent  {
 
         //dispatch the  event
         this.dispatchAnEvent({
-          eventName: AppDispatchTypes.registration.onUserLogin,
-          data: auth
+          type: AppDispatchTypes.registration.onUserLogin,
+          payload: auth
         });
       })
       .catch(err => {

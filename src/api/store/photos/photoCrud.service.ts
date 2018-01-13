@@ -1,6 +1,6 @@
 import {Injectable} from "@angular/core";
 import { EventDispatcherService } from "../../dispatcher/appEventDispathcer.service";
-import { Store } from "@ngrx/store";
+import {Action, Store} from "@ngrx/store";
 import { AngularFireDatabase } from "angularfire2/database";
 import {AppStore} from "../appStore.interface";
 import {Photo, PhotoTagsMetaData} from "../../common/appTypes";
@@ -56,7 +56,7 @@ export class PhotoCrud{
       this.store.dispatch({type: PhotoActions.getEventPhotos, payload: photos});
 
       //dispatch an ack
-      this.dispatchAck(PhotoActions.getEventPhotos);
+      this.dispatchAck({type: PhotoActions.getEventPhotos});
     });
   }
 
@@ -72,35 +72,43 @@ export class PhotoCrud{
       (snapshot:any) =>  {
         // upload in progress
         console.log('upload progress: ' + (snapshot.bytesTransferred / snapshot.totalBytes) * 100);
+        //save the metadata of the image storage at the end
+        if(snapshot.bytesTransferred === snapshot.totalBytes){
+          photo.storageMetadata = snapshot.metadata;
+          console.log(photo.storageMetadata);
+        }
       },
       (error) => {
         // upload failed
         console.log(error);
-        this.dispatchAck(PhotoActions.uploadEventPhotoFailed);
+        this.dispatchAck({type: PhotoActions.uploadEventPhotoFailed});
       },
       () => {
         console.log('upload completed');
-        this.dispatchAck(PhotoActions.uploadEventPhoto);
+        this.dispatchAck({type: PhotoActions.uploadEventPhoto, payload: photo});
       }
     );
   }
 
   addPhotoToAlbum(photo: Photo){
 
-    photo = this.removeUIProperties(photo);
-
     const pushRef = this.fb.database().ref().child(`photoToEvent/${photo.eventKey}`).push();
     photo.key = pushRef.key;
     photo.creatorKey = this.appUtils.userKey;
-    photo.creatorName = this.appUtils.userName;
+    //photo.creatorName = this.appUtils.userName;
     photo.creationDate = new Date();
+    photo.fileURL = photo.storageMetadata.downloadURLs[0];
+    photo.size = photo.storageMetadata.size;
+    photo.width = photo.photoImage.width;
+    photo.height = photo.photoImage.height;
 
+    photo = this.removeUIProperties(photo);
     pushRef.set(photo).then((p)=>{
       //update the store with the created photo
       this.store.dispatch({type: PhotoActions.saveEventPhoto, payload: p});
 
       //dispatch an ack
-      this.dispatchAck(PhotoActions.saveEventPhoto);
+      this.dispatchAck({type: PhotoActions.saveEventPhoto});
     });
 
 
@@ -120,13 +128,13 @@ export class PhotoCrud{
   removeUIProperties(photo: Photo){
     photo.base64ImageData = null;
     photo.photoImage = null;
+    photo.storageMetadata = null;
     return photo;
   }
 
-  dispatchAck(eventName:string){
+  dispatchAck(action: Action){
     //dispatch an ack
-    this.eventDispatcherService.emit({
-      eventName: eventName });
+    this.eventDispatcherService.emit(action);
   }
 
 }
