@@ -28,7 +28,7 @@ export class AppLocalStorage {
           if(val !== null){
             object[prop] = val;
           }
-          console.log(prop);
+          this.logger.log(prop);
           //decrease the number of async calls to local storage and retrieve the object via Promise
           //propCount--;
           //if(propCount == 0){

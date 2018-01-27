@@ -48,7 +48,7 @@ export class CreateEventPage extends BaseComponent implements OnInit {
   }
 
   onUpdateSearchPlace() {
-    console.log('modal > updateSearch');
+    this.logger.log('modal > updateSearch');
     if (this.autocomplete.query == '') {
       this.autocompleteItems = [];
       return;
@@ -58,7 +58,7 @@ export class CreateEventPage extends BaseComponent implements OnInit {
       componentRestrictions: {}
     };
     this.acService.getPlacePredictions(config, (predictions, status) => {
-      console.log('modal > getPlacePredictions > status > ', status);
+      this.logger.log(`modal > getPlacePredictions > status > ${status}`);
       this.autocompleteItems = [];
       if (predictions) {
         predictions.forEach((prediction) => {
@@ -73,7 +73,7 @@ export class CreateEventPage extends BaseComponent implements OnInit {
   }
 
   onSelectPlaceItem(item: any) {
-    console.log(item);
+    this.logger.log(item);
     this.autocomplete.query = item.description;
     this.event.location.placeId = item.description;
     this.event.location.placeDescription = item.description;

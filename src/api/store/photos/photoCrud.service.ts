@@ -10,16 +10,19 @@ import * as firebase from 'firebase/app';
 import 'firebase/storage';
 import {Observable} from 'rxjs/Rx'
 import {PhotoActions} from "./photoActions";
+import {AppLogger} from "../../utilities/appLogger";
 
 @Injectable()
 export class PhotoCrud{
 
   appUtils = AppUtils;
+  logger: AppLogger;
 
   constructor(public eventDispatcherService: EventDispatcherService,
               public store: Store<AppStore>,
               public fb:FirebaseApp,
               public db: AngularFireDatabase) {
+    this.logger = new AppLogger();
   }
 
   getEventPhotos(eventKey:string){
@@ -71,20 +74,20 @@ export class PhotoCrud{
     return uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED,
       (snapshot:any) =>  {
         // upload in progress
-        console.log('upload progress: ' + (snapshot.bytesTransferred / snapshot.totalBytes) * 100);
+        this.logger.log('upload progress: ' + (snapshot.bytesTransferred / snapshot.totalBytes) * 100);
         //save the metadata of the image storage at the end
         if(snapshot.bytesTransferred === snapshot.totalBytes){
           photo.storageMetadata = snapshot.metadata;
-          console.log(photo.storageMetadata);
+          this.logger.log(photo.storageMetadata);
         }
       },
       (error) => {
         // upload failed
-        console.log(error);
+        this.logger.log(error);
         this.dispatchAck({type: PhotoActions.uploadEventPhotoFailed});
       },
       () => {
-        console.log('upload completed');
+        this.logger.log('upload completed');
         this.dispatchAck({type: PhotoActions.uploadEventPhoto, payload: photo});
       }
     );

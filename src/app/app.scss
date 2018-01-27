@@ -31,6 +31,10 @@ $green-light-color: #9EC93B;
 $green-mid-color: #2B8D04;
 $black-color: #1A0A15;
 
+//hide all scrollbars
+::-webkit-scrollbar {
+  display: none;
+}
 
 ion-content{
     background: $blue-dark-color; /* For browsers that do not support gradients */

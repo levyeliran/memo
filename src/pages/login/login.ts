@@ -85,7 +85,7 @@ export class LoginPage extends BaseComponent  {
           provider: AuthProviders.Password,
           method: AuthMethods.Password
         }).then((response) => {
-        console.log('Login success' + JSON.stringify(response));
+        this.logger.log('Login success' + JSON.stringify(response));
         let currentuser = {
           email: response.auth.email,
           picture: response.auth.photoURL
@@ -95,7 +95,7 @@ export class LoginPage extends BaseComponent  {
         //window.localStorage.setItem('currentuser', JSON.stringify(currentuser));
 
       }).catch((error) => {
-        console.log(error);
+        this.logger.log(error);
       })
     }*/
 
@@ -109,7 +109,7 @@ export class LoginPage extends BaseComponent  {
       provider: AuthProviders.Facebook,
       method: AuthMethods.Popup
     }).then((response) => {
-      console.log('Login success with facebook' + JSON.stringify(response));
+      this.logger.log('Login success with facebook' + JSON.stringify(response));
       let currentuser = {
         email: response.auth.displayName,
         picture: response.auth.photoURL
@@ -117,7 +117,7 @@ export class LoginPage extends BaseComponent  {
       window.localStorage.setItem('currentuser', JSON.stringify(currentuser));
       this.navCtrl.pop();
     }).catch((error) => {
-      console.log(error);
+      this.logger.log(error);
     })
 
   }*/

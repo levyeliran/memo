@@ -13,16 +13,18 @@ import {PhotoActions} from "../../../api/store/photos/photoActions";
 })
 export class EventAlbumPhotoPage extends BaseComponent implements OnInit {
 
-  screenHeight: number;
   event: Event;
   photo: Photo;
-  photoCanvas:any;
+  photoCanvas: any;
   isNewPhoto: boolean;
   isDisplayHeartAnimation = false;
   headerButtons: HeaderButton[];
 
   //get reference to photo canvas view
   @ViewChild('photoPreviewCanvas') canvasRef: any;
+  @ViewChild('photoPreview') imgRef: any;
+  @ViewChild('toolsBar') toolsBarRef: any;
+  @ViewChild('pageWrapper') pageWrapperRef: any;
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
@@ -31,9 +33,10 @@ export class EventAlbumPhotoPage extends BaseComponent implements OnInit {
     super(eventDispatcherService);
     this.event = this.navParams.get('event');
     this.photo = this.navParams.get('photo');
-    this.screenHeight = window.screen.height * 0.6;
+    //this.screenHeight = window.screen.height * 0.6;
     //extract params
 
+    this.isNewPhoto = !this.photo.key
   }
 
   //!!!!!!!!!!!!!! - should be on the photo object
@@ -45,9 +48,20 @@ export class EventAlbumPhotoPage extends BaseComponent implements OnInit {
     //set photo events
     this.registerToEvents();
 
+    const imageWidth = window.screen.width;
+    const imageHeight = window.screen.width * 0.8;
+    //calculate the
+    const toolsHeight =
+      this.pageWrapperRef
+        .getElementRef()
+        .nativeElement
+        .clientHeight - imageHeight - this.appConst.appTopMenuHeight;
+
     //tag photo
     if (this.photo.key) {
-
+      const img = this.imgRef.nativeElement;
+      img.width = imageWidth;
+      img.height = imageHeight;
     }
     //design photo
     else {
@@ -58,18 +72,24 @@ export class EventAlbumPhotoPage extends BaseComponent implements OnInit {
 
       //https://stackoverflow.com/questions/4409445/base64-png-data-to-html5-canvas
       //https://stackoverflow.com/questions/37873043/how-to-draw-on-image-angular2-ionic2
-      this.isNewPhoto = true;
       this.photoCanvas = this.canvasRef.nativeElement;
+      this.photoCanvas.width = imageWidth;
+      this.photoCanvas.height = imageHeight;
       let ctx = this.photoCanvas.getContext("2d");
       this.photo.photoImage = new Image();
       const img = this.photo.photoImage;
-      img.onload = () =>{
+      img.onload = () => {
         ctx.drawImage(img,
           0, 0, img.width, img.height,// source rectangle
           0, 0, this.photoCanvas.width, this.photoCanvas.height); // destination rectangle
       };
       this.photo.photoImage.src = this.photo.base64ImageData;
     }
+
+
+    //set tolls bar styling
+    const toolsBar = this.toolsBarRef.nativeElement;
+    toolsBar.setAttribute("style", `width:${imageWidth}px; height:${toolsHeight}px;`);
   }
 
   registerToEvents() {
@@ -96,15 +116,15 @@ export class EventAlbumPhotoPage extends BaseComponent implements OnInit {
 
 
   onPhotoPress() {
-  //toggle the emoji icons menu
+    //toggle the emoji icons menu
     this.isDisplayHeartAnimation = true;
-    console.log('photo pressed');
+    this.logger.log('photo pressed');
   }
 
   onPhotoDblClick() {
-  //toogle like emoji to this image (display "heart" on top)
+    //toogle like emoji to this image (display "heart" on top)
     this.isDisplayHeartAnimation = true;
-    console.log('photo dbl clicked');
+    this.logger.log('photo dbl clicked');
   }
 
 

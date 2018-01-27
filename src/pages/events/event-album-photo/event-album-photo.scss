@@ -25,7 +25,13 @@ page-event-album-photo {
     canvas {
       height: 100%;
       width: 100%;
-      &.hideCanvas {
+      &.hide {
+        display: none;
+      }
+    }
+
+    img{
+      &.hide {
         display: none;
       }
     }
@@ -33,10 +39,22 @@ page-event-album-photo {
 
   .bottom-menu {
     color: $black-color;
-    height: 50px;
     position: absolute;
-    width: 100%;
     background: white;
     bottom: 50px;
+
+    .tag-toolbar{
+      width: 100%;
+    }
+
+
+    .design-editor{
+      width: 100%;
+    }
+
+    .design-toolbar{
+      width: 100%;
+    }
+
   }
 }

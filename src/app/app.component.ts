@@ -52,7 +52,7 @@ export class MemoApp extends BaseComponent implements OnInit, OnDestroy {
         //login on app ready
         this.loginToApp();
       //}, reject =>{
-        //console.log('User did not allow internet access');
+        //this.logger.log('User did not allow internet access');
         //display the animation page.
       //})
     });

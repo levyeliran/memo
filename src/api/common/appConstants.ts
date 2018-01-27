@@ -1,4 +1,7 @@
 export const AppConstants = {
+  displayLogs: true,
+  isProdMode: true,
+  appTopMenuHeight: 50,
   userDetails:{
     name:'name'
   },

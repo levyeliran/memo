@@ -2,21 +2,28 @@
              [pageTitle]="isNewPhoto ? 'Add new photo to album!' : 'Photo Details'"
              [buttons]="headerButtons"></page-header>
 
-<ion-content>
+<ion-content #pageWrapper>
 
-  <div class="photo-wrapper" [style.height]="screenHeight">
-    <img *ngIf="!isNewPhoto" src="{{photo.fileURL}}" (dblclick)="onPhotoDblClick()" (press)="onPhotoPress()"/>
-    <canvas #photoPreviewCanvas class="{{isNewPhoto ? '' : 'hideCanvas'}}"></canvas>
+  <div class="photo-wrapper">
+    <img #photoPreview src="{{photo.fileURL}}"
+         (dblclick)="onPhotoDblClick()" (press)="onPhotoPress()" class="{{isNewPhoto ? 'hide' : ''}}"/>
+    <canvas #photoPreviewCanvas  class="{{isNewPhoto ? '' : 'hide'}}"></canvas>
   </div>
 
-  <!--create component?-->
-  <div class="bottom-menu">
+
+  <div #toolsBar class="bottom-menu">
+
+    <!--create component?-->
     <div class="design-toolbar" *ngIf="isNewPhoto">
       <!--photo design toolbar-->
     </div>
+
+
+    <!--create component?-->
     <div class="tag-toolbar" *ngIf="!isNewPhoto">
       <!--photo tag toolbar-->
     </div>
   </div>
+
 
 </ion-content>

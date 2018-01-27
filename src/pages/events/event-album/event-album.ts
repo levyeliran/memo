@@ -82,7 +82,7 @@ export class EventAlbumPage extends BaseComponent implements OnInit {
       w++;*/
       while(this.photos.length){
       const rowFlex = this.flexStyle[Math.floor((Math.random() * flexRange) + 1)].flex;
-      console.log(rowFlex);
+      this.logger.log(rowFlex);
       let data: any[] = [];
       let rowLength = this.photos.length >= rowFlex.length ? rowFlex.length : this.photos.length;
       for (let i = 0; i < rowLength; i++) {
@@ -123,7 +123,7 @@ export class EventAlbumPage extends BaseComponent implements OnInit {
 
       }, (err) => {
         // Handle error
-        console.log(err);
+        this.logger.log(err);
       });
 
     });
