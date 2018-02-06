@@ -2,6 +2,7 @@ export const AppConstants = {
   displayLogs: true,
   isProdMode: true,
   appTopMenuHeight: 50,
+  thumbnailPrefix:'thumb_',
   userDetails:{
     name:'name'
   },

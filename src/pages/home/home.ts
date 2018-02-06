@@ -4,7 +4,8 @@ import {AppStoreService} from "../../api/store/appStore.service";
 import {Event, EventStatus} from "../../api/common/appTypes";
 import {AppUtils} from "../../api/utilities/appUtils";
 import {EventAlbumPage} from "../events/event-album/event-album";
-import {PhotoCrud} from "../../api/store/photos/photoCrud.service";
+import {PhotoActions} from "../../api/store/photos/photoActions";
+import {EventDispatcherService} from "../../api/dispatcher/appEventDispathcer.service";
 
 @Component({
   selector: 'page-home',
@@ -17,7 +18,7 @@ export class HomePage implements OnInit, OnDestroy {
   appUtils = AppUtils;
 
   constructor(public navCtrl: NavController,
-              public photoCrud: PhotoCrud,
+              public eventDispatcherService: EventDispatcherService,
               public appStoreService: AppStoreService) {
     this.cardsEvents = [];
     this.setEventsToCards();
@@ -71,7 +72,7 @@ export class HomePage implements OnInit, OnDestroy {
   onEventOpen(event:Event){
     //navigate to event album - if its exist
       //get the event photos
-      this.photoCrud.getEventPhotos(event.key);
+    this.eventDispatcherService.emit({type: PhotoActions.getEventPhotos, payload: event.key});
       //navigate to album (over the main-tabs)
       this.navCtrl.parent.parent.push(EventAlbumPage, {event});
   }

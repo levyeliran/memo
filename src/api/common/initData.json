@@ -14,7 +14,7 @@
     "3":"rejected",
     "4":"joined"
   },
-  "emoticonType":{
+  "emojiType":{
     "-L129f5PnRxVa49yYXr7":"like",
     "-L229TfPnRxVa49yYXr8":"tearsOfJoy",
     "-L329T5Pnx7Va49yYXr1":"blowingAKiss",
@@ -37,7 +37,7 @@
       "creatorName": "Eliran Levy",
       "description": "test event",
       "initials": "R&T",
-      "numOfParticipates": 0,
+      "participatesDetails": [],
       "startDate": 1514230200000,
       "title": "R&T Wedding",
       "isActive":false,
@@ -50,7 +50,7 @@
       "creatorName": "Eliran Levy",
       "description": "test event 2",
       "initials": "W&M",
-      "numOfParticipates": 0,
+      "participatesDetails": [],
       "startDate": 1515704400000,
       "isActive":false,
       "isPast":false,
@@ -64,7 +64,7 @@
       "description": "dfg",
       "endDate": 1514498400000,
       "initials": "E&C",
-      "numOfParticipates": 0,
+      "participatesDetails": [],
       "startDate": 1514455200000,
       "isActive":false,
       "isPast":false,
@@ -78,7 +78,7 @@
       "endDate": 1514412000000,
       "initials": "R&M",
       "key": "-L129T5PnR7Va49yYXrR",
-      "numOfParticipates": 2,
+      "participatesDetails": [],
       "isActive":true,
       "isPast":false,
       "startDate": 1514368800000,
@@ -178,7 +178,7 @@
         "fileName":"4.png",
         "fileType":"image/png",
         "fileSize":220.28,
-        "fileURL":"L444T5PnR7Va49yYXr4"
+        "fileURL":"-L444T5PnR7Va49yYXr4"
       },
       "-L555T5PnR7Va49yYXr5":{
         "key":"-L555T5PnR7Va49yYXr5",
@@ -211,13 +211,13 @@
         "eventKey":"-L129T5PnR7Va49yYXrR",
         "tags":{
           "52w0SkcAASNacMNtQtcc5o4ANu43":{
-            "emoticonTagKey":"-L129f5PnRxVa49yYXr7",
+            "emojiTagKey":"-L129f5PnRxVa49yYXr7",
             "creatorKey": "52w0SkcAASNacMNtQtcc5o4ANu43",
             "creatorName": "Eliran Levy",
             "creationDate": 1514230200000
           },
           "33w0SkcAfSNacMNtQtcc5o3ANu41":{
-            "emoticonTagKey":"-L129f5PnRxVa49yYXr7",
+            "emojiTagKey":"-L129f5PnRxVa49yYXr7",
             "creatorKey": "33w0SkcAfSNacMNtQtcc5o3ANu41",
             "creatorName": "Other",
             "creationDate": 1514230300300
@@ -229,7 +229,7 @@
         "eventKey":"-L129T5PnR7Va49yYXrR",
         "tags":{
           "52w0SkcAASNacMNtQtcc5o4ANu43":{
-            "emoticonTagKey":"-L629TxPnR7Va49yYXr6",
+            "emojiTagKey":"-L629TxPnR7Va49yYXr6",
             "creatorKey": "52w0SkcAASNacMNtQtcc5o4ANu43",
             "creatorName": "Eliran Levy",
             "creationDate": 1514230200000

@@ -1,7 +1,6 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {NavController, NavParams, Slides} from 'ionic-angular';
 import {Event, EventLocation} from "../../../api/common/appTypes";
-import {EventCrud} from "../../../api/store/events/eventCrud.service";
 import {EventActions} from "../../../api/store/events/eventActions";
 import {BaseComponent} from "../../../api/common/baseComponent/baseComponent";
 import {EventDispatcherService} from "../../../api/dispatcher/appEventDispathcer.service";
@@ -27,8 +26,7 @@ export class CreateEventPage extends BaseComponent implements OnInit {
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
               public eventDispatcherService: EventDispatcherService,
-              public appLocalStorage: AppLocalStorage,
-              public eventCrud: EventCrud) {
+              public appLocalStorage: AppLocalStorage) {
 
     super(eventDispatcherService);
     this.event = this.navParams.get('event');
@@ -110,10 +108,10 @@ export class CreateEventPage extends BaseComponent implements OnInit {
     this.prepareForSave();
 
     //lock the create button
-    this.eventCrud.createEvent(this.event);
+    this.eventDispatcherService.emit({type: EventActions.createEvent, payload: this.event});
 
     //event was created successfully
-    this.registerToEvent(EventActions.createEvent).subscribe(() => {
+    this.registerToEvent(EventActions.eventCreated).subscribe(() => {
       //navigate "back"
       this.navCtrl.pop();
     });
@@ -133,7 +131,6 @@ export class CreateEventPage extends BaseComponent implements OnInit {
     this.appLocalStorage.readKey(this.appConst.userDetails.name).then((payload) => {
       this.event.creatorName = payload;
     });
-    this.event.numOfParticipates = this.invitedFriends.length;
   }
 
 }

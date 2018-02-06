@@ -2,7 +2,8 @@ import {Component} from '@angular/core';
 import {NavController, NavParams} from 'ionic-angular';
 import {Event, HeaderButton} from "../../../api/common/appTypes";
 import {EventAlbumPage} from "../event-album/event-album";
-import {PhotoCrud} from "../../../api/store/photos/photoCrud.service";
+import {EventDispatcherService} from "../../../api/dispatcher/appEventDispathcer.service";
+import {PhotoActions} from "../../../api/store/photos/photoActions";
 
 @Component({
   selector: 'page-event-details',
@@ -15,7 +16,7 @@ export class EventDetailsPage {
 
 
   constructor(public navCtrl: NavController,
-              public photoCrud: PhotoCrud,
+              public eventDispatcherService: EventDispatcherService,
               public navParams: NavParams) {
     this.event = this.navParams.get('event');
     const viewAlbumBtn = new HeaderButton('images', this.onNavigateToAlbum.bind(this), !this.event.isActive);
@@ -26,7 +27,7 @@ export class EventDetailsPage {
 
   onNavigateToAlbum() {
     //get the event photos
-    this.photoCrud.getEventPhotos(this.event.key);
+    this.eventDispatcherService.emit({type: PhotoActions.getEventPhotos, payload: this.event.key});
     this.navCtrl.push(EventAlbumPage, {event: this.event});
   }
 

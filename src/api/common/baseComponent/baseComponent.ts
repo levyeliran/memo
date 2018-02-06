@@ -10,6 +10,7 @@ export class BaseComponent {
   public appConst = AppConstants;
   public appUtils = AppUtils;
   public logger: AppLogger;
+  private clickTime:any;
 
   //constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, private screenOrientation: ScreenOrientation) {
   constructor(public eventDispatcherService: EventDispatcherService) {
@@ -22,6 +23,21 @@ export class BaseComponent {
 
   dispatchAnEvent(action:Action): void{
     return this.eventDispatcherService.emit(action);
+  }
+
+  isDoubleClick(){
+    const now = (new Date()).getTime();
+    if(!this.clickTime){
+      this.clickTime = now;
+      return false;
+    }
+
+    if((now - this.clickTime) < 250){
+      this.clickTime = null;
+      return true;
+    }
+    this.clickTime = now;
+    return false;
   }
 
 }

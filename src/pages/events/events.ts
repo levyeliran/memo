@@ -5,8 +5,9 @@ import {AppUtils} from '../../api/utilities/appUtils'
 import {Event, EventStatus} from "../../api/common/appTypes";
 import {AppStoreService} from "../../api/store/appStore.service";
 import { CreateEventPage } from "./create-event/create-event";
-import {EventCrud} from "../../api/store/events/eventCrud.service";
 import {EventDetailsPage} from "./event-details/event-details";
+import {EventActions} from "../../api/store/events/eventActions";
+import {EventDispatcherService} from "../../api/dispatcher/appEventDispathcer.service";
 
 @Component({
   selector: 'page-events',
@@ -29,7 +30,7 @@ export class EventsPage implements OnInit, OnDestroy {
   selectedDateEvent: Event;
 
   constructor(public navCtrl: NavController,
-              public eventCrud: EventCrud,
+              public eventDispatcherService: EventDispatcherService,
               public appStoreService: AppStoreService) {
     this.calendarEvents = [];
     this.selectedDateEvent = new Event();
@@ -79,7 +80,7 @@ export class EventsPage implements OnInit, OnDestroy {
     _daysConfig.push({
       date: this.appUtils.getFutureDate(6),
       disable: true
-    })
+    });
 
     this.calendarOptions = {
       from: new Date(2017, 11, 1),
@@ -120,7 +121,7 @@ export class EventsPage implements OnInit, OnDestroy {
   onJoinToEvent(){
     //update the status & save to db
     this.selectedDateEvent.status = EventStatus.joined;
-    this.eventCrud.updateEvent(this.selectedDateEvent);
+    this.eventDispatcherService.emit({type: EventActions.createEvent, payload: this.selectedDateEvent});
   }
 
   onViewEvent(){

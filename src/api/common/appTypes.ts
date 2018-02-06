@@ -32,7 +32,6 @@ export class Event{
   introPhotoURL:string;
   defaultIntroPhotoURL:string;
   participatesDetails:any[];
-  numOfParticipates:number;
   status:number;
   isActive:boolean;
   hasAnimation:boolean;
@@ -62,7 +61,7 @@ export const EventStatus = {
 
 /////////////////////////////////////////////////////////
 
-export const emoticonMepper = {
+export const emojiMepper = {
   like:{
     title: "Like",
     iconClass: ""
@@ -124,7 +123,7 @@ export class PhotoStore{
   photos:Photo[] = [];
 };
 export class PhotoTagsMetaData {
-  emoticonTagKey:string;
+  emojiTagKey:string;
   creatorKey:string;
   creatorName:string;
 }
@@ -142,9 +141,10 @@ export class Photo{
   height:number;
   size:number;
   fileURL:string;
+  fileThumbnailURL:string;
   storageMetadata:any;
   tagsMetaData:PhotoTagsMetaData[];
-  myEmoticonTagKey:string;
+  myEmojiTagKey:string;
   base64ImageData:string;
   photoImage:any;
 }

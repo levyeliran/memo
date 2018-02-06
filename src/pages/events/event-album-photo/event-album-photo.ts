@@ -5,6 +5,7 @@ import {EventDispatcherService} from "../../../api/dispatcher/appEventDispathcer
 import {Event, HeaderButton, Photo} from "../../../api/common/appTypes";
 import {PhotoCrud} from "../../../api/store/photos/photoCrud.service";
 import {PhotoActions} from "../../../api/store/photos/photoActions";
+import {photoReducer} from "../../../api/store/photos/photo.reducer";
 
 
 @Component({
@@ -15,6 +16,8 @@ export class EventAlbumPhotoPage extends BaseComponent implements OnInit {
 
   event: Event;
   photo: Photo;
+  emojis: any[];
+  selectedEmoji:any;
   photoCanvas: any;
   isNewPhoto: boolean;
   isDisplayHeartAnimation = false;
@@ -39,15 +42,22 @@ export class EventAlbumPhotoPage extends BaseComponent implements OnInit {
     this.isNewPhoto = !this.photo.key
   }
 
-  //!!!!!!!!!!!!!! - should be on the photo object
-  //display "heart" icon if the user liked the image or "tag" icon if he did something else
-  //display all emoticons on full page
-
+  getEmojis(){
+    return [
+      {imagePath:'assets/images/emoji/1.png', key: '1'},
+      {imagePath:'assets/images/emoji/2.png', key: '2'},
+      {imagePath:'assets/images/emoji/3.png', key: '3'},
+      {imagePath:'assets/images/emoji/4.png', key: '4'},
+      {imagePath:'assets/images/emoji/5.png', key: '5'},
+      {imagePath:'assets/images/emoji/6.png', key: '6'},
+      {imagePath:'assets/images/emoji/7.png', key: '7'}
+    ];
+  }
 
   ngOnInit() {
     //set photo events
     this.registerToEvents();
-
+    this.emojis = this.getEmojis();
     const imageWidth = window.screen.width;
     const imageHeight = window.screen.width * 0.8;
     //calculate the
@@ -93,16 +103,16 @@ export class EventAlbumPhotoPage extends BaseComponent implements OnInit {
   }
 
   registerToEvents() {
-    this.registerToEvent(PhotoActions.uploadEventPhoto).subscribe(() => {
+    this.registerToEvent(PhotoActions.eventPhotoUploaded).subscribe(() => {
       //save the photo to the album
-      this.photoCrud.addPhotoToAlbum(this.photo);
+      this.eventDispatcherService.emit({type: PhotoActions.addPhotoToAlbum, payload: this.photo});
     });
 
-    this.registerToEvent(PhotoActions.uploadEventPhotoFailed).subscribe(() => {
+    this.registerToEvent(PhotoActions.eventPhotoUploadFailed).subscribe(() => {
       //display error
     });
 
-    this.registerToEvent(PhotoActions.saveEventPhoto).subscribe(() => {
+    this.registerToEvent(PhotoActions.eventPhotoSaved).subscribe(() => {
       //navigate back to the album
       this.navCtrl.pop();
     });
@@ -111,20 +121,28 @@ export class EventAlbumPhotoPage extends BaseComponent implements OnInit {
   onAddPhoto() {
     this.photo.fileName = `${this.event.key}_${this.appUtils.userKey}_RND${Math.floor((Math.random() * 10000) + 1)}.png`;
     this.photo.eventKey = this.event.key;
-    this.photoCrud.savePhotoToStorage(this.photo);
+    this.eventDispatcherService.emit({type: PhotoActions.savePhotoToStorage, payload: this.photo});
+  }
+
+  onEmojiClick(emoji:any){
+    if(this.isDoubleClick()){
+      this.selectedEmoji = emoji;
+      emoji.selected = !emoji.selected;
+    }
   }
 
 
-  onPhotoPress() {
-    //toggle the emoji icons menu
-    this.isDisplayHeartAnimation = true;
-    this.logger.log('photo pressed');
-  }
+  ionViewDidLeave(){
+    //set the selected emoji tag to the photo on page leave.
+    if(this.selectedEmoji){
+      this.eventDispatcherService.emit({type: PhotoActions.tagPhoto, payload: {
+        photo: this.photo,
+        emojiKey: this.selectedEmoji.key
+      }});
+    }
 
-  onPhotoDblClick() {
-    //toogle like emoji to this image (display "heart" on top)
-    this.isDisplayHeartAnimation = true;
-    this.logger.log('photo dbl clicked');
+    //reset the selected emoji
+    this.selectedEmoji = null;
   }
 
 

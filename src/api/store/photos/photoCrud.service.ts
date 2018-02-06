@@ -1,4 +1,4 @@
-import {Injectable} from "@angular/core";
+import {Injectable, OnDestroy, OnInit} from "@angular/core";
 import { EventDispatcherService } from "../../dispatcher/appEventDispathcer.service";
 import {Action, Store} from "@ngrx/store";
 import { AngularFireDatabase } from "angularfire2/database";
@@ -11,22 +11,59 @@ import 'firebase/storage';
 import {Observable} from 'rxjs/Rx'
 import {PhotoActions} from "./photoActions";
 import {AppLogger} from "../../utilities/appLogger";
+import {AppConstants} from "../../common/appConstants";
 
 @Injectable()
-export class PhotoCrud{
+export class PhotoCrud implements OnInit, OnDestroy{
 
   appUtils = AppUtils;
+  appConst = AppConstants;
   logger: AppLogger;
+  photoCrudSubscriptions:any[];
 
   constructor(public eventDispatcherService: EventDispatcherService,
               public store: Store<AppStore>,
               public fb:FirebaseApp,
               public db: AngularFireDatabase) {
     this.logger = new AppLogger();
+    this.photoCrudSubscriptions = [];
   }
 
-  getEventPhotos(eventKey:string){
+  ngOnInit() {
+    console.log("PhotoCrud OnInit");
 
+    const getEventPhotosSub = this.eventDispatcherService.on(PhotoActions.getEventPhotos);
+    getEventPhotosSub.subscribe(this.getEventPhotos);
+
+    const savePhotoToStorageSub = this.eventDispatcherService.on(PhotoActions.savePhotoToStorage);
+    savePhotoToStorageSub.subscribe(this.savePhotoToStorage);
+
+    const addPhotoToAlbumSub = this.eventDispatcherService.on(PhotoActions.addPhotoToAlbum);
+    addPhotoToAlbumSub.subscribe(this.addPhotoToAlbum);
+
+    const tagPhotoSub = this.eventDispatcherService.on(PhotoActions.tagPhoto);
+    tagPhotoSub.subscribe(this.tagPhoto);
+
+    //add all subjects to list - we unsubscribe to them when close the app
+    this.photoCrudSubscriptions.push(getEventPhotosSub);
+    this.photoCrudSubscriptions.push(savePhotoToStorageSub);
+    this.photoCrudSubscriptions.push(addPhotoToAlbumSub);
+    this.photoCrudSubscriptions.push(tagPhotoSub);
+
+  }
+
+  ngOnDestroy() {
+    console.log("PhotoCrud OnDestroy");
+    this.photoCrudSubscriptions.forEach(s => s.unsubscribe());
+  }
+
+  private getEventPhotos(eventKey:string){
+    //https://angularfirebase.com/lessons/angular-file-uploads-to-firebase-storage/
+    //https://firebase.google.com/docs/storage/web/upload-files
+    //convert canvas to blob & save - create thumbnail
+    //https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/toBlob
+    //https://www.html5canvastutorials.com/advanced/html5-canvas-save-drawing-as-an-image/
+    //https://aaronczichon.de/2017/04/18/ionic-firebase-storage/
     Observable.combineLatest<Photo[], any[]>(
       this.db.list<Photo>(`photoToEvent/${eventKey}`).valueChanges(),
       this.db.list<any>(`tagToEventPhoto/${eventKey}`).valueChanges())
@@ -45,11 +82,11 @@ export class PhotoCrud{
                 const ptMeta = new PhotoTagsMetaData();
                 ptMeta.creatorKey = tag.creatorKey;
                 ptMeta.creatorName = tag.creatorName;
-                ptMeta.emoticonTagKey = tag.emoticonTagKey;
+                ptMeta.emojiTagKey = tag.emojiTagKey;
                 photo.tagsMetaData.push(ptMeta);
               }
               else {
-                photo.myEmoticonTagKey = tag.emoticonTagKey;
+                photo.myEmojiTagKey = tag.emojiTagKey;
               }
             });
           }
@@ -59,17 +96,11 @@ export class PhotoCrud{
       this.store.dispatch({type: PhotoActions.getEventPhotos, payload: photos});
 
       //dispatch an ack
-      this.dispatchAck({type: PhotoActions.getEventPhotos});
+      this.dispatchAck({type: PhotoActions.eventPhotosReceived});
     });
   }
 
-  //https://angularfirebase.com/lessons/angular-file-uploads-to-firebase-storage/
-  //https://firebase.google.com/docs/storage/web/upload-files
-  //convert canvas to blob & save - create thumbnail
-  //https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/toBlob
-  //https://www.html5canvastutorials.com/advanced/html5-canvas-save-drawing-as-an-image/
-  //https://aaronczichon.de/2017/04/18/ionic-firebase-storage/
-  savePhotoToStorage(photo: Photo){
+  private savePhotoToStorage(photo: Photo){
     let uploadTask = this.fb.storage().ref().child(photo.fileName).putString(photo.base64ImageData,'data_url');
     return uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED,
       (snapshot:any) =>  {
@@ -84,16 +115,16 @@ export class PhotoCrud{
       (error) => {
         // upload failed
         this.logger.log(error);
-        this.dispatchAck({type: PhotoActions.uploadEventPhotoFailed});
+        this.dispatchAck({type: PhotoActions.eventPhotoUploadFailed});
       },
       () => {
         this.logger.log('upload completed');
-        this.dispatchAck({type: PhotoActions.uploadEventPhoto, payload: photo});
+        this.dispatchAck({type: PhotoActions.eventPhotoUploaded, payload: photo});
       }
     );
   }
 
-  addPhotoToAlbum(photo: Photo){
+  private addPhotoToAlbum(photo: Photo){
 
     const pushRef = this.fb.database().ref().child(`photoToEvent/${photo.eventKey}`).push();
     photo.key = pushRef.key;
@@ -101,41 +132,67 @@ export class PhotoCrud{
     //photo.creatorName = this.appUtils.userName;
     photo.creationDate = new Date();
     photo.fileURL = photo.storageMetadata.downloadURLs[0];
+    photo.fileThumbnailURL = photo.fileURL.replace(photo.fileName, `${this.appConst.thumbnailPrefix}${photo.fileName}`);
     photo.size = photo.storageMetadata.size;
     photo.width = photo.photoImage.width;
     photo.height = photo.photoImage.height;
 
     photo = this.removeUIProperties(photo);
     pushRef.set(photo).then((p)=>{
-      //update the store with the created photo
-      this.store.dispatch({type: PhotoActions.saveEventPhoto, payload: p});
-
       //dispatch an ack
-      this.dispatchAck({type: PhotoActions.saveEventPhoto});
+      this.dispatchAck({type: PhotoActions.eventPhotoSaved});
     });
 
-
   }
 
+  private tagPhoto(payload: any){
+    const photo: Photo = payload.photo;
+    const emojiKey: string = payload.emojiKey;
 
-/*
-  tagPhoto(photo: Photo){
+    const tagData: any = {
+      emojiTagKey: emojiKey,
+      creationDate: new Date()
+    };
 
+    //if the user already  tagged the photo - update, create otherwise.
+    if(photo.myEmojiTagKey){
+      const tegRef = this.fb.database().ref()
+        .child(`tagToEventPhoto/${photo.eventKey}/${photo.key}/tags/${this.appUtils.userKey}`);
+      tegRef.update(tagData).then((t)=>{
+        this.onTagSuccess(photo,emojiKey);
+      });
+    }
+    else {
+      const pushRef = this.fb.database().ref()
+        .child(`tagToEventPhoto/${photo.eventKey}/${photo.key}/tags/${this.appUtils.userKey}`).push();
+      tagData.creatorKey = this.appUtils.userKey;
+      tagData.creatorName = this.appUtils.userName;
+
+      pushRef.set(tagData).then((t)=>{
+        this.onTagSuccess(photo,emojiKey);
+      });
+    }
   }
 
+  private onTagSuccess(photo: Photo, emojiKey: string){
+    photo.myEmojiTagKey = emojiKey;
+
+    //add to photo metadata
+    //photo.tagsMetaData
 
 
+    //dispatch an ack
+    this.dispatchAck({type: PhotoActions.photoTagged});
+  }
 
-*/
-
-  removeUIProperties(photo: Photo){
+  private removeUIProperties(photo: Photo){
     photo.base64ImageData = null;
     photo.photoImage = null;
     photo.storageMetadata = null;
     return photo;
   }
 
-  dispatchAck(action: Action){
+  private dispatchAck(action: Action){
     //dispatch an ack
     this.eventDispatcherService.emit(action);
   }

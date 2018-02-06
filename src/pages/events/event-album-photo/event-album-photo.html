@@ -6,7 +6,7 @@
 
   <div class="photo-wrapper">
     <img #photoPreview src="{{photo.fileURL}}"
-         (dblclick)="onPhotoDblClick()" (press)="onPhotoPress()" class="{{isNewPhoto ? 'hide' : ''}}"/>
+         class="{{isNewPhoto ? 'hide' : ''}}"/>
     <canvas #photoPreviewCanvas  class="{{isNewPhoto ? '' : 'hide'}}"></canvas>
   </div>
 
@@ -22,6 +22,7 @@
     <!--create component?-->
     <div class="tag-toolbar" *ngIf="!isNewPhoto">
       <!--photo tag toolbar-->
+      <img *ngFor="let e of emojis" src="{{e.imagePath}}" (click)="onEmojiClick(e)"/>
     </div>
   </div>
 

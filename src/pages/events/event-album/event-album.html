@@ -8,9 +8,9 @@
   <div class="event-album-grid" *ngIf="photosGridModel.length">
     <div class="grid-row" *ngFor="let row of photosGridModel">
       <div class="grid-col {{col.class}}"*ngFor="let col of row">
-        <img src="{{col.photo.fileURL}}" (click)="onSelectPhoto(col.photo)" />
-        <div class="my-emoticon-wrapper">
-          <ion-icon *ngIf="col.hasEmoticon" name="pricetag">
+        <img src="{{col.photo.fileThumbnailURL}}" (click)="onSelectPhoto(col.photo)" />
+        <div class="my-emoji-wrapper">
+          <ion-icon *ngIf="col.hasEmoji" name="pricetag">
           </ion-icon>
         </div>
       </div>

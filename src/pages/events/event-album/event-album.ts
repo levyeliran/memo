@@ -92,10 +92,11 @@ export class EventAlbumPage extends BaseComponent implements OnInit {
           photo: photo,
           count: rowFlex.length,
           class: `${rowFlex[i]} ${i == 0 ? 'left' : 'right'}`,
-          hasEmoticon: !!photo.myEmoticonTagKey
+          hasEmoji: !!photo.myEmojiTagKey
         });
       }
       this.photosGridModel.push(data);
+      this.logger.log(this.photosGridModel);
     }
   }
 
