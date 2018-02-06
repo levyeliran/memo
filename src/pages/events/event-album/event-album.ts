@@ -22,20 +22,6 @@ export class EventAlbumPage extends BaseComponent implements OnInit {
   photos: Photo[];
   photosGridModel: any[];
   photoStoreSubscription: any;
-  flexStyle: any =
-    [{
-      flex: ["w100"]
-    }, {
-      flex: ["w65", "w34"]
-    }, {
-      flex: ["w34", "w65"]
-    }, {
-      flex: ["w34", "w34", "w32"]
-    }, {
-      flex: ["w100"]
-    }, {
-      flex: ["w100-big"]
-    }];
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
@@ -52,6 +38,7 @@ export class EventAlbumPage extends BaseComponent implements OnInit {
       animationBtn,
       newPhotoBtn
     ];
+    this.photos = [];
     this.photosGridModel = [];
   }
 
@@ -59,15 +46,11 @@ export class EventAlbumPage extends BaseComponent implements OnInit {
 
     //update the calender each time the store has been changed
     this.photoStoreSubscription = this.appStoreService._photoStore().subscribe((_store) => {
-      if (_store) {
+      if (_store && _store.photos && _store.photos.length) {
         this.photos = _store.photos;
-        this.createAlbumModel();
         this.createAlbumModel();
       }
     });
-
-    this.photos = [];
-    this.photosGridModel = [];
 
     //set album events
     this.registerToEvents();
@@ -76,28 +59,31 @@ export class EventAlbumPage extends BaseComponent implements OnInit {
 
   createAlbumModel() {
 
-    const flexRange = this.flexStyle.length - 1;
-/*    let w = 0;
-    while (w < 5) {
-      w++;*/
-      while(this.photos.length){
-      const rowFlex = this.flexStyle[Math.floor((Math.random() * flexRange) + 1)].flex;
-      this.logger.log(rowFlex);
-      let data: any[] = [];
-      let rowLength = this.photos.length >= rowFlex.length ? rowFlex.length : this.photos.length;
-      for (let i = 0; i < rowLength; i++) {
-        const photo = this.photos.pop();
-        //const photo = this.photos[i]; //this.photos.pop();
-        data.push({
-          photo: photo,
-          count: rowFlex.length,
-          class: `${rowFlex[i]} ${i == 0 ? 'left' : 'right'}`,
-          hasEmoji: !!photo.myEmojiTagKey
-        });
+    this.photosGridModel = [];
+
+    let index = 0;
+    let data: any[] = [];
+    while (this.photos.length) {
+
+      const photo = this.photos.pop();
+      data.push({
+        photo: photo,
+        class: 'col-image', //`${index == 0 ? 'left w32' : 'right w34'}`,
+        hasEmoji: !!photo.myEmojiTagKey
+      });
+
+      index++;
+      index %= 3;
+      if (index == 0) {
+        this.photosGridModel.push(data);
+        data = [];
       }
-      this.photosGridModel.push(data);
-      this.logger.log(this.photosGridModel);
     }
+
+    if(data.length){
+      this.photosGridModel.push(data);
+    }
+    this.logger.log(this.photosGridModel);
   }
 
   onViewAnimation() {
@@ -105,7 +91,7 @@ export class EventAlbumPage extends BaseComponent implements OnInit {
   }
 
   onAddNewPhoto() {
-    this.appPermission.getPermission(this.appConst.permissions.CAMERA).then(result=> {
+    this.appPermission.getPermission(this.appConst.permissions.CAMERA).then(result => {
       const options: CameraOptions = {
         quality: 100,
         destinationType: this.camera.DestinationType.DATA_URL,
@@ -113,7 +99,7 @@ export class EventAlbumPage extends BaseComponent implements OnInit {
         mediaType: this.camera.MediaType.PICTURE
       };
 
-      this.camera.getPicture(options).then((imageData:string) => {
+      this.camera.getPicture(options).then((imageData: string) => {
         // imageData is either a base64 encoded string or a file URI
         // If it's base64:
         const photo = new Photo();

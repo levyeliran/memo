@@ -29,7 +29,7 @@ export class HomePage implements OnInit, OnDestroy {
 
     //update the calender each time the store has been changed
     this.eventStoreSubscription = this.appStoreService._eventStore().subscribe((_store)=>{
-      if(_store){
+      if(_store && _store.events && _store.events.length){
         this.cardsEvents = _store.events;
         this.setEventsToCards();
       }

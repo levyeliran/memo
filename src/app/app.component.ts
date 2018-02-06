@@ -11,6 +11,8 @@ import {AngularFireAuth} from 'angularfire2/auth';
 import {AppStoreService} from "../api/store/appStore.service";
 import {AppLocalStorage} from "../api/utilities/appLocalStorage.service";
 import {AppPermission} from "../api/utilities/appPermission.service";
+import {EventCrud} from "../api/store/events/eventCrud.service";
+import {PhotoCrud} from "../api/store/photos/photoCrud.service";
 
 @Component({
   templateUrl: 'app.html',
@@ -32,11 +34,16 @@ export class MemoApp extends BaseComponent implements OnInit, OnDestroy {
               private appStoreService: AppStoreService,
               public appLocalStorage: AppLocalStorage,
               public appPermission: AppPermission,
+              private eventCrud: EventCrud,
+              private photoCrud: PhotoCrud,
               public eventDispatcherService: EventDispatcherService) {
     super(eventDispatcherService);
   }
 
   ngOnInit() {
+    this.eventCrud.registerToEvents();
+    this.photoCrud.registerToEvents();
+
     //init the app menu
     this.menuPages = [
       {title: 'Settings', component: AppSettingsPage},
@@ -113,6 +120,8 @@ export class MemoApp extends BaseComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
+    this.eventCrud.unsubscribeEvents();
+    this.photoCrud.unsubscribeEvents();
     //un-subscribe to all registered events
     //WE USE THIS ONLY HERE, THIS WILL CLEAR ALL EVENTS FOR ENTIRE APP ON CLOSE!!!
     this.eventDispatcherService.clearAllAppEvents();

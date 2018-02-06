@@ -1,4 +1,4 @@
-import {Injectable, OnDestroy, OnInit} from "@angular/core";
+import {Injectable} from "@angular/core";
 import { EventDispatcherService } from "../../dispatcher/appEventDispathcer.service";
 import {Action, Store} from "@ngrx/store";
 import { AngularFireDatabase } from "angularfire2/database";
@@ -13,8 +13,10 @@ import {PhotoActions} from "./photoActions";
 import {AppLogger} from "../../utilities/appLogger";
 import {AppConstants} from "../../common/appConstants";
 
+
+
 @Injectable()
-export class PhotoCrud implements OnInit, OnDestroy{
+export class PhotoCrud{
 
   appUtils = AppUtils;
   appConst = AppConstants;
@@ -29,20 +31,20 @@ export class PhotoCrud implements OnInit, OnDestroy{
     this.photoCrudSubscriptions = [];
   }
 
-  ngOnInit() {
+  registerToEvents() {
     console.log("PhotoCrud OnInit");
 
     const getEventPhotosSub = this.eventDispatcherService.on(PhotoActions.getEventPhotos);
-    getEventPhotosSub.subscribe(this.getEventPhotos);
+    getEventPhotosSub.subscribe(this.getEventPhotos.bind(this));
 
     const savePhotoToStorageSub = this.eventDispatcherService.on(PhotoActions.savePhotoToStorage);
-    savePhotoToStorageSub.subscribe(this.savePhotoToStorage);
+    savePhotoToStorageSub.subscribe(this.savePhotoToStorage.bind(this));
 
     const addPhotoToAlbumSub = this.eventDispatcherService.on(PhotoActions.addPhotoToAlbum);
-    addPhotoToAlbumSub.subscribe(this.addPhotoToAlbum);
+    addPhotoToAlbumSub.subscribe(this.addPhotoToAlbum.bind(this));
 
     const tagPhotoSub = this.eventDispatcherService.on(PhotoActions.tagPhoto);
-    tagPhotoSub.subscribe(this.tagPhoto);
+    tagPhotoSub.subscribe(this.tagPhoto.bind(this));
 
     //add all subjects to list - we unsubscribe to them when close the app
     this.photoCrudSubscriptions.push(getEventPhotosSub);
@@ -52,7 +54,7 @@ export class PhotoCrud implements OnInit, OnDestroy{
 
   }
 
-  ngOnDestroy() {
+  unsubscribeEvents() {
     console.log("PhotoCrud OnDestroy");
     this.photoCrudSubscriptions.forEach(s => s.unsubscribe());
   }

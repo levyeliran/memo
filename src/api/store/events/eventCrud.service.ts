@@ -1,4 +1,4 @@
-import {Injectable, OnDestroy, OnInit} from "@angular/core";
+import {Injectable} from "@angular/core";
 import {EventDispatcherService} from "../../dispatcher/appEventDispathcer.service";
 import {Store} from "@ngrx/store";
 import {AngularFireDatabase} from "angularfire2/database";
@@ -12,7 +12,7 @@ import {Action} from '@ngrx/store';
 import {AppLogger} from "../../utilities/appLogger";
 
 @Injectable()
-export class EventCrud implements OnInit, OnDestroy{
+export class EventCrud{
 
   logger: AppLogger;
   storeTreeNode = 'events';
@@ -25,17 +25,17 @@ export class EventCrud implements OnInit, OnDestroy{
     this.eventCrudSubscriptions = [];
   }
 
-  ngOnInit() {
+  registerToEvents() {
     console.log("EventCrud OnInit");
 
     const getEventSub = this.eventDispatcherService.on(EventActions.getEvent);
-    getEventSub.subscribe(this.getEvent);
+    getEventSub.subscribe(this.getEvent.bind(this));
 
     const getEventsSub = this.eventDispatcherService.on(EventActions.getEvents);
-    getEventsSub.subscribe(this.getEvents);
+    getEventsSub.subscribe(this.getEvents.bind(this));
 
     const createEventSub = this.eventDispatcherService.on(EventActions.createEvent);
-    createEventSub.subscribe(this.createEvent);
+    createEventSub.subscribe(this.createEvent.bind(this));
 
     const updateEventSub = this.eventDispatcherService.on(EventActions.updateEvent);
     createEventSub.subscribe(this.updateEvent);
@@ -47,7 +47,7 @@ export class EventCrud implements OnInit, OnDestroy{
     this.eventCrudSubscriptions.push(updateEventSub);
   }
 
-  ngOnDestroy() {
+  unsubscribeEvents() {
     console.log("EventCrud OnDestroy");
     this.eventCrudSubscriptions.forEach(s => s.unsubscribe());
   }
