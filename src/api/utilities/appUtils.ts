@@ -2,6 +2,8 @@ export class AppUtils{
 
   static userKey:string;
   static userName:string = '';
+  static fullName:string = '';
+  static userEmail:string = '';
 
   static isPastDate(date, countHour = false) : boolean{
     if(!date){

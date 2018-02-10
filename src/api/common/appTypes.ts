@@ -155,10 +155,17 @@ export const emojiMepper = {
 
 
 //////////////////////////////////////////////////////////
+
+export class ProfileStore{
+  profile: UserProfile;
+}
 export class UserProfile {
   key:string;
-  name:string;
+  userName:string;
+  fullName:string;
   email:string;
   photo:Photo;
+  creationDate:any;
   defaultPhotoURL:string;
 }
+

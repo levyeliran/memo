@@ -11,15 +11,10 @@ import 'firebase/storage';
 import {Observable} from 'rxjs/Rx'
 import {PhotoActions} from "./photoActions";
 import {AppLogger} from "../../utilities/appLogger";
-import {AppConstants} from "../../common/appConstants";
-
-
 
 @Injectable()
 export class PhotoCrud{
 
-  appUtils = AppUtils;
-  appConst = AppConstants;
   logger: AppLogger;
   photoCrudSubscriptions:any[];
 
@@ -80,7 +75,7 @@ export class PhotoCrud{
             let userKeys = Object.keys(pTags.tags);
             userKeys.forEach((key)=>{
               const tag = pTags.tags[key];
-              if(tag.creatorKey !== this.appUtils.userKey){
+              if(tag.creatorKey !== AppUtils.userKey){
                 const ptMeta = new PhotoTagsMetaData();
                 ptMeta.creatorKey = tag.creatorKey;
                 ptMeta.creatorName = tag.creatorName;
@@ -118,11 +113,11 @@ export class PhotoCrud{
       (error) => {
         // upload failed
         this.logger.log(error);
-        this.dispatchAck({type: PhotoActions.eventPhotoUploadFailed});
+        this.dispatchAck({type: PhotoActions.photoUploadToStorageFailed});
       },
       () => {
         this.logger.log('upload completed');
-        this.dispatchAck({type: PhotoActions.eventPhotoUploaded, payload: photo});
+        this.dispatchAck({type: PhotoActions.photoUploadedToStorage, payload: photo});
       }
     );
   }
@@ -131,12 +126,10 @@ export class PhotoCrud{
 
     const pushRef = this.fb.database().ref().child(`photoToEvent/${photo.eventKey}`).push();
     photo.key = pushRef.key;
-    photo.creatorKey = this.appUtils.userKey;
-    //photo.creatorName = this.appUtils.userName;
+    photo.creatorKey = AppUtils.userKey;
+    //photo.creatorName = this.appUtils.fullName;
     photo.creationDate = new Date();
-    /*photo.fileURL = photo.storageMetadata.downloadURLs[0];
-    photo.fileThumbnailURL = photo.fileURL.replace(photo.fileName, `${this.appConst.thumbnailPrefix}${photo.fileName}`);
-    */photo.size = photo.storageMetadata ? photo.storageMetadata.size : 0;
+    photo.size = photo.storageMetadata ? photo.storageMetadata.size : 0;
     photo.width = photo.photoImage.width;
     photo.height = photo.photoImage.height;
 
@@ -160,16 +153,16 @@ export class PhotoCrud{
     //if the user already  tagged the photo - update, create otherwise.
     if(photo.myEmojiTagKey){
       const tegRef = this.fb.database().ref()
-        .child(`tagToEventPhoto/${photo.eventKey}/${photo.key}/tags/${this.appUtils.userKey}`);
+        .child(`tagToEventPhoto/${photo.eventKey}/${photo.key}/tags/${AppUtils.userKey}`);
       tegRef.update(tagData).then((t)=>{
         this.onTagSuccess(photo,emojiKey);
       });
     }
     else {
       const pushRef = this.fb.database().ref()
-        .child(`tagToEventPhoto/${photo.eventKey}/${photo.key}/tags/${this.appUtils.userKey}`).push();
-      tagData.creatorKey = this.appUtils.userKey;
-      tagData.creatorName = this.appUtils.userName;
+        .child(`tagToEventPhoto/${photo.eventKey}/${photo.key}/tags/${AppUtils.userKey}`).push();
+      tagData.creatorKey = AppUtils.userKey;
+      tagData.creatorName = AppUtils.fullName;
 
       pushRef.set(tagData).then((t)=>{
         this.onTagSuccess(photo,emojiKey);

@@ -3,6 +3,7 @@ export const AppConstants = {
   isProdMode: true,
   appTopMenuHeight: 50,
   thumbnailPrefix:'thumb_',
+  userProfilePrefix:'userProfile_',
   userDetails:{
     name:'name'
   },

@@ -2,7 +2,7 @@
 
 <ion-content padding>
 
-  <ion-list>
+  <ion-list *ngIf="profile">
 
     <div class="user-profile-image-card">
       <ion-card (click)="onUploadUserPhoto()">
@@ -12,13 +12,13 @@
 
     <div class="user-details-wrapper">
       <ion-item>
-        <ion-label>Name</ion-label>
-        <ion-input type="text" [(ngModel)]="profile.name"></ion-input>
+        <ion-label floating>Full Name</ion-label>
+        <ion-input type="text" [(ngModel)]="profile.fullName"></ion-input>
       </ion-item>
 
       <ion-item>
-        <ion-label>Email</ion-label>
-        <ion-input type="text" disabled="true">{{profile.email}}</ion-input>
+        <ion-label floating>Email</ion-label>
+        <ion-input type="text" [(ngModel)]="profile.email" disabled="true"></ion-input>
       </ion-item>
 
       <ion-item class="save-profile-button-item">

@@ -52,8 +52,8 @@ export class EventCrud{
     this.eventCrudSubscriptions.forEach(s => s.unsubscribe());
   }
 
-  private getEvent(eventId: string) {
-    this.db.list<Event>(`${this.storeTreeNode}/${eventId}`).valueChanges().subscribe((payload) => {
+  private getEvent(eventKey: string) {
+    this.db.list<Event>(`${this.storeTreeNode}/${eventKey}`).valueChanges().subscribe((payload) => {
       //update the store with the retrieved event
       this.store.dispatch({type: EventActions.getEvent, payload});
 

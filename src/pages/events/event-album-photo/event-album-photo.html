@@ -7,9 +7,12 @@
   <div class="photo-wrapper">
     <img #photoPreview src="{{photo.fileURL}}"
          class="{{isNewPhoto ? 'hide' : ''}}"/>
-    <canvas #photoPreviewCanvas  class="{{isNewPhoto ? '' : 'hide'}}"></canvas>
-  </div>
+    <canvas #photoPreviewCanvas class="{{isNewPhoto ? '' : 'hide'}}"></canvas>
 
+    <div *ngIf="tagsMetaData" class="tagged-emojis-wrapper">
+      <img *ngFor="let e of taggedEmojis" src="{{e.imagePath}}" class="tagged-emoji"/>
+    </div>
+  </div>
 
   <div #toolsBar class="bottom-menu">
 
@@ -18,11 +21,19 @@
       <!--photo design toolbar-->
     </div>
 
-
     <!--create component?-->
     <div class="tag-toolbar" *ngIf="!isNewPhoto">
+
+      <div class="number-of-tags-description">
+        <span *ngIf="photo && photo.tagsMetaData && photo.tagsMetaData.length">
+          {{photo.tagsMetaData.length}} People tagged this photo.
+        </span>
+      </div>
+
       <!--photo tag toolbar-->
-      <img *ngFor="let e of emojis" src="{{e.imagePath}}" (click)="onEmojiClick(e)"/>
+      <img *ngFor="let e of emojis" src="{{e.imagePath}}"
+           class="{{ e.selected ? 'selected' : ''}}"
+           (click)="onEmojiClick(e)"/>
     </div>
   </div>
 

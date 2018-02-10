@@ -15,6 +15,7 @@ export class EventAlbumPhotoPage extends BaseComponent implements OnInit {
   event: Event;
   photo: Photo;
   emojis: any[];
+  taggedEmojis:any[];
   selectedEmoji:any;
   photoCanvas: any;
   isNewPhoto: boolean;
@@ -39,21 +40,46 @@ export class EventAlbumPhotoPage extends BaseComponent implements OnInit {
   }
 
   getEmojis(){
+
+    //select the own emoji
+
     return [
-      {imagePath:'assets/images/emoji/1.png', key: '1'},
       {imagePath:'assets/images/emoji/2.png', key: '2'},
       {imagePath:'assets/images/emoji/3.png', key: '3'},
-      {imagePath:'assets/images/emoji/4.png', key: '4'},
       {imagePath:'assets/images/emoji/5.png', key: '5'},
       {imagePath:'assets/images/emoji/6.png', key: '6'},
-      {imagePath:'assets/images/emoji/7.png', key: '7'}
+      {imagePath:'assets/images/emoji/7.png', key: '7'},
+      {imagePath:'assets/images/emoji/8.png', key: '8'},
+      {imagePath:'assets/images/emoji/9.png', key: '9'},
+      {imagePath:'assets/images/emoji/10.png', key: '10'},
+      {imagePath:'assets/images/emoji/11.png', key: '11'},
+      {imagePath:'assets/images/emoji/12.png', key: '12'},
+      {imagePath:'assets/images/emoji/13.png', key: '13'},
+      {imagePath:'assets/images/emoji/14.png', key: '14'},
+      {imagePath:'assets/images/emoji/15.png', key: '15'}
     ];
+  }
+
+  getTaggedEmojis(){
+    const taggedEmojis = [];
+    if(this.photo && this.photo.tagsMetaData){
+      this.photo.tagsMetaData.reduce((acc, tmd) => {
+        if(!acc.find(t => t.key === tmd.emojiTagKey)){
+          acc.push(
+            {imagePath:`assets/images/emoji/${tmd.emojiTagKey}.png`, key: tmd.emojiTagKey}
+          );
+        }
+        return acc;
+      }, []);
+    }
+    return taggedEmojis;
   }
 
   ngOnInit() {
     //set photo events
     this.registerToEvents();
     this.emojis = this.getEmojis();
+    this.taggedEmojis = this.getTaggedEmojis();
     const imageWidth = window.screen.width;
     const imageHeight = window.screen.width * 0.8;
     //calculate the
@@ -99,12 +125,12 @@ export class EventAlbumPhotoPage extends BaseComponent implements OnInit {
   }
 
   registerToEvents() {
-    this.registerToEvent(PhotoActions.eventPhotoUploaded).subscribe(() => {
+    this.registerToEvent(PhotoActions.photoUploadedToStorage).subscribe(() => {
       //save the photo to the album
       this.eventDispatcherService.emit({type: PhotoActions.addPhotoToAlbum, payload: this.photo});
     });
 
-    this.registerToEvent(PhotoActions.eventPhotoUploadFailed).subscribe(() => {
+    this.registerToEvent(PhotoActions.photoUploadToStorageFailed).subscribe(() => {
       //display error
     });
 
@@ -121,11 +147,15 @@ export class EventAlbumPhotoPage extends BaseComponent implements OnInit {
   }
 
   onEmojiClick(emoji:any){
-    if(this.isDoubleClick()){
+    //if(this.isDoubleClick()){
+      if(this.selectedEmoji){
+        this.selectedEmoji.selected = false;
+      }
+
       this.selectedEmoji = emoji;
       emoji.selected = !emoji.selected;
       this.logger.log(`Emoji ${JSON.stringify(emoji)}} was ${emoji.selected ? 'selected' : 'unSelected'}`);
-    }
+    //}
   }
 
 

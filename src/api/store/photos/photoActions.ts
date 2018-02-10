@@ -1,16 +1,22 @@
 export const PhotoActions = {
   //store + crud events
   getEventPhotos: 'getEventPhotos',
-  savePhotoToStorage: 'savePhotoToStorage',
   addPhotoToAlbum: 'addPhotoToAlbum',
   tagPhoto: 'tagPhoto',
 
+  //save to FB storage
+  savePhotoToStorage: 'savePhotoToStorage',
 
-  //ack events
+  /////////////////////////////////////////////////////
+
+
+  //store + crud events ACK
   photoTagged: 'photoTagged',
   eventPhotoSaved: 'eventPhotoSaved',
   eventPhotosReceived: 'eventPhotosReceived',
-  eventPhotoUploaded: 'eventPhotoUploaded',
-  eventPhotoUploadFailed: 'eventPhotoUploadFailed',
+
+  //save to FB storage ACK
+  photoUploadedToStorage: 'photoUploadedToStorage',
+  photoUploadToStorageFailed: 'photoUploadToStorageFailed'
 
 };

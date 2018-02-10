@@ -10,9 +10,9 @@ import {BaseComponent} from "../api/common/baseComponent/baseComponent";
 import {AngularFireAuth} from 'angularfire2/auth';
 import {AppStoreService} from "../api/store/appStore.service";
 import {AppLocalStorage} from "../api/utilities/appLocalStorage.service";
-import {AppPermission} from "../api/utilities/appPermission.service";
 import {EventCrud} from "../api/store/events/eventCrud.service";
 import {PhotoCrud} from "../api/store/photos/photoCrud.service";
+import {ProfileCrud} from "../api/store/profile/profileCrud.service";
 
 @Component({
   templateUrl: 'app.html',
@@ -33,9 +33,9 @@ export class MemoApp extends BaseComponent implements OnInit, OnDestroy {
               private appAuth: AngularFireAuth,
               private appStoreService: AppStoreService,
               public appLocalStorage: AppLocalStorage,
-              public appPermission: AppPermission,
               private eventCrud: EventCrud,
               private photoCrud: PhotoCrud,
+              private profileCrud: ProfileCrud,
               public eventDispatcherService: EventDispatcherService) {
     super(eventDispatcherService);
   }
@@ -43,6 +43,7 @@ export class MemoApp extends BaseComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.eventCrud.registerToEvents();
     this.photoCrud.registerToEvents();
+    this.profileCrud.registerToEvents();
 
     //init the app menu
     this.menuPages = [
@@ -86,22 +87,23 @@ export class MemoApp extends BaseComponent implements OnInit, OnDestroy {
       }
       else {
         this.appLocalStorage.setKey(this.appConst.registration.userKey, payload.uid);
-        this.fetchDataAndInitApp(payload.uid);
+        this.fetchDataAndInitApp(payload);
       }
     });
 
   }
 
-  fetchDataAndInitApp(userKey:string){
+  fetchDataAndInitApp(authData:any){
     //hide login page
     this.appLoginRequired = false;
 
     //fetch data and init store, when done - init home page
-    this.appStoreService.initAppStore(userKey).then((results)=>{
+    this.appStoreService.initAppStore(authData).then((results)=>{
       this.rootPage = MainTabsPage;
       this.appStoreReady = true;
     });
   }
+
 
   onMenuPage(page) {
     //close the menu
@@ -122,6 +124,7 @@ export class MemoApp extends BaseComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.eventCrud.unsubscribeEvents();
     this.photoCrud.unsubscribeEvents();
+    this.profileCrud.unsubscribeEvents();
     //un-subscribe to all registered events
     //WE USE THIS ONLY HERE, THIS WILL CLEAR ALL EVENTS FOR ENTIRE APP ON CLOSE!!!
     this.eventDispatcherService.clearAllAppEvents();
