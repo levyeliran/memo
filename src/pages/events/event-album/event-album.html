@@ -5,7 +5,7 @@
 <ion-content padding>
 
 
-  <div class="event-album-grid" *ngIf="photosGridModel.length">
+  <div class="event-album-grid" *ngIf="photosGridModel.length > 0">
     <div class="grid-row" *ngFor="let row of photosGridModel">
       <div class="grid-col {{col.class}}"*ngFor="let col of row">
         <img src="{{col.photo.fileThumbnailURL}}" (click)="onSelectPhoto(col.photo)" />
@@ -17,7 +17,7 @@
     </div>
   </div>
 
-  <div class="empty-state" *ngIf="!photosGridModel.length">
+  <div class="empty-state" *ngIf="photosGridModel.length == 0">
     empty!
     <div *ngIf="event.isActive">
       Be the first to upload a photo now!

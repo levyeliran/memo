@@ -64,25 +64,27 @@ export class EventAlbumPage extends BaseComponent implements OnInit {
     let index = 0;
     let data: any[] = [];
     while (this.photos.length) {
-
       const photo = this.photos.pop();
-      data.push({
-        photo: photo,
-        class: 'col-image', //`${index == 0 ? 'left w32' : 'right w34'}`,
-        hasEmoji: !!photo.myEmojiTagKey
-      });
+      if(photo.fileThumbnailURL){
+        data.push({
+          photo: photo,
+          class: 'col-image', //`${index == 0 ? 'left w32' : 'right w34'}`,
+          hasEmoji: !!photo.myEmojiTagKey
+        });
 
-      index++;
-      index %= 3;
-      if (index == 0) {
-        this.photosGridModel.push(data);
-        data = [];
+        index++;
+        index %= 3;
+        if (index == 0) {
+          this.photosGridModel.push(data);
+          data = [];
+        }
       }
     }
 
     if(data.length){
       this.photosGridModel.push(data);
     }
+    this.logger.log('album model recalculated');
     this.logger.log(this.photosGridModel);
   }
 

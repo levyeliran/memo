@@ -1,3 +1,64 @@
 page-profile {
 
+  ion-list, ion-slide {
+    ion-item {
+      &.item-md {
+        background-color: transparent !important;
+      }
+    }
+  }
+
+  .user-profile-image-card {
+    margin-top: 50px;
+
+    ion-card {
+      &.card {
+        &.card-md {
+          width: 50%;
+          margin: auto;
+          background: wheat;
+          border-radius: 50%;
+        }
+      }
+
+      img {
+        width: 140px;
+        margin: 5px 5px 0px 20px;
+      }
+    }
+  }
+  ion-list{
+    .user-details-wrapper{
+      margin-top: 20px;
+      margin-right: 10px;
+
+      ion-item:last-child{
+        &.item-input{
+          border-bottom:none !important;
+        }
+      }
+
+      ion-item{
+        &.save-profile-button-item{
+          .item-inner{
+            border-bottom: none !important;
+            padding-right: 0px !important;
+          }
+        }
+
+        ion-label{
+          &.label-md{
+            margin:10px 0px 0px 0px !important;
+
+            button{
+              height:40px;
+              font-size: 20px;
+              font-weight: 600;
+            }
+          }
+        }
+      }
+    }
+  }
+
 }

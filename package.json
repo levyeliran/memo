@@ -12,7 +12,8 @@
         "ionic:serve": "ionic-app-scripts serve",
         "ionic:watch": "ionic-app-scripts watch",
         "ionic:androidApk": "ionic cordova build --release android",
-        "ionic:ionApk": "ionic cordova build --release android"
+        "ionic:ionApk": "ionic cordova build --release android",
+        "emulate": "ionic cordova emulate android -l -c"
     },
     "dependencies": {
         "@angular/common": "4.1.3",

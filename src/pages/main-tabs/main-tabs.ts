@@ -24,8 +24,8 @@ export class MainTabsPage implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(){
-    this.tabRef.select(1);
+    //this.tabRef.select(1);
     //add badge when there is an event "now"
-    this.eventsTabBadgeCount = 1;
+    //this.eventsTabBadgeCount = 1;
   }
 }

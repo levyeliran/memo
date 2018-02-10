@@ -3,9 +3,7 @@ import {NavController, NavParams} from 'ionic-angular';
 import {BaseComponent} from "../../../api/common/baseComponent/baseComponent";
 import {EventDispatcherService} from "../../../api/dispatcher/appEventDispathcer.service";
 import {Event, HeaderButton, Photo} from "../../../api/common/appTypes";
-import {PhotoCrud} from "../../../api/store/photos/photoCrud.service";
 import {PhotoActions} from "../../../api/store/photos/photoActions";
-import {photoReducer} from "../../../api/store/photos/photo.reducer";
 
 
 @Component({
@@ -20,7 +18,6 @@ export class EventAlbumPhotoPage extends BaseComponent implements OnInit {
   selectedEmoji:any;
   photoCanvas: any;
   isNewPhoto: boolean;
-  isDisplayHeartAnimation = false;
   headerButtons: HeaderButton[];
 
   //get reference to photo canvas view
@@ -31,7 +28,6 @@ export class EventAlbumPhotoPage extends BaseComponent implements OnInit {
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
-              public photoCrud: PhotoCrud,
               public eventDispatcherService: EventDispatcherService) {
     super(eventDispatcherService);
     this.event = this.navParams.get('event');
@@ -128,6 +124,7 @@ export class EventAlbumPhotoPage extends BaseComponent implements OnInit {
     if(this.isDoubleClick()){
       this.selectedEmoji = emoji;
       emoji.selected = !emoji.selected;
+      this.logger.log(`Emoji ${JSON.stringify(emoji)}} was ${emoji.selected ? 'selected' : 'unSelected'}`);
     }
   }
 

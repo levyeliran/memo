@@ -2,4 +2,32 @@
 
 <ion-content padding>
 
+  <ion-list>
+
+    <div class="user-profile-image-card">
+      <ion-card (click)="onUploadUserPhoto()">
+        <img src="{{profile.photo ? profile.photo.fileThumbnailURL : profile.defaultPhotoURL}}"/>
+      </ion-card>
+    </div>
+
+    <div class="user-details-wrapper">
+      <ion-item>
+        <ion-label>Name</ion-label>
+        <ion-input type="text" [(ngModel)]="profile.name"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Email</ion-label>
+        <ion-input type="text" disabled="true">{{profile.email}}</ion-input>
+      </ion-item>
+
+      <ion-item class="save-profile-button-item">
+        <button ion-button full (click)="onSaveProfile()" [disabled]="onValidateProfile()">
+          Save
+        </button>
+      </ion-item>
+
+    </div>
+  </ion-list>
+
 </ion-content>

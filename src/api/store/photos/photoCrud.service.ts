@@ -109,8 +109,9 @@ export class PhotoCrud{
         // upload in progress
         this.logger.log('upload progress: ' + (snapshot.bytesTransferred / snapshot.totalBytes) * 100);
         //save the metadata of the image storage at the end
-        if(snapshot.bytesTransferred === snapshot.totalBytes){
+        if(snapshot.bytesTransferred === snapshot.totalBytes && snapshot.metadata){
           photo.storageMetadata = snapshot.metadata;
+          this.logger.log("photo storageMetadata:");
           this.logger.log(photo.storageMetadata);
         }
       },
@@ -133,9 +134,9 @@ export class PhotoCrud{
     photo.creatorKey = this.appUtils.userKey;
     //photo.creatorName = this.appUtils.userName;
     photo.creationDate = new Date();
-    photo.fileURL = photo.storageMetadata.downloadURLs[0];
+    /*photo.fileURL = photo.storageMetadata.downloadURLs[0];
     photo.fileThumbnailURL = photo.fileURL.replace(photo.fileName, `${this.appConst.thumbnailPrefix}${photo.fileName}`);
-    photo.size = photo.storageMetadata.size;
+    */photo.size = photo.storageMetadata ? photo.storageMetadata.size : 0;
     photo.width = photo.photoImage.width;
     photo.height = photo.photoImage.height;
 

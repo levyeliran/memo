@@ -9,7 +9,7 @@ export class HeaderButton {
   }
 }
 
-
+//////////////////////////////////////////////////////////
 export class EventStore{
   events: Event[] = [];
   currentEvent: Event;
@@ -50,6 +50,8 @@ export class EventLocation{
   lat:number;
   address:any;
 }
+
+//consts
 export const EventStatus = {
   own: 1,
   invited: 2,
@@ -61,6 +63,37 @@ export const EventStatus = {
 
 /////////////////////////////////////////////////////////
 
+export class PhotoStore{
+  photos:Photo[] = [];
+}
+export class PhotoTagsMetaData {
+  emojiTagKey:string;
+  creatorKey:string;
+  creatorName:string;
+}
+export class Photo{
+  key:any;
+  eventKey:any;
+  creatorKey:any;
+  isOwnPhoto:boolean;
+  isThumbnail:boolean;
+  creatorName:string;
+  creationDate:any;
+  fileName:string;
+  fileType:string;
+  width:number;
+  height:number;
+  size:number;
+  fileURL:string;
+  fileThumbnailURL:string;
+  storageMetadata:any;
+  tagsMetaData:PhotoTagsMetaData[];
+  myEmojiTagKey:string;
+  base64ImageData:string;
+  photoImage:any;
+}
+
+//consts
 export const emojiMepper = {
   like:{
     title: "Like",
@@ -119,32 +152,13 @@ export const emojiMepper = {
     iconClass: ""
   }
 };
-export class PhotoStore{
-  photos:Photo[] = [];
-};
-export class PhotoTagsMetaData {
-  emojiTagKey:string;
-  creatorKey:string;
-  creatorName:string;
-}
-export class Photo{
-  key:any;
-  eventKey:any;
-  creatorKey:any;
-  isOwnPhoto:boolean;
-  isThumbnail:boolean;
-  creatorName:string;
-  creationDate:any;
-  fileName:string;
-  fileType:string;
-  width:number;
-  height:number;
-  size:number;
-  fileURL:string;
-  fileThumbnailURL:string;
-  storageMetadata:any;
-  tagsMetaData:PhotoTagsMetaData[];
-  myEmojiTagKey:string;
-  base64ImageData:string;
-  photoImage:any;
+
+
+//////////////////////////////////////////////////////////
+export class UserProfile {
+  key:string;
+  name:string;
+  email:string;
+  photo:Photo;
+  defaultPhotoURL:string;
 }
