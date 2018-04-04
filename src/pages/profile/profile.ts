@@ -1,21 +1,21 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import { NavController } from 'ionic-angular';
-import {Photo, UserProfile} from "../../api/common/appTypes";
+import { UserProfile} from "../../api/common/appTypes";
 import {EventDispatcherService} from "../../api/dispatcher/appEventDispathcer.service";
-import {PhotoActions} from "../../api/store/photos/photoActions";
 import {BaseComponent} from "../../api/common/baseComponent/baseComponent";
 import {ProfileActions} from "../../api/store/profile/profileActions";
 import {AppStoreService} from "../../api/store/appStore.service";
+
 
 @Component({
   selector: 'page-profile',
   templateUrl: 'profile.html',
 })
-export class ProfilePage extends BaseComponent implements OnInit {
+export class ProfilePage extends BaseComponent implements OnInit, OnDestroy {
 
   profile:UserProfile;
-  userPhoto:Photo;
   profileStoreSubscription: any;
+  defaultPhotoURL = "assets/images/avatarCardBG.png";
 
   constructor(public navCtrl: NavController,
               public appStoreService: AppStoreService,
@@ -30,49 +30,20 @@ export class ProfilePage extends BaseComponent implements OnInit {
         this.profile = _store.profile;
       }
     });
-
-    //set album events
-    this.registerToEvents();
   }
 
-  onUploadUserPhoto(){
-    //open uploader
-
-
-    //update the profile photo
-    this.profile.photo = this.userPhoto;
+  ngOnDestroy() {
+    //unregister to events
+    this.profileStoreSubscription.unsubscribe();
   }
-
 
   onValidateProfile(){
-    return !this.profile.fullName;
+    return !this.profile.fullName || !this.profile.phone;
   }
 
   onSaveProfile(){
-    if(this.userPhoto){
-      //save the photo
-      this.eventDispatcherService.emit({type: PhotoActions.savePhotoToStorage, payload: this.userPhoto});
-    }
-    else {
-      //update the profile
-      this.eventDispatcherService.emit({type: ProfileActions.updateUserProfile, payload: this.profile});
-    }
+    this.eventDispatcherService.emit({type: ProfileActions.updateUserProfile, payload: this.profile});
   }
 
-  registerToEvents() {
-    this.registerToEvent(PhotoActions.photoUploadedToStorage).subscribe(() => {
-      //update the profile
-      this.eventDispatcherService.emit({type: ProfileActions.updateUserProfile, payload: this.profile});
-    });
-
-    this.registerToEvent(PhotoActions.photoUploadToStorageFailed).subscribe(() => {
-      //display error
-    });
-
-    this.registerToEvent(ProfileActions.userProfilePhotoSaved).subscribe(() => {
-      //navigate back to the album
-      this.userPhoto = null;
-    });
-  }
 }
 

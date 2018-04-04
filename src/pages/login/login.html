@@ -1,25 +1,45 @@
 <ion-content padding>
 
-  <div>
-    animation here
+  <div #loginWrapper class="login-wrapper">
+    <ion-list>
+
+      <ion-item>
+        <ion-label floating>Full name</ion-label>
+        <ion-input type="text" [(ngModel)]="loginData.fullName"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label floating>Phone number</ion-label>
+        <ion-input type="tel" [(ngModel)]="loginData.phone"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label floating>E-Mail</ion-label>
+        <ion-input type="email" [(ngModel)]="loginData.email"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label floating>Password (At least 8 characters)</ion-label>
+        <ion-input type="password" [(ngModel)]="loginData.password"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <button ion-button full icon-left (click)="onLogin()" [disabled]="disableLoginOnValidateCredentials()">
+          <ion-icon name="log-in"></ion-icon>
+          Login
+        </button>
+      </ion-item>
+
+    </ion-list>
   </div>
 
-  <ion-list style="position: absolute; bottom: 20px;">
-    <ion-item>
-      <ion-label floating>E-Mail</ion-label>
-      <ion-input type="email" [(ngModel)]="loginData.email"></ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-label floating>Password</ion-label>
-      <ion-input type="password" [(ngModel)]="loginData.password"></ion-input>
-    </ion-item>
-    <ion-item>
-      <button ion-button clear icon-left (click)="onLogin()" [disabled]="onValidateCredentials()">
-        <ion-icon name="log-in"></ion-icon>
-        Login
-      </button>
-    </ion-item>
-  </ion-list>
+  <div #animationWrapper class="animation-wrapper">
+    <img class="app-logo" src="assets/images/avatarCardBG.png"/>
+    <div class="app-name-wrapper">
+      <div class="app-name">Memo</div>
+      <div class="app-description">For your special moments</div>
+    </div>
 
+  </div>
 
 </ion-content>

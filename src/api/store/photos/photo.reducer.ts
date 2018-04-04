@@ -11,6 +11,10 @@ export const photoReducer = (state: PhotoStore = new PhotoStore(), action: Actio
       logger.log(action);
       state.photos = action.payload;
       return Object.assign({}, state);
+    case PhotoActions.getEventPhotosTags:
+      logger.log(action);
+      state.photosTags = action.payload;
+      return Object.assign({}, state);
     default:
       return state;
   }

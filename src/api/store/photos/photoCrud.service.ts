@@ -1,26 +1,27 @@
 import {Injectable} from "@angular/core";
-import { EventDispatcherService } from "../../dispatcher/appEventDispathcer.service";
+import {EventDispatcherService} from "../../dispatcher/appEventDispathcer.service";
 import {Action, Store} from "@ngrx/store";
-import { AngularFireDatabase } from "angularfire2/database";
+import {AngularFireDatabase} from "angularfire2/database";
 import {AppStore} from "../appStore.interface";
 import {Photo, PhotoTagsMetaData} from "../../common/appTypes";
-import { FirebaseApp } from 'angularfire2';
-import { AppUtils } from "../../utilities/appUtils";
+import {FirebaseApp} from 'angularfire2';
+import {AppUtils} from "../../utilities/appUtils";
 import * as firebase from 'firebase/app';
 import 'firebase/storage';
-import {Observable} from 'rxjs/Rx'
 import {PhotoActions} from "./photoActions";
 import {AppLogger} from "../../utilities/appLogger";
 
 @Injectable()
-export class PhotoCrud{
+export class PhotoCrud {
 
   logger: AppLogger;
-  photoCrudSubscriptions:any[];
+  photoCrudSubscriptions: any[];
+  photos: Photo[] = [];
+  tags: any[] = [];
 
   constructor(public eventDispatcherService: EventDispatcherService,
               public store: Store<AppStore>,
-              public fb:FirebaseApp,
+              public fb: FirebaseApp,
               public db: AngularFireDatabase) {
     this.logger = new AppLogger();
     this.photoCrudSubscriptions = [];
@@ -54,57 +55,70 @@ export class PhotoCrud{
     this.photoCrudSubscriptions.forEach(s => s.unsubscribe());
   }
 
-  private getEventPhotos(eventKey:string){
+  private getEventPhotos(eventKey: string) {
     //https://angularfirebase.com/lessons/angular-file-uploads-to-firebase-storage/
     //https://firebase.google.com/docs/storage/web/upload-files
     //convert canvas to blob & save - create thumbnail
     //https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/toBlob
     //https://www.html5canvastutorials.com/advanced/html5-canvas-save-drawing-as-an-image/
     //https://aaronczichon.de/2017/04/18/ionic-firebase-storage/
-    Observable.combineLatest<Photo[], any[]>(
-      this.db.list<Photo>(`photoToEvent/${eventKey}`).valueChanges(),
-      this.db.list<any>(`tagToEventPhoto/${eventKey}`).valueChanges())
-      .subscribe(([photos, photosTags])=> {
 
-        photos.forEach((photo)=>{
-          const pTags = photosTags.find(pt => pt.photoKey == photo.key);
-          if(pTags && pTags.tags){
-            photo.tagsMetaData = [];
-
-            //check if the current user had tags photos
-            let userKeys = Object.keys(pTags.tags);
-            userKeys.forEach((key)=>{
-              const tag = pTags.tags[key];
-              if(tag.creatorKey !== AppUtils.userKey){
-                const ptMeta = new PhotoTagsMetaData();
-                ptMeta.creatorKey = tag.creatorKey;
-                ptMeta.creatorName = tag.creatorName;
-                ptMeta.emojiTagKey = tag.emojiTagKey;
-                photo.tagsMetaData.push(ptMeta);
-              }
-              else {
-                photo.myEmojiTagKey = tag.emojiTagKey;
-              }
-            });
-          }
-        });
-
+    this.db.list<Photo>(`photoToEvent/${eventKey}`).valueChanges().subscribe(photos => {
       //update the store with the retrieved events
-      this.store.dispatch({type: PhotoActions.getEventPhotos, payload: photos});
+      const sortedPhotos = photos.sort((a, b) =>
+        (new Date(b.creationDate)).getTime() -
+        (new Date(a.creationDate)).getTime());
+
+      //update the store with the retrieved event photos
+      this.store.dispatch({type: PhotoActions.getEventPhotos, payload: sortedPhotos});
 
       //dispatch an ack
       this.dispatchAck({type: PhotoActions.eventPhotosReceived});
     });
+
+    this.db.list<any>(`tagToEventPhoto/${eventKey}`).valueChanges().subscribe(photosTags => {
+      //update the store with the retrieved event photos tags
+      //extract all tags data
+      const pt: PhotoTagsMetaData[] = [];
+      photosTags.forEach(ft => {
+        //for each photo - we have a list of users tags
+        const usersKeys = Object.keys(ft);
+        let photoData = null;
+        usersKeys.forEach(uk => {
+          const photoKey = ft[uk].photoKey;
+          const emojiTagData = {
+            creatorName: ft[uk].creatorName,
+            creatorKey: ft[uk].creatorKey,
+            emojiTagKey: ft[uk].emojiTagKey
+          };
+          if (photoData) {
+            //add data to the photo tags list
+            photoData.emojiTags.push(emojiTagData)
+          }
+          else {
+            photoData = {
+              photoKey: photoKey,
+              emojiTags: [emojiTagData]
+            };
+            pt.push(photoData);
+          }
+        });
+      });
+
+      this.store.dispatch({type: PhotoActions.getEventPhotosTags, payload: pt});
+
+    });
+
   }
 
-  private savePhotoToStorage(photo: Photo){
-    let uploadTask = this.fb.storage().ref().child(photo.fileName).putString(photo.base64ImageData,'data_url');
+  private savePhotoToStorage(photo: Photo) {
+    let uploadTask = this.fb.storage().ref().child(photo.fileName).putString(photo.base64ImageData, 'data_url');
     return uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED,
-      (snapshot:any) =>  {
+      (snapshot: any) => {
         // upload in progress
         this.logger.log('upload progress: ' + (snapshot.bytesTransferred / snapshot.totalBytes) * 100);
         //save the metadata of the image storage at the end
-        if(snapshot.bytesTransferred === snapshot.totalBytes && snapshot.metadata){
+        if (snapshot.bytesTransferred === snapshot.totalBytes && snapshot.metadata) {
           photo.storageMetadata = snapshot.metadata;
           this.logger.log("photo storageMetadata:");
           this.logger.log(photo.storageMetadata);
@@ -122,55 +136,44 @@ export class PhotoCrud{
     );
   }
 
-  private addPhotoToAlbum(photo: Photo){
+  private addPhotoToAlbum(photo: Photo) {
 
     const pushRef = this.fb.database().ref().child(`photoToEvent/${photo.eventKey}`).push();
     photo.key = pushRef.key;
     photo.creatorKey = AppUtils.userKey;
-    //photo.creatorName = this.appUtils.fullName;
-    photo.creationDate = new Date();
-    photo.size = photo.storageMetadata ? photo.storageMetadata.size : 0;
-    photo.width = photo.photoImage.width;
-    photo.height = photo.photoImage.height;
+    photo.creatorName = AppUtils.fullName;
+    photo.fileName = `${photo.eventKey}]${photo.creatorKey}]${pushRef.key}.png`;
+    photo.creationDate = (new Date()).toString();
 
     photo = this.removeUIProperties(photo);
-    pushRef.set(photo).then((p)=>{
+    pushRef.set(photo).then((p) => {
       //dispatch an ack
-      this.dispatchAck({type: PhotoActions.eventPhotoSaved});
+      this.dispatchAck({type: PhotoActions.eventPhotoSaved, payload: photo});
     });
 
   }
 
-  private tagPhoto(payload: any){
+  private tagPhoto(payload: any) {
     const photo: Photo = payload.photo;
     const emojiKey: string = payload.emojiKey;
 
     const tagData: any = {
+      eventKey: photo.eventKey,
+      photoKey: photo.key,
       emojiTagKey: emojiKey,
-      creationDate: new Date()
+      creatorKey: AppUtils.userKey,
+      creatorName: AppUtils.fullName,
+      creationDate: (new Date()).toString()
     };
 
-    //if the user already  tagged the photo - update, create otherwise.
-    if(photo.myEmojiTagKey){
-      const tegRef = this.fb.database().ref()
-        .child(`tagToEventPhoto/${photo.eventKey}/${photo.key}/tags/${AppUtils.userKey}`);
-      tegRef.update(tagData).then((t)=>{
-        this.onTagSuccess(photo,emojiKey);
-      });
-    }
-    else {
-      const pushRef = this.fb.database().ref()
-        .child(`tagToEventPhoto/${photo.eventKey}/${photo.key}/tags/${AppUtils.userKey}`).push();
-      tagData.creatorKey = AppUtils.userKey;
-      tagData.creatorName = AppUtils.fullName;
-
-      pushRef.set(tagData).then((t)=>{
-        this.onTagSuccess(photo,emojiKey);
-      });
-    }
+    const tegRef = this.fb.database().ref()
+      .child(`tagToEventPhoto/${photo.eventKey}/${photo.key}/${AppUtils.userKey}`);
+    tegRef.update(tagData).then((t) => {
+      this.onTagSuccess(photo, emojiKey);
+    });
   }
 
-  private onTagSuccess(photo: Photo, emojiKey: string){
+  private onTagSuccess(photo: Photo, emojiKey: string) {
     photo.myEmojiTagKey = emojiKey;
 
     //add to photo metadata
@@ -181,14 +184,15 @@ export class PhotoCrud{
     this.dispatchAck({type: PhotoActions.photoTagged});
   }
 
-  private removeUIProperties(photo: Photo){
+  private removeUIProperties(photo: Photo) {
     photo.base64ImageData = null;
     photo.photoImage = null;
     photo.storageMetadata = null;
+    photo.tagsMetaData = null;
     return photo;
   }
 
-  private dispatchAck(action: Action){
+  private dispatchAck(action: Action) {
     //dispatch an ack
     this.eventDispatcherService.emit(action);
   }

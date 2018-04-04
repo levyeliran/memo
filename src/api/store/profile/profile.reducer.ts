@@ -10,7 +10,6 @@ export const profileReducer = (state: ProfileStore = new ProfileStore(), action:
     case ProfileActions.getUserProfile:
       logger.log(action);
       state.profile = action.payload;
-      state.profile.defaultPhotoURL = "assets/images/avatarCardBG.png";
       return Object.assign({}, state);
     default:
       return state;

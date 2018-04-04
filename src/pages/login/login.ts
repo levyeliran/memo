@@ -1,30 +1,37 @@
-import { Component } from '@angular/core';
-//import { NavController } from 'ionic-angular';
-import { AngularFireAuth } from 'angularfire2/auth';
-//import { AuthProviders, AuthMethods, AngularFire } from 'angularfire2';
+import {Component, OnInit, ViewChild} from '@angular/core';
+import {AngularFireAuth} from 'angularfire2/auth';
 import {BaseComponent} from "../../api/common/baseComponent/baseComponent";
 import {EventDispatcherService} from "../../api/dispatcher/appEventDispathcer.service";
 import {AppDispatchTypes} from "../../api/common/dispatchTypes";
+import {ProfileActions} from "../../api/store/profile/profileActions";
+import {UserProfile} from "../../api/common/appTypes";
 
 @Component({
   selector: 'page-login',
   templateUrl: 'login.html',
 })
-export class LoginPage extends BaseComponent  {
+export class LoginPage extends BaseComponent implements OnInit {
 
-  loginData: any = {
-    email: '',
-    password: ''
-  };
+  loginData: UserProfile;
   disableLogin = false;
 
-  constructor(//public navCtrl: NavController,
-              private angAuth: AngularFireAuth,
-              //public angFire: AngularFire,
+  @ViewChild('animationWrapper') animationWrapperRef: any;
+  @ViewChild('loginWrapper') loginWrapperRef: any;
+
+  constructor(private angAuth: AngularFireAuth,
               public eventDispatcherService: EventDispatcherService) {
     super(eventDispatcherService);
   }
 
+
+  ngOnInit() {
+    this.loginData = new UserProfile();
+    const animationHeight = (window.screen.height - this.appConst.appTopMenuHeight) * 0.45;
+    const loginHeight = (window.screen.height - this.appConst.appTopMenuHeight) * 0.5;
+
+    this.animationWrapperRef.nativeElement.setAttribute("style", `height:${animationHeight}px;`);
+    this.loginWrapperRef.nativeElement.setAttribute("style", `height:${loginHeight}px;`);
+  }
 
   onLogin() {
     // Login Code here
@@ -32,11 +39,11 @@ export class LoginPage extends BaseComponent  {
     this.angAuth.auth
       .signInWithEmailAndPassword(this.loginData.email, this.loginData.password)
       .then(auth => {
-        //dispatch the  event
+/*        //dispatch the  event
         this.dispatchAnEvent({
-          type: AppDispatchTypes.registration.onUserLogin,
+          type: AppDispatchTypes.registration.onUserFirstLogin,
           payload: auth
-        });
+        });*/
       })
       .catch(err => {
 
@@ -52,76 +59,56 @@ export class LoginPage extends BaseComponent  {
       });
   }
 
-  doSignUp(){
+  doSignUp() {
     this.angAuth.auth
       .createUserWithEmailAndPassword(this.loginData.email, this.loginData.password)
       .then(auth => {
 
+        const newProfile = {
+          key: auth.uid,
+          fullName: this.loginData.fullName,
+          email: this.loginData.email,
+          phone: this.loginData.phone,
+          creationDate: (new Date()).toString()
+        };
+
         //dispatch the  event
         this.dispatchAnEvent({
-          type: AppDispatchTypes.registration.onUserLogin,
-          payload: auth
+          type: AppDispatchTypes.registration.onUserFirstLogin,
+          payload: newProfile
         });
+
+        //update the user profile into db
+        this.eventDispatcherService.emit({type: ProfileActions.updateUserProfile, payload: newProfile});
       })
       .catch(err => {
         this.disableLogin = false;
-
         // Handle error
       });
   }
 
-  onValidateCredentials(){
-    //need to add validation
-    return (!this.loginData.email || !this.loginData.password) || this.disableLogin;
+  disableLoginOnValidateCredentials() {
+    if (this.disableLogin) {
+      return true;
+    }
+
+    if (!this.loginData.fullName) {
+      return true;
+    }
+
+    if (!this.loginData.phone) {
+      return true;
+    }
+
+    if (!this.loginData.email) {
+      return true;
+    }
+
+    if (!this.loginData.password) {
+      return true;
+    }
+
+    return false;
   }
-
-
-  /*  login() {
-      this.angFire.auth.login({
-          email: this.loginData.email,
-          password: this.loginData.password
-        },
-        {
-          provider: AuthProviders.Password,
-          method: AuthMethods.Password
-        }).then((response) => {
-        this.logger.log('Login success' + JSON.stringify(response));
-        let currentuser = {
-          email: response.auth.email,
-          picture: response.auth.photoURL
-        };
-
-        //write to local storage the object
-        //window.localStorage.setItem('currentuser', JSON.stringify(currentuser));
-
-      }).catch((error) => {
-        this.logger.log(error);
-      })
-    }*/
-
-
-/*  onGoogleLogin() {
-
-  }*/
-
- /* onFacebookLogin() {
-    this.angFire.auth.login({
-      provider: AuthProviders.Facebook,
-      method: AuthMethods.Popup
-    }).then((response) => {
-      this.logger.log('Login success with facebook' + JSON.stringify(response));
-      let currentuser = {
-        email: response.auth.displayName,
-        picture: response.auth.photoURL
-      };
-      window.localStorage.setItem('currentuser', JSON.stringify(currentuser));
-      this.navCtrl.pop();
-    }).catch((error) => {
-      this.logger.log(error);
-    })
-
-  }*/
-
-
 
 }

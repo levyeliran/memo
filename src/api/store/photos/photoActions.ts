@@ -1,6 +1,7 @@
 export const PhotoActions = {
   //store + crud events
   getEventPhotos: 'getEventPhotos',
+  getEventPhotosTags: 'getEventPhotosTags',
   addPhotoToAlbum: 'addPhotoToAlbum',
   tagPhoto: 'tagPhoto',
 
