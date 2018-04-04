@@ -1,0 +1,22 @@
+{
+  "userKey": "",
+  "password":"",
+  "eventKey":"",
+  "eventTitle": "",
+  "eventType": "",
+  "startTime":"",
+  "endTime":"",
+  "animationAssetsConfiguration" : {
+    "images":[{
+      "url": "",
+      "creationTime": "",
+      "creatorKey": "",
+      "creatorName": "",
+      "tags": [{
+        "id": "",
+        "creatorKey": "",
+        "creatorName": ""
+      }]
+    }]
+  }
+}
