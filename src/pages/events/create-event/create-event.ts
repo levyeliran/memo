@@ -61,7 +61,7 @@ export class CreateEventPage extends BaseComponent implements OnInit {
               .replace('(','')
               .replace(')', '')
               .replace('-', '')
-              .trim(), //id should be only the digits
+              .replace(' ', ''), //id should be only the digits
             name: c.displayName,
             phone: number
           };

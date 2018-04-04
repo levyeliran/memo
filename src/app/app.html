@@ -1,8 +1,26 @@
 <div *ngIf="!appStoreReady && !appLoginRequired"
-     class="splash-animation"
+     class="splash-animation bubbles-wrapper"
      style="width:100%; height: 100%; border:15px solid #F09700; margin: auto;">
+  <ion-card>
+    <img src="assets/images/avatarCardBG.png"/>
+  </ion-card>
+  <div class="app-name-wrapper">
+    <div class="app-name">Memo</div>
+    <div class="app-description">For your special moments</div>
+  </div>
+  <div class="bubbles-wrapper">
+    <div class="bubble x1"></div>
+    <div class="bubble x2"></div>
+    <div class="bubble x3"></div>
+    <div class="bubble x4"></div>
+    <div class="bubble x5"></div>
+    <div class="bubble x6"></div>
+    <div class="bubble x7"></div>
+    <div class="bubble x8"></div>
+    <div class="bubble x9"></div>
+    <div class="bubble x10"></div>
+  </div>
 
-  <!--set animation here-->
 </div>
 
 <span>
@@ -11,7 +29,7 @@
     <ion-title>Menu</ion-title>
   </ion-toolbar>
   <ion-content *ngIf="appStoreReady">
-    <ion-list >
+    <ion-list>
       <button ion-item *ngFor="let p of menuPages" (click)="onMenuPage(p)">
          <ion-icon *ngIf="p.title === 'Sign out'" name="log-out"></ion-icon>
          <ion-icon *ngIf="p.title === 'Settings'" name="settings"></ion-icon>

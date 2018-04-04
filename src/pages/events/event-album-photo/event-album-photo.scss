@@ -59,6 +59,7 @@ page-event-album-photo {
     .tag-toolbar {
       width: 94%;
       margin: auto;
+      padding-left: 5px;
 
       .number-of-tags-description {
         height: 30px;
@@ -73,8 +74,6 @@ page-event-album-photo {
 
         &.selected {
           background: radial-gradient(circle closest-side, white 80%, $blue-dark-color);
-          /* background-color: white !important;
-           box-shadow: 0px 0px 25px white;*/
           opacity: 1;
         }
       }
@@ -121,7 +120,7 @@ page-event-album-photo {
           margin: auto;
           text-align: center;
 
-          .label-md{
+          .label-md {
             margin: 0px !important;
             padding: 7px;
           }
@@ -167,5 +166,22 @@ page-event-album-photo {
       }
     }
 
+  }
+
+  .photo-spinner {
+    color: white;
+    position: relative;
+    left: 46%;
+  }
+
+}
+
+.custom-spinner-container {
+  background: white;
+  color: $blue-dark-color;
+  border-radius: 5px;
+
+  .custom-spinner-text {
+    font-weight: 400;
   }
 }

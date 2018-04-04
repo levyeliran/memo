@@ -75,14 +75,45 @@ ion-content{
   margin-top: 50px;
 }
 
+.splash-animation{
+  ion-card {
+    position: absolute;
+    top: 34%;
+    left: 25%;
 
-//https://chriztalk.com/using-google-fonts-ionic-2/
-//https://fonts.google.com/?selection.family=Aref+Ruqaa|Arvo|Faster+One|Fredericka+the+Great|Kurale|NTR|Zeyada
-/*@font-face{
-  font-family: AppFont;
-  src: url('../assets/fonts/Aref_Ruqaa/ArefRuqaa-Regular.ttf') format('ttf');
+    &.card {
+      &.card-md {
+        width: 50%;
+        margin: auto;
+        background: wheat;
+        border-radius: 50%;
+      }
+    }
+
+    img {
+      width: 140px;
+      margin: 5px 5px 0px 20px;
+    }
+  }
+  .app-name-wrapper {
+    text-align: left;
+    position: absolute;
+    left: 33%;
+    top: 80%;
+
+    .app-name {
+      color: white;
+      font-size: 40px;
+      text-shadow: 0px 0px 2px white;
+      font-weight: 900;
+      text-decoration: blink;
+    }
+
+    .app-description {
+      color: white;
+      font-size: 11px;
+      font-weight: 900;
+      padding-bottom: 12px;
+    }
+  }
 }
-
-*{
-  font-family: AppFont;
-}*/

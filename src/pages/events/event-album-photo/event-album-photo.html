@@ -4,8 +4,6 @@
 
 <ion-content #pageWrapper>
 
-  <ion-spinner name="dots" *ngIf="displaySpinner"></ion-spinner>
-
   <div class="photo-wrapper">
     <img #photoPreview src="{{photo.fileURL}}"
          class="{{isNewPhoto ? 'hide' : ''}}"/>

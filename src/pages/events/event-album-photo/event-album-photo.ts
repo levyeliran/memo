@@ -1,5 +1,5 @@
 import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {NavController, NavParams} from 'ionic-angular';
+import {Loading, LoadingController, NavController, NavParams} from 'ionic-angular';
 import {BaseComponent} from "../../../api/common/baseComponent/baseComponent";
 import {EventDispatcherService} from "../../../api/dispatcher/appEventDispathcer.service";
 import {Event, HeaderButton, Photo} from "../../../api/common/appTypes";
@@ -25,7 +25,7 @@ export class EventAlbumPhotoPage extends BaseComponent implements OnInit, OnDest
   sharpen: number = 0;
   activeTool: any;
   selectedEffects: any = [];
-  displaySpinner = false;
+  loader:Loading;
 
   //get reference to photo canvas view
   @ViewChild('photoPreviewCanvas') canvasPreviewRef: any;
@@ -36,7 +36,8 @@ export class EventAlbumPhotoPage extends BaseComponent implements OnInit, OnDest
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
-              public eventDispatcherService: EventDispatcherService) {
+              public eventDispatcherService: EventDispatcherService,
+              public loadingCtrl: LoadingController) {
     super(eventDispatcherService);
     this.event = this.navParams.get('event');
     this.photo = this.navParams.get('photo');
@@ -71,10 +72,11 @@ export class EventAlbumPhotoPage extends BaseComponent implements OnInit, OnDest
     ];
 
     const photoTagKey = this.photo.myEmojiTagKey;
-    if(photoTagKey){
-      emojis =  emojis.map(e => {
+    if (photoTagKey) {
+      emojis = emojis.map(e => {
         if (e.key === photoTagKey) {
-          e = Object.assign( e, {selected: true});
+          e = Object.assign(e, {selected: true});
+          this.selectedEmoji = e;
         }
         return e;
       });
@@ -100,6 +102,14 @@ export class EventAlbumPhotoPage extends BaseComponent implements OnInit, OnDest
 
   ngOnInit() {
 
+    this.loader = this.loadingCtrl.create({
+      spinner: 'hide',
+      content: `
+        <div class="custom-spinner-container">
+          <div class="custom-spinner-text">Uploading photo to album</div>
+          <ion-spinner name="bubbles"></ion-spinner>
+        </div>`
+    });
     this.emojis = this.getEmojis();
     this.taggedEmojis = this.getTaggedEmojis();
     const imageWidth = window.screen.width;
@@ -186,7 +196,7 @@ export class EventAlbumPhotoPage extends BaseComponent implements OnInit, OnDest
   registerToEvents() {
     const self = this
     this.registerToEvent(PhotoActions.photoUploadedToStorage).subscribe(() => {
-      self.displaySpinner = false;
+      self.loader.dismiss();
       //navigate back to the album
       if (self.navCtrl.length() > 1) {
         self.navCtrl.pop();
@@ -207,21 +217,18 @@ export class EventAlbumPhotoPage extends BaseComponent implements OnInit, OnDest
   }
 
   onAddPhoto() {
-    this.displaySpinner = true;
+    this.loader.present();
     this.photo.eventKey = this.event.key;
     this.eventDispatcherService.emit({type: PhotoActions.addPhotoToAlbum, payload: this.photo});
   }
 
   onEmojiClick(emoji: any) {
-    //if(this.isDoubleClick()){
     if (this.selectedEmoji) {
       this.selectedEmoji.selected = false;
     }
-
     this.selectedEmoji = emoji;
     emoji.selected = !emoji.selected;
     this.logger.log(`Emoji ${JSON.stringify(emoji)}} was ${emoji.selected ? 'selected' : 'unSelected'}`);
-    //}
   }
 
   onSelectTool(tool: any) {

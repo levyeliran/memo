@@ -1,66 +1,74 @@
 page-login {
-  .item-md{
+  .item-md {
     background-color: transparent;
   }
 
-  ion-content{
+  ion-content {
     display: flex;
     flex-direction: column;
     height: 100%;
     margin-top: 10px !important;
 
-    .scroll-content{
+    .scroll-content {
       overflow-y: hidden;
     }
 
-    .animation-wrapper{
+    .animation-wrapper {
       flex-grow: 1;
+      padding-top: 12%;
 
-      .app-logo{
-        width:30%;
+      .app-logo-wrapper {
+        background: wheat;
+        border-radius: 50%;
+        width: 40%;
+        padding:10px 10px 0px 10px;
         position: relative;
-        left:30%;
-        top:20%;
-        transform: scaleX(-1);
+        left: 30%;
+
+        .app-logo {
+          width: 90%;
+          transform: scaleX(-1);
+        }
       }
 
-      .app-name-wrapper{
+      .app-name-wrapper {
         text-align: left;
         position: relative;
         left: 33%;
-        top: -7%;
+        top: -6%;
 
-        .app-name{
+        .app-name {
           color: white;
           font-size: 40px;
           text-shadow: 0px 0px 2px white;
           font-weight: 900;
+          text-decoration: blink;
         }
 
-        .app-description{
+        .app-description {
           color: white;
           font-size: 11px;
           font-weight: 900;
-          position: relative;
+          padding-bottom: 12px;
         }
       }
 
     }
 
-    .login-wrapper{
+    .login-wrapper {
       flex-grow: 4;
 
-      ion-list{
+      ion-list {
         padding-right: 15px !important;
       }
 
-      ion-item{
-        ion-label{
-          &.label-md{
-            margin:10px 0px 0px 0px !important;
+      ion-item {
+        ion-label {
+          &.label-md {
+            margin: 10px 0px 0px 0px !important;
 
-            button{
-              height:36px;
+            button {
+              height: 36px;
               font-size: 16px;
               font-weight: 600;
             }
@@ -68,7 +76,7 @@ page-login {
         }
       }
 
-      .item-md.item-block .item-inner{
+      .item-md.item-block .item-inner {
         padding-right: 0px !important;
       }
     }

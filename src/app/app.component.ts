@@ -82,7 +82,6 @@ export class MemoApp extends BaseComponent implements OnInit, OnDestroy {
         this.fetchDataAndInitApp(payload);
       }
     });
-
   }
 
   fetchDataAndInitApp(authData:any){

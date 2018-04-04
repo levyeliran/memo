@@ -75,6 +75,7 @@ export class EventCrud{
   }
 
   private createEvent(event: Event) {
+    const self = this;
     event = this.removeUIProperties(event);
 
     const pushRef = this.fb.database().ref().child(`${this.storeTreeNode}`).push();
@@ -85,7 +86,7 @@ export class EventCrud{
 
     pushRef.set(event).then((e) => {
       //dispatch an ack
-      this.dispatchAck({type: EventActions.eventCreated});
+      self.dispatchAck({type: EventActions.eventCreated});
     });
   }
 
