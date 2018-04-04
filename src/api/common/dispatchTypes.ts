@@ -1,6 +1,6 @@
 export const AppDispatchTypes = {
   registration:{
-    onUserLogin: 'onUserLogin'
+    onUserFirstLogin: 'onUserFirstLogin'
   },
   album:{
     onAddNewPhotoClose:'onAddNewPhotoClose',

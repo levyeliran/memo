@@ -1,11 +1,12 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {NavController, NavParams, Slides} from 'ionic-angular';
-import {Event, EventLocation} from "../../../api/common/appTypes";
+import {Event, EventLocation, EventParticipant} from "../../../api/common/appTypes";
 import {EventActions} from "../../../api/store/events/eventActions";
 import {BaseComponent} from "../../../api/common/baseComponent/baseComponent";
 import {EventDispatcherService} from "../../../api/dispatcher/appEventDispathcer.service";
 import {AppLocalStorage} from "../../../api/utilities/appLocalStorage.service";
 import {googlemaps} from "googlemaps";
+import {Contacts} from "@ionic-native/contacts";
 
 @Component({
   selector: 'page-create-event',
@@ -14,7 +15,8 @@ import {googlemaps} from "googlemaps";
 export class CreateEventPage extends BaseComponent implements OnInit {
 
   event: Event;
-  invitedFriends: any[];
+  contactsList:any[];
+  invitedFriends: EventParticipant[];
   eventStartHour: any = "12:00";
   selectedDate: any;
   autocompleteItems: any = [];
@@ -26,23 +28,49 @@ export class CreateEventPage extends BaseComponent implements OnInit {
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
               public eventDispatcherService: EventDispatcherService,
-              public appLocalStorage: AppLocalStorage) {
+              public appLocalStorage: AppLocalStorage,
+              public contacts: Contacts) {
 
     super(eventDispatcherService);
     this.event = this.navParams.get('event');
     this.selectedDate = this.navParams.get('selectedDate');
     this.event.location = new EventLocation();
     this.invitedFriends = [];
+    this.contactsList = [];
     this.eventStartHour = "12:00";
   }
 
   ngOnInit() {
+    const self = this;
     this.event.description = '';
     this.acService = new google.maps.places.AutocompleteService();
     this.autocompleteItems = [];
     this.autocomplete = {
       query: ''
     };
+    this.contacts.find(
+      ['displayName', 'phoneNumbers'],
+      {filter: "", multiple: true})
+      .then( contacts => {
+      self.contactsList = contacts.map(c=>{
+        const phone = c.phoneNumbers.filter(ph => ph.type === "mobile");
+        if(phone.length){
+          const number = phone[0].value
+          const ef:EventParticipant = {
+            id: number
+              .replace('(','')
+              .replace(')', '')
+              .replace('-', '')
+              .trim(), //id should be only the digits
+            name: c.displayName,
+            phone: number
+          };
+          return ef;
+        }
+        return null;
+      }).filter(c => c);
+      self.logger.log(self.contactsList);
+    });
   }
 
   onUpdateSearchPlace() {
@@ -89,9 +117,6 @@ export class CreateEventPage extends BaseComponent implements OnInit {
     }
   }
 
-  onUploadEventCard() {
-
-  }
 
   validateEvent(): Boolean {
     return !(this.event.title &&
@@ -105,6 +130,7 @@ export class CreateEventPage extends BaseComponent implements OnInit {
 
   onCreateEvent() {
 
+    const self = this;
     this.prepareForSave();
 
     //lock the create button
@@ -113,7 +139,7 @@ export class CreateEventPage extends BaseComponent implements OnInit {
     //event was created successfully
     this.registerToEvent(EventActions.eventCreated).subscribe(() => {
       //navigate "back"
-      this.navCtrl.pop();
+      self.navCtrl.pop();
     });
   }
 
@@ -126,11 +152,9 @@ export class CreateEventPage extends BaseComponent implements OnInit {
     else {
       startDate = new Date(this.selectedDate).setHours(h[0], h[1], 0);
     }
-    this.event.startDate = startDate;
-    this.event.endDate = new Date(this.selectedDate).setHours(24, 0, 0);
-    this.appLocalStorage.readKey(this.appConst.userDetails.name).then((payload) => {
-      this.event.creatorName = payload;
-    });
+    this.event.startDate = startDate.toString();
+    this.event.endDate = (new Date(this.selectedDate).setHours(24, 0, 0)).toString();
+    this.event.participatesDetails = this.invitedFriends;
   }
 
 }

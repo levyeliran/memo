@@ -8,6 +8,10 @@ page-create-event {
     }
   }
 
+  .swiper-pagination-fraction, .swiper-pagination-custom, .swiper-container-horizontal > .swiper-pagination-bullets{
+    bottom: 55px !important;
+  }
+
   ion-slide {
     &.step1 {
       .event-date {
@@ -22,22 +26,12 @@ page-create-event {
         margin-bottom: 30px;
       }
 
-      ion-card {
+      .event-card {
         height: 120px;
-        .upload-image {
-          margin-top: 10px;
-          margin-left: 10px;
-        }
-        .card-title {
-          font-size: 1.5em;
-          text-align: center;
-          padding-top: 30px;
-        }
       }
 
     }
     &.step2 {
-
       .event-title{
         margin: auto
       }

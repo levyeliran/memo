@@ -5,7 +5,6 @@
   <ion-slides pager #slides>
 
     <ion-slide class="step1">
-
       <ion-icon name="bowtie"></ion-icon>
       <ion-label class="event-date">{{event.startDate}}</ion-label>
       <!--separator-->
@@ -37,14 +36,6 @@
         <ion-item>
           <ion-label floating>Event Name Initials (For example: R&T)</ion-label>
           <ion-input type="text" [(ngModel)]="event.initials" maxlength="3"></ion-input>
-        </ion-item>
-
-        <ion-item>
-          <ion-card (click)="onUploadEventCard()">
-            <ion-icon class="upload-image" name="open"></ion-icon>
-            <div class="card-title">EVENT CARD IMAGE
-            </div>
-          </ion-card>
         </ion-item>
 
       </ion-list>
@@ -86,51 +77,17 @@
 
 
       <ion-item>
-        <ion-label>Invite Friends</ion-label>
+        <ion-label>Invite Friends (Max 10)</ion-label>
         <ion-select multiple="true" cancelText="Cancel" okText="Done!" [(ngModel)]="invitedFriends"
                     (ionChange)="onInviteFriendsChanged()">
-          <ion-option value="1">AMNON</ion-option>
-          <ion-option value="2">MOTI</ion-option>
+          <ion-option *ngFor="let contact of contactsList" [value]="contact">
+            <div class="contact-name">{{contact.name}}</div>
+            <div class="contact-phone">{{contact.phone}}</div>
+          </ion-option>
         </ion-select>
       </ion-item>
 
-<!--      <ion-item>
-        <ion-label *ngIf="event.location">Location</ion-label>
-        <button ion-button icon-left clear full (click)="onAddEventLocation()">
-          <ion-icon name="navigate"></ion-icon>
-          ADD EVENT LOCATION
-        </button>
-      </ion-item>-->
-
-
     </ion-slide>
-
-<!--
-    <ion-slide class="step3">
-
-      <button class="skip-btn" ion-button icon-right clear full
-              (click)="onSkipSlide()">
-        <div>SKIP</div>
-        <ion-icon name="arrow-forward"></ion-icon>
-      </button>
-
-      <div class="invited-friends-list">
-        <ion-item>
-          <ion-label>Invite Friends</ion-label>
-          <ion-select multiple="true" cancelText="Cancel" okText="Done!" [(ngModel)]="invitedFriends"
-                      (ionChange)="onInviteFriendsChanged()">
-            <ion-option value="1">AMNON</ion-option>
-            <ion-option value="2">MOTI</ion-option>
-          </ion-select>
-        </ion-item>
-
-
-        <div>display selected friends here</div>
-
-      </div>
-
-    </ion-slide>
--->
 
     <ion-slide class="step4">
 

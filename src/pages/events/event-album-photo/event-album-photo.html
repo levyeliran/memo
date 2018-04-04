@@ -4,10 +4,13 @@
 
 <ion-content #pageWrapper>
 
+  <ion-spinner name="dots" *ngIf="displaySpinner"></ion-spinner>
+
   <div class="photo-wrapper">
     <img #photoPreview src="{{photo.fileURL}}"
          class="{{isNewPhoto ? 'hide' : ''}}"/>
     <canvas #photoPreviewCanvas class="{{isNewPhoto ? '' : 'hide'}}"></canvas>
+    <canvas #orgCanvas class="hide"></canvas>
 
     <div *ngIf="tagsMetaData" class="tagged-emojis-wrapper">
       <img *ngFor="let e of taggedEmojis" src="{{e.imagePath}}" class="tagged-emoji"/>
@@ -15,15 +18,64 @@
   </div>
 
   <div #toolsBar class="bottom-menu">
-
-    <!--create component?-->
     <div class="design-toolbar" *ngIf="isNewPhoto">
       <!--photo design toolbar-->
+      <div class="tool-conf">
+        <ion-item *ngIf="activeTool === appConst.photoEditingTools.brightness">
+          <ion-range class="brightness" min="-100" max="100" [(ngModel)]="brightness"
+                     (ionChange)="onEffectSelected(appConst.photoEditingTools.brightness)">
+            <ion-icon range-left small name="sunny"></ion-icon>
+            <ion-icon range-right name="sunny"></ion-icon>
+          </ion-range>
+          <ion-icon name="trash" *ngIf="isEffectActivated(appConst.photoEditingTools.brightness)"
+                    (click)="onCancelEffect(appConst.photoEditingTools.brightness)"></ion-icon>
+        </ion-item>
+        <ion-item *ngIf="activeTool === appConst.photoEditingTools.contrast">
+          <ion-range class="contrast" min="-10" max="30" [(ngModel)]="contrast"
+                     (ionChange)="onEffectSelected(appConst.photoEditingTools.contrast)">
+            <ion-icon range-left small name="contrast"></ion-icon>
+            <ion-icon range-right name="contrast"></ion-icon>
+          </ion-range>
+          <ion-icon name="trash" *ngIf="isEffectActivated(appConst.photoEditingTools.contrast)"
+                    (click)="onCancelEffect(appConst.photoEditingTools.contrast)"></ion-icon>
+        </ion-item>
+        <ion-item *ngIf="activeTool === appConst.photoEditingTools.sharpen">
+          <ion-range class="sharpen" min="0" max="100" [(ngModel)]="sharpen"
+                     (ionChange)="onEffectSelected(appConst.photoEditingTools.sharpen)">
+            <ion-icon range-left small name="eye"></ion-icon>
+            <ion-icon range-right name="eye"></ion-icon>
+          </ion-range>
+          <ion-icon name="trash" *ngIf="isEffectActivated(appConst.photoEditingTools.sharpen)"
+                    (click)="onCancelEffect(appConst.photoEditingTools.sharpen)"></ion-icon>
+        </ion-item>
+        <ion-item class="effects" *ngIf="activeTool === appConst.photoEditingTools.effects">
+          <img
+            class="gray-effect {{isEffectActivated(appConst.photoEditingTools.effectTypes.grayEffect) ? 'selected' : ''}}"
+            src="{{photo.base64ImageData}}"
+            (click)="onEffectSelected(appConst.photoEditingTools.effectTypes.grayEffect, true)"/>
+          <img
+            class="vintage-effect {{isEffectActivated(appConst.photoEditingTools.effectTypes.vintageEffect) ? 'selected' : ''}}"
+            src="{{photo.base64ImageData}}"
+            (click)="onEffectSelected(appConst.photoEditingTools.effectTypes.vintageEffect, true)"/>
+          <img
+            class="sepia-effect {{isEffectActivated(appConst.photoEditingTools.effectTypes.sepiaEffect) ? 'selected' : ''}}"
+            src="{{photo.base64ImageData}}"
+            (click)="onEffectSelected(appConst.photoEditingTools.effectTypes.sepiaEffect, true)"/>
+        </ion-item>
+      </div>
+      <div class="tools-options">
+        <ion-icon name="sunny"
+                  (click)="onSelectTool(appConst.photoEditingTools.brightness)"></ion-icon>
+        <ion-icon name="contrast"
+                  (click)="onSelectTool(appConst.photoEditingTools.contrast)"></ion-icon>
+        <ion-icon name="eye"
+                  (click)="onSelectTool(appConst.photoEditingTools.sharpen)"></ion-icon>
+        <ion-icon name="options"
+                  (click)="onSelectTool(appConst.photoEditingTools.effects)"></ion-icon>
+      </div>
     </div>
 
-    <!--create component?-->
     <div class="tag-toolbar" *ngIf="!isNewPhoto">
-
       <div class="number-of-tags-description">
         <span *ngIf="photo && photo.tagsMetaData && photo.tagsMetaData.length">
           {{photo.tagsMetaData.length}} People tagged this photo.
@@ -31,9 +83,10 @@
       </div>
 
       <!--photo tag toolbar-->
-      <img *ngFor="let e of emojis" src="{{e.imagePath}}"
-           class="{{ e.selected ? 'selected' : ''}}"
-           (click)="onEmojiClick(e)"/>
+      <div *ngFor="let e of emojis" (click)="onEmojiClick(e)"
+           class="emoji-icon-wrapper {{ e.selected ? 'selected' : ''}}">
+        <img src="{{e.imagePath}}" class="{{ e.selected ? 'selected' : ''}}"/>
+      </div>
     </div>
   </div>
 
