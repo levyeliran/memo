@@ -1,6 +1,6 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {NavController, NavParams} from 'ionic-angular';
-import {Event, HeaderButton, Photo} from "../../../api/common/appTypes";
+import {Event, HeaderButton, Photo, PhotoTagsMetaData} from "../../../api/common/appTypes";
 import {EventAlbumAnimationPage} from "../event-album-animation/event-album-animation";
 import {EventAlbumPhotoPage} from "../event-album-photo/event-album-photo";
 import {BaseComponent} from "../../../api/common/baseComponent/baseComponent";
@@ -15,13 +15,15 @@ import {AppPermission} from "../../../api/utilities/appPermission.service";
   templateUrl: 'event-album.html',
   providers: [Camera]
 })
-export class EventAlbumPage extends BaseComponent implements OnInit {
+export class EventAlbumPage extends BaseComponent implements OnInit, OnDestroy {
 
   event: Event;
   headerButtons: HeaderButton[];
   photos: Photo[];
+  photosTags: PhotoTagsMetaData[];
   photosGridModel: any[];
   photoStoreSubscription: any;
+  displaySpinner = false;
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
@@ -32,29 +34,54 @@ export class EventAlbumPage extends BaseComponent implements OnInit {
     super(eventDispatcherService);
 
     this.event = this.navParams.get('event');
-    const animationBtn = new HeaderButton('film', this.onViewAnimation.bind(this), !this.event.hasAnimation);
-    const newPhotoBtn = new HeaderButton('camera', this.onAddNewPhoto.bind(this), !this.event.isActive);
+    const animationBtn = new HeaderButton('film', this.onViewAnimation.bind(this), !this.event.hasAnimation || this.displaySpinner);
+    const newPhotoBtn = new HeaderButton('camera', this.onAddNewPhoto.bind(this), (!this.event.isActive || this.displaySpinner));
     this.headerButtons = [
       animationBtn,
       newPhotoBtn
     ];
     this.photos = [];
+    this.photosTags = [];
     this.photosGridModel = [];
+    this.displaySpinner = true;
+    //set album events
+    this.registerToEvents();
   }
 
   ngOnInit() {
 
+    const self = this;
     //update the calender each time the store has been changed
     this.photoStoreSubscription = this.appStoreService._photoStore().subscribe((_store) => {
       if (_store && _store.photos && _store.photos.length) {
-        this.photos = _store.photos;
-        this.createAlbumModel();
+        self.photos = _store.photos;
+      }
+
+      if (_store && _store.photosTags && _store.photosTags.length) {
+        self.photosTags = _store.photosTags;
+
+        //add tags to photos
+        self.photos.forEach((photo)=>{
+          const pTags = self.photosTags.find(pt => pt.photoKey == photo.key);
+          if(pTags){
+            photo.tagsMetaData = pTags;
+
+            //check if the current user had tags photos
+            const myEmojiTag = pTags.emojiTags.find( et => et.creatorKey === self.appUtils.userKey);
+            if(myEmojiTag){
+              photo.myEmojiTagKey = myEmojiTag.emojiTagKey;
+            }
+          }
+        });
+        self.displaySpinner = false;
+        self.createAlbumModel();
       }
     });
+  }
 
-    //set album events
-    this.registerToEvents();
-
+  ngOnDestroy() {
+    //unregister to events
+    this.photoStoreSubscription.unsubscribe();
   }
 
   createAlbumModel() {
@@ -63,12 +90,13 @@ export class EventAlbumPage extends BaseComponent implements OnInit {
 
     let index = 0;
     let data: any[] = [];
-    while (this.photos.length) {
-      const photo = this.photos.pop();
+    const photos = this.photos.slice(0);
+    while (photos.length) {
+      const photo = photos.pop();
       if(photo.fileThumbnailURL){
         data.push({
           photo: photo,
-          class: 'col-image', //`${index == 0 ? 'left w32' : 'right w34'}`,
+          class: 'col-image',
           hasEmoji: !!photo.myEmojiTagKey
         });
 
@@ -93,7 +121,10 @@ export class EventAlbumPage extends BaseComponent implements OnInit {
   }
 
   onAddNewPhoto() {
-    this.appPermission.getPermission(this.appConst.permissions.CAMERA).then(result => {
+    this.appPermission
+      .getPermissions([this.appConst.permissions.CAMERA,
+        this.appConst.permissions.READ_EXTERNAL_STORAGE])
+      .then(result => {
       const options: CameraOptions = {
         quality: 100,
         destinationType: this.camera.DestinationType.DATA_URL,
@@ -119,14 +150,6 @@ export class EventAlbumPage extends BaseComponent implements OnInit {
   }
 
   registerToEvents() {
-    //menu page close button click - ????we have back buttons
-    /*    this.registerToEvent(AppDispatchTypes.album.onAddNewPhotoClose).subscribe(() => {
-          this.navCtrl.pop();
-        });
-
-        this.registerToEvent(AppDispatchTypes.album.onViewAnimationClose).subscribe(() => {
-          this.navCtrl.pop();
-        });*/
   }
 
   onSelectPhoto(photo: Photo) {

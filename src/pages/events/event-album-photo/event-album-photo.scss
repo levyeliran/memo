@@ -36,14 +36,14 @@ page-event-album-photo {
       }
     }
 
-    .tagged-emojis-wrapper{
+    .tagged-emojis-wrapper {
       position: absolute;
       left: 15px;
       top: 25px;
       text-align: left;
 
-      img{
-        &.tagged-emoji{
+      img {
+        &.tagged-emoji {
           width: 15%;
           //position: absolute;
         }
@@ -60,19 +60,29 @@ page-event-album-photo {
       width: 94%;
       margin: auto;
 
-      .number-of-tags-description{
+      .number-of-tags-description {
         height: 30px;
         padding: 7px 0px 0px 0px;
       }
 
-      img {
-        border-radius: 50%;
-        background-color: white !important;
-        margin: 6px;
-        opacity:0.9;
+      .emoji-icon-wrapper {
+        height: 75px;
+        width: 75px;
+        float: left;
+        padding: 5px 0px 0px 5px;
 
         &.selected {
-          box-shadow: 0px 0px 25px white;
+          background: radial-gradient(circle closest-side, white 80%, $blue-dark-color);
+          /* background-color: white !important;
+           box-shadow: 0px 0px 25px white;*/
+          opacity: 1;
+        }
+      }
+      img {
+        background-color: transparent !important;
+        opacity: 0.9;
+
+        &.selected {
           opacity: 1;
         }
       }
@@ -83,7 +93,78 @@ page-event-album-photo {
     }
 
     .design-toolbar {
+      height: 100%;
       width: 100%;
+      text-align: center;
+      background-color: white;
+
+      .tool-conf {
+        height: 74%;
+        border-bottom: 1px solid $blue-dark-color;
+        padding: 20% 20px;
+
+        .item-md {
+          color: $blue-dark-color;
+          background: white;
+          &.item-block .item-inner {
+            border: none;
+          }
+        }
+
+        ion-range {
+          ion-icon {
+            color: $blue-dark-color;
+          }
+        }
+
+        .effects {
+          margin: auto;
+          text-align: center;
+
+          .label-md{
+            margin: 0px !important;
+            padding: 7px;
+          }
+
+          img {
+            width: 27%;
+            border-radius: 2px;
+            margin-right: 15px;
+            &.selected {
+              box-shadow: 0px 0px 10px black;
+            }
+          }
+
+          .gray-effect {
+            filter: grayscale(100%);
+          }
+
+          /*https://codepen.io/Twikito/pen/DltwF*/
+          .vintage-effect {
+            //box-shadow: inset 0 0 100px rgba(0, 0, 20, .7), 0 5px 15px rgba(0, 0, 0, .5);
+            //background: -webkit-linear-gradient(top, rgba(255, 145, 0, 0.2) 0%, rgba(255, 230, 48, 0.2) 60%), -webkit-linear-gradient(20deg, rgba(255, 0, 0, 0.5) 0%, rgba(255, 0, 0, 0) 35%);
+          }
+
+          .sepia-effect {
+            filter: sepia(100%);
+          }
+        }
+      }
+
+      .tools-options {
+        height: 24%;
+
+        ion-icon {
+          color: $turquoise-light-color;
+          margin: 20px;
+          font-size: 35px;
+
+          &.selected {
+            color: $blue-dark-color;
+          }
+        }
+
+      }
     }
 
   }

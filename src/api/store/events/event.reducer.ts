@@ -14,8 +14,7 @@ export const eventReducer = (state: EventStore = new EventStore(), action: Actio
       return Object.assign({}, state);
     case EventActions.getEvents:
       logger.log(action);
-      state.events = [...action.payload];
-      //state.currentEvent = null;
+      state.events = action.payload;
       return Object.assign({}, state);
     case EventActions.createEvent:
       logger.log(action);
