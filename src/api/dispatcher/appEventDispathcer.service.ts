@@ -34,7 +34,7 @@ export class EventDispatcherService {
     });
   }
 
-  private remove(eventName: string): void {
+  public remove(eventName: string): void {
     if (this.isEventExit(eventName)) {
       this.appEvents[eventName].subject.unsubscribe();
       this.appEvents[eventName] = null;

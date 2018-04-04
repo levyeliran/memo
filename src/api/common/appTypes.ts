@@ -14,6 +14,11 @@ export class EventStore{
   events: Event[] = [];
   currentEvent: Event;
 }
+export class EventParticipant{
+  id:string;
+  name:string;
+  phone:string;
+}
 export class Event{
   key:any;
   typeKey:any;
@@ -31,7 +36,7 @@ export class Event{
   updateDate:any;
   introPhotoURL:string;
   defaultIntroPhotoURL:string;
-  participatesDetails:any[];
+  participatesDetails:EventParticipant[];
   status:number;
   isActive:boolean;
   hasAnimation:boolean;
@@ -65,8 +70,13 @@ export const EventStatus = {
 
 export class PhotoStore{
   photos:Photo[] = [];
+  photosTags: PhotoTagsMetaData[] = [];
 }
 export class PhotoTagsMetaData {
+  photoKey:string;
+  emojiTags:EmojiTagData[] = [];
+}
+export class EmojiTagData {
   emojiTagKey:string;
   creatorKey:string;
   creatorName:string;
@@ -87,7 +97,7 @@ export class Photo{
   fileURL:string;
   fileThumbnailURL:string;
   storageMetadata:any;
-  tagsMetaData:PhotoTagsMetaData[];
+  tagsMetaData:PhotoTagsMetaData;
   myEmojiTagKey:string;
   base64ImageData:string;
   photoImage:any;
@@ -161,11 +171,10 @@ export class ProfileStore{
 }
 export class UserProfile {
   key:string;
-  userName:string;
   fullName:string;
+  phone:string;
   email:string;
-  photo:Photo;
+  password:string;
   creationDate:any;
-  defaultPhotoURL:string;
 }
 

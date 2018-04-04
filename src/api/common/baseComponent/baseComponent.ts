@@ -21,7 +21,12 @@ export class BaseComponent {
     return this.eventDispatcherService.on(eventName);
   }
 
+  unregisterToEvent(eventName:string): void{
+    this.eventDispatcherService.remove(eventName);
+  }
+
   dispatchAnEvent(action:Action): void{
+    this.logger.log(action);
     return this.eventDispatcherService.emit(action);
   }
 

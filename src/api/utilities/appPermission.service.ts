@@ -14,7 +14,7 @@ export class AppPermission {
 
   getPermission(permissionType: string): Promise<any> {
     const permission = this.androidPermissions.PERMISSION[permissionType];
-    return this.androidPermissions.checkPermission(permission).then(
+    return this.androidPermissions.requestPermission(permission).then(
       result => {
         this.logger.log(`Has ${permissionType} permission? = ${result.hasPermission}`);
         return Promise.resolve(true);
@@ -28,6 +28,16 @@ export class AppPermission {
           return Promise.reject(false);
         });
       });
+  }
+
+  getPermissions(permissionType: [string]): Promise<any>{
+    const permissions = permissionType.map(p=> this.androidPermissions.PERMISSION[p]);
+    return this.androidPermissions.requestPermissions(permissions).then( result => {
+      this.logger.log(`Has ${permissions.join(',')} permission? = ${result.hasPermission}`);
+      return Promise.resolve(true);
+    }, err => {
+      return Promise.reject(false);
+    });
   }
 
 }

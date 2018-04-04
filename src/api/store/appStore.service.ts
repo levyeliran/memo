@@ -5,8 +5,8 @@ import {Observable} from "rxjs/Rx";
 import {EventStore, PhotoStore, ProfileStore} from "../common/appTypes";
 import {Store} from "@ngrx/store";
 import {AppStore} from "./appStore.interface";
-import { AppUtils } from "../utilities/appUtils";
 import {ProfileActions} from "./profile/profileActions";
+import {AppUtils} from "../utilities/appUtils";
 
 @Injectable()
 export class AppStoreService{
@@ -28,11 +28,7 @@ export class AppStoreService{
   }
 
   public initAppStore(authData:any): Promise<any>{
-
-    console.log(JSON.stringify(authData));
-
     AppUtils.userKey = authData.uid;
-    AppUtils.userName = AppUtils.userEmail = authData.email;
 
     //init the store with all relevant events
     //todo get by month & userId?

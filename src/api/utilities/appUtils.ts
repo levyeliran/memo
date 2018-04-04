@@ -1,9 +1,9 @@
 export class AppUtils{
 
   static userKey:string;
-  static userName:string = '';
   static fullName:string = '';
-  static userEmail:string = '';
+  static phone:string = '';
+  static email:string = '';
 
   static isPastDate(date, countHour = false) : boolean{
     if(!date){
@@ -56,7 +56,7 @@ export class AppUtils{
   }
 
   static getDateStrFormat(date = null, withHours = false){
-    date = date || new Date()
+    date = date || new Date();
     if(date){
       const d = new Date(date);
       if(withHours){

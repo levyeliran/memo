@@ -10,10 +10,10 @@ export const AppConstants = {
   registration:{
     isLoggedIn: 'isLoggedIn',
     userKey:'userKey',
-    userName: 'userName',
+    fullName: 'fullName',
     password: 'password',
-    email: 'email',
-    nickName: 'nickName'
+    phone: 'phone',
+    email: 'email'
   },
   calendar: {
     format: 'YYYY-MM-DD',
@@ -30,6 +30,18 @@ export const AppConstants = {
       danger: 'danger',
       light: 'light',
       dark: 'dark'
+    }
+  },
+  photoEditingTools:{
+    brightness:"brightness",
+    contrast:"contrast",
+    sharpen:"sharpen",
+    frames: "frames",
+    effects:"effects",
+    effectTypes:{
+      grayEffect: "grayEffect",
+      vintageEffect: "vintageEffect",
+      sepiaEffect: "sepiaEffect"
     }
   },
   permissions:{
