@@ -15,20 +15,21 @@
     "4":"joined"
   },
   "emojiType":{
-    "-L129f5PnRxVa49yYXr7":"like",
-    "-L229TfPnRxVa49yYXr8":"tearsOfJoy",
-    "-L329T5Pnx7Va49yYXr1":"blowingAKiss",
-    "-L42fT5PxR7Va49yYXr2":"heartEyes",
-    "-L529T5PfR7Va49yYXx4":"crazy",
-    "-L629TxPnR7Va49yYXr6":"shushing",
-    "-L729T5xnf7Va49yYXre":"winking",
-    "-L829T5PnR7fa49yYXra":"sunglasses",
-    "-L929T5PnR7Vaf9xYXrF":"grimacing",
-    "-L109TxPnR7Va49fYXrH":"angry",
-    "-L119T5xnR7Va49yfXrL":"dizzy",
-    "-L12fT5PnR7xa49yYXrP":"sleeping",
-    "-L139T5PnR7fa49yYxrO":"smilingWithHorns",
-    "-L149T5PnR7Va49fYXrf":"pileOfPoo"
+    "2":"smiling", //love - level 3
+    "3":"sunglasses", //cool - level 3
+    "5":"squintingWithTongue", //silly - level 5
+    "6":"frowning", //sad - level 5
+    "7":"screaming", //shoking - level 4
+    "9":"hugging", //love - level 3
+    "10":"winking", //silly - level 2, cool - level 2
+    "11":"crying", //sad - level 4
+    "12":"fearful", //shoking - level 3
+    "13":"drooling", //food - level 5, cute - level 3
+    "14":"laughingWithTears", //silly - level 5
+    "15":"surprisedWithOpenMouth", //shoking - level 3
+    "18":"kissing", //silly - level 3, love - level 4
+    "20":"inLovedWithHeartEyes", //love - level 5
+    "23":"angle" //love - level 1
   },
   "events" : {
     "-L0fkyihb4fZ28Xiqr5-": {

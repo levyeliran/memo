@@ -7,7 +7,6 @@ import {EventActions} from "./eventActions";
 import {Event} from "../../common/appTypes";
 import {FirebaseApp} from 'angularfire2';
 import {AppUtils} from "../../utilities/appUtils";
-import {Observable} from 'rxjs/Rx'
 import {Action} from '@ngrx/store';
 import {AppLogger} from "../../utilities/appLogger";
 
@@ -64,24 +63,11 @@ export class EventCrud{
 
   private getEvents() {
 
-    Observable.combineLatest<any[], Event[]>(
-      this.db.list(`userToEvent/${AppUtils.userKey}`).valueChanges(),
-      this.db.list<Event>(`${this.storeTreeNode}`).valueChanges())
-      .subscribe(([userEvents, events]) => {
-
-        //get the user relevant events
-        const _events: Event[] = [];
-        events.forEach((event) => {
-          const _ue = userEvents.find((ue: any) => ue.eventKey === event.key)
-          //add the status to the
-          if (_ue) {
-            event.status = _ue.status;
-            _events.push(event);
-          }
-        });
+      this.db.list(`userToEvent/${AppUtils.userKey}`).valueChanges()
+      .subscribe(userEvents => {
 
         //update the store with the retrieved events
-        this.store.dispatch({type: EventActions.getEvents, payload: _events});
+        this.store.dispatch({type: EventActions.getEvents, payload: userEvents});
 
         //dispatch an ack
         this.dispatchAck({type: EventActions.eventsReceived});
@@ -93,7 +79,9 @@ export class EventCrud{
 
     const pushRef = this.fb.database().ref().child(`${this.storeTreeNode}`).push();
     event.key = pushRef.key;
-    event.creationDate = new Date();
+    event.creationDate = (new Date()).toString();
+    event.creatorKey = AppUtils.userKey;
+    event.creatorName = AppUtils.fullName;
 
     pushRef.set(event).then((e) => {
       //dispatch an ack

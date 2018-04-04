@@ -54,6 +54,7 @@ export class EventsPage implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
+    //unregister to events
     this.eventStoreSubscription.unsubscribe();
   }
 
