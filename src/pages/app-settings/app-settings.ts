@@ -10,4 +10,6 @@ export class AppSettingsPage {
   }
 
 
+  //toggle btn for - save my images in device
+
 }

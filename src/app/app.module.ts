@@ -33,6 +33,7 @@ import { AngularFireDatabaseModule } from 'angularfire2/database';
 //https://devdactic.com/google-sign-in-ionic-firebase/
 
 import { Camera } from "@ionic-native/camera";
+import { Contacts } from '@ionic-native/contacts';
 import { AndroidPermissions } from "@ionic-native/android-permissions";
 import { NativeAudio } from '@ionic-native/native-audio';
 //import { StoreDevtoolsModule } from '@ngrx/store-devtools';
@@ -53,7 +54,7 @@ import {ProfileCrud} from "../api/store/profile/profileCrud.service";
 
 //import {GoogleMaps} from '@ionic-native/google-maps';
 
-
+import { InAppBrowser } from '@ionic-native/in-app-browser';
 
 // Initialize Firebase configuration
 const FBConfig = {
@@ -131,6 +132,8 @@ const FBConfig = {
     AndroidPermissions,
     NativeAudio,
     Camera,
+    Contacts,
+    InAppBrowser,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ],
   exports: [] //components that we want to make available

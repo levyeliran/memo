@@ -38,12 +38,12 @@ export class MemoApp extends BaseComponent implements OnInit, OnDestroy {
               private profileCrud: ProfileCrud,
               public eventDispatcherService: EventDispatcherService) {
     super(eventDispatcherService);
-  }
-
-  ngOnInit() {
     this.eventCrud.registerToEvents();
     this.photoCrud.registerToEvents();
     this.profileCrud.registerToEvents();
+  }
+
+  ngOnInit() {
 
     //init the app menu
     this.menuPages = [
@@ -54,25 +54,17 @@ export class MemoApp extends BaseComponent implements OnInit, OnDestroy {
 
     //set homepage events
     this.registerToEvents();
-
     this.platform.ready().then(() => {
-      //this.appPermission.getPermission(this.appConst.permissions.INTERNET).then(result=>{
-        //login on app ready
-        this.loginToApp();
-      //}, reject =>{
-        //this.logger.log('User did not allow internet access');
-        //display the animation page.
-      //})
+      //login on app ready
+      this.loginToApp();
     });
   }
 
   registerToEvents() {
     //after the user first time logged in
-    this.registerToEvent(AppDispatchTypes.registration.onUserLogin).subscribe((payload) => {
+    this.registerToEvent(AppDispatchTypes.registration.onUserFirstLogin).subscribe((payload) => {
       //set the user key to local storage - for app internal use
-      //payload.getIdToken().then((token) =>{
-        this.appLocalStorage.setKey(this.appConst.registration.userKey, payload.uid);
-      //});
+      this.appLocalStorage.setKey(this.appConst.registration.userKey, payload.key);
     });
   }
 
@@ -122,6 +114,9 @@ export class MemoApp extends BaseComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
+    //unregister to events
+    this.unregisterToEvent(AppDispatchTypes.registration.onUserFirstLogin);
+
     this.eventCrud.unsubscribeEvents();
     this.photoCrud.unsubscribeEvents();
     this.profileCrud.unsubscribeEvents();
