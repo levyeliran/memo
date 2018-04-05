@@ -105,8 +105,8 @@ export class EventAlbumPhotoPage extends BaseComponent implements OnInit, OnDest
     this.loader = this.loadingCtrl.create({
       spinner: 'hide',
       content: `
-        <div class="custom-spinner-container">
-          <div class="custom-spinner-text">Uploading photo to album</div>
+        <div class="add-photo-loader-container">
+          <div class="loader-text">Uploading photo to album</div>
           <ion-spinner name="bubbles"></ion-spinner>
         </div>`
     });

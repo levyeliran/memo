@@ -152,9 +152,10 @@ export class CreateEventPage extends BaseComponent implements OnInit {
     else {
       startDate = new Date(this.selectedDate).setHours(h[0], h[1], 0);
     }
-    this.event.startDate = startDate.toString();
-    this.event.endDate = (new Date(this.selectedDate).setHours(24, 0, 0)).toString();
+    this.event.startDate = startDate;
+    this.event.endDate = new Date(this.selectedDate).setHours(24, 0, 0);
     this.event.participatesDetails = this.invitedFriends;
+    this.event.initials = this.event.initials.toUpperCase();
   }
 
 }

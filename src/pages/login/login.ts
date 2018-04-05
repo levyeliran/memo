@@ -5,6 +5,7 @@ import {EventDispatcherService} from "../../api/dispatcher/appEventDispathcer.se
 import {AppDispatchTypes} from "../../api/common/dispatchTypes";
 import {ProfileActions} from "../../api/store/profile/profileActions";
 import {UserProfile} from "../../api/common/appTypes";
+import {AlertController} from "ionic-angular";
 
 @Component({
   selector: 'page-login',
@@ -19,7 +20,8 @@ export class LoginPage extends BaseComponent implements OnInit {
   @ViewChild('loginWrapper') loginWrapperRef: any;
 
   constructor(private angAuth: AngularFireAuth,
-              public eventDispatcherService: EventDispatcherService) {
+              public eventDispatcherService: EventDispatcherService,
+              private alertCtrl: AlertController) {
     super(eventDispatcherService);
   }
 
@@ -34,29 +36,20 @@ export class LoginPage extends BaseComponent implements OnInit {
   }
 
   onLogin() {
-    // Login Code here
-    this.disableLogin = true;
-    this.angAuth.auth
-      .signInWithEmailAndPassword(this.loginData.email, this.loginData.password)
-      .then(auth => {
-/*        //dispatch the  event
-        this.dispatchAnEvent({
-          type: AppDispatchTypes.registration.onUserFirstLogin,
-          payload: auth
-        });*/
-      })
-      .catch(err => {
-
-        /*// Handle error
-        let toast = this.toastCtrl.create({
-          message: err.message,
-          duration: 1000
+    if (this.onValidateCredentials()) {
+      // Login Code here
+      this.disableLogin = true;
+      this.angAuth.auth
+        .signInWithEmailAndPassword(this.loginData.email, this.loginData.password)
+        .then(auth => {
+          this.logger.log(`user ${this.loginData.email} was signed IN`);
+        })
+        .catch(err => {
+          this.logger.log(`user ${this.loginData.email} was signed UP to Memo app`);
+          this.doSignUp();
         });
-        toast.present();*/
+    }
 
-        this.doSignUp();
-
-      });
   }
 
   doSignUp() {
@@ -87,28 +80,86 @@ export class LoginPage extends BaseComponent implements OnInit {
       });
   }
 
-  disableLoginOnValidateCredentials() {
+  disableLoginButton() {
+
+    return this.disableLogin ||
+      !(this.loginData.fullName &&
+        this.loginData.phone &&
+        this.loginData.email &&
+        this.loginData.password);
+  }
+
+
+  onValidateCredentials() {
+
+    let errorMessage = '';
+    let valid = false;
     if (this.disableLogin) {
-      return true;
+      valid = true;
     }
 
-    if (!this.loginData.fullName) {
-      return true;
+    if (!this.validateName(this.loginData.fullName)) {
+      errorMessage += `<div>Name must contain at least 2 characters</div>`;
+      valid = true;
     }
 
-    if (!this.loginData.phone) {
-      return true;
+    if (!this.validatePhoneNumber(this.loginData.phone)) {
+      errorMessage += `<div>Phone must contain 10 digits, starting with 0</div>`;
+      valid = true;
     }
 
-    if (!this.loginData.email) {
-      return true;
+    if (!this.validateEmail(this.loginData.email)) {
+      errorMessage += `<div>Email format is not valid</div>`;
+      valid = true;
     }
 
-    if (!this.loginData.password) {
-      return true;
+    if (!this.validatePassword(this.loginData.password)) {
+      errorMessage += `<div>Password must contain at least 8 characters (at least one number, one lowercase and one uppercase letter)</div>`;
+      valid = true;
     }
 
-    return false;
+    if (errorMessage) {
+      errorMessage = `<div class="login-validation-alert-container">${errorMessage}</div>`;
+      this.presentAlert(errorMessage);
+    }
+
+    return valid;
+  }
+
+  presentAlert(errorMessage: string) {
+    const alert = this.alertCtrl.create({
+      title: 'Validation Error',
+      subTitle: 'Please fix the following errors:',
+      message: errorMessage,
+      buttons: ['Dismiss']
+    });
+    alert.present();
+  }
+
+
+  validateEmail(email) {
+    const re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(email);
+  }
+
+  validatePhoneNumber(phone) {
+    // exactly 10 digits, starts with 0
+    const re = /(^[0]\d).{10}/;
+    return re.test(phone);
+  }
+
+  validateName(name) {
+    // only numbers and (lowercase or uppercase), _ - letter
+    // at least 2 characters
+    const re = /(\d[a-z][A-Z] _-).{2,}/;
+    return re.test(name);
+  }
+
+  validatePassword(password) {
+    // at least one number, one lowercase and one uppercase letter
+    // at least 8 characters
+    const re = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/;
+    return re.test(password);
   }
 
 }

@@ -21,7 +21,7 @@ page-login {
         background: wheat;
         border-radius: 50%;
         width: 40%;
-        padding:10px 10px 0px 10px;
+        padding: 10px 10px 0px 10px;
         position: relative;
         left: 30%;
 
@@ -82,4 +82,12 @@ page-login {
     }
   }
 
+}
+
+.login-validation-alert-container {
+  background: white;
+  color: $blue-dark-color;
+  border-radius: 5px;
+  text-align: left;
+  font-weight: 400;
 }

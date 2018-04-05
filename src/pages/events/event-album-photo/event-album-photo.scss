@@ -176,12 +176,18 @@ page-event-album-photo {
 
 }
 
-.custom-spinner-container {
+.add-photo-loader-container {
   background: white;
   color: $blue-dark-color;
   border-radius: 5px;
+  text-align: center;
 
-  .custom-spinner-text {
+  .loader-text {
     font-weight: 400;
+  }
+
+  ion-spinner{
+    color: $blue-dark-color;
+    z-index: 555;
   }
 }
