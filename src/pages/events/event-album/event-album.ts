@@ -9,6 +9,9 @@ import {EventDispatcherService} from "../../../api/dispatcher/appEventDispathcer
 import {Camera, CameraOptions} from '@ionic-native/camera';
 import {AppStoreService} from "../../../api/store/appStore.service";
 import {AppPermission} from "../../../api/utilities/appPermission.service";
+import {EventActions} from "../../../api/store/events/eventActions";
+import {PhotoActions} from "../../../api/store/photos/photoActions";
+import {AnimationActions} from "../../../api/store/animation/animationActions";
 
 @Component({
   selector: 'page-event-album',
@@ -23,7 +26,9 @@ export class EventAlbumPage extends BaseComponent implements OnInit, OnDestroy {
   photosTags: PhotoTagsMetaData[];
   photosGridModel: any[];
   photoStoreSubscription: any;
+  animationStoreSubscription: any;
   displaySpinner = false;
+  hasAnimation = false;
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
@@ -34,8 +39,21 @@ export class EventAlbumPage extends BaseComponent implements OnInit, OnDestroy {
     super(eventDispatcherService);
 
     this.event = this.navParams.get('event');
-    const animationBtn = new HeaderButton('film', this.onViewAnimation.bind(this), !this.event.hasAnimation || this.displaySpinner);
-    const newPhotoBtn = new HeaderButton('camera', this.onAddNewPhoto.bind(this), (!this.event.isActive || this.displaySpinner));
+    let disableNewPhoto = (!this.event.isActive || this.displaySpinner);
+    if (this.appUtils.isPastDate(this.event.endDate, true)) {
+      //need to update the event - only by the creator
+      if (this.event.isActive && this.event.creatorKey === this.appUtils.userKey) {
+        this.event.isActive = false;
+        this.event.isPast = true;
+        //update the event
+        this.eventDispatcherService.emit({type: EventActions.updateEvent, payload: this.event});
+
+        //disable the upload photo
+        disableNewPhoto = true;
+      }
+    }
+    const animationBtn = new HeaderButton('film', this.onViewAnimation.bind(this), !this.hasAnimation || this.displaySpinner);
+    const newPhotoBtn = new HeaderButton('camera', this.onAddNewPhoto.bind(this), disableNewPhoto);
     this.headerButtons = [
       animationBtn,
       newPhotoBtn
@@ -51,7 +69,7 @@ export class EventAlbumPage extends BaseComponent implements OnInit, OnDestroy {
   ngOnInit() {
 
     const self = this;
-    //update the calender each time the store has been changed
+    //update the album each time the store has been changed
     this.photoStoreSubscription = this.appStoreService._photoStore().subscribe((_store) => {
       if (_store && _store.photos && _store.photos.length) {
         self.photos = _store.photos;
@@ -61,20 +79,27 @@ export class EventAlbumPage extends BaseComponent implements OnInit, OnDestroy {
         self.photosTags = _store.photosTags;
 
         //add tags to photos
-        self.photos.forEach((photo)=>{
+        self.photos.forEach((photo) => {
           const pTags = self.photosTags.find(pt => pt.photoKey == photo.key);
-          if(pTags){
+          if (pTags) {
             photo.tagsMetaData = pTags;
 
             //check if the current user had tags photos
-            const myEmojiTag = pTags.emojiTags.find( et => et.creatorKey === self.appUtils.userKey);
-            if(myEmojiTag){
+            const myEmojiTag = pTags.emojiTags.find(et => et.creatorKey === self.appUtils.userKey);
+            if (myEmojiTag) {
               photo.myEmojiTagKey = myEmojiTag.emojiTagKey;
             }
           }
         });
-        self.displaySpinner = false;
-        self.createAlbumModel();
+      }
+      self.displaySpinner = false;
+      self.createAlbumModel();
+    });
+
+    //update the animation icon
+    this.animationStoreSubscription = this.appStoreService._animationStore().subscribe((_store) => {
+      if (_store && _store.animation && _store.animation.lastCreationDate) {
+        self.hasAnimation = true;
       }
     });
   }
@@ -82,6 +107,8 @@ export class EventAlbumPage extends BaseComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     //unregister to events
     this.photoStoreSubscription.unsubscribe();
+    this.animationStoreSubscription.unsubscribe();
+    this.unregisterToEvent(PhotoActions.photoTagged);
   }
 
   createAlbumModel() {
@@ -93,12 +120,8 @@ export class EventAlbumPage extends BaseComponent implements OnInit, OnDestroy {
     const photos = this.photos.slice(0);
     while (photos.length) {
       const photo = photos.pop();
-      if(photo.fileThumbnailURL){
-        data.push({
-          photo: photo,
-          class: 'col-image',
-          hasEmoji: !!photo.myEmojiTagKey
-        });
+      if (photo.fileThumbnailURL) {
+        data.push({photo});
 
         index++;
         index %= 3;
@@ -109,7 +132,7 @@ export class EventAlbumPage extends BaseComponent implements OnInit, OnDestroy {
       }
     }
 
-    if(data.length){
+    if (data.length) {
       this.photosGridModel.push(data);
     }
     this.logger.log('album model recalculated');
@@ -125,31 +148,46 @@ export class EventAlbumPage extends BaseComponent implements OnInit, OnDestroy {
       .getPermissions([this.appConst.permissions.CAMERA,
         this.appConst.permissions.READ_EXTERNAL_STORAGE])
       .then(result => {
-      const options: CameraOptions = {
-        quality: 100,
-        destinationType: this.camera.DestinationType.DATA_URL,
-        encodingType: this.camera.EncodingType.JPEG,
-        mediaType: this.camera.MediaType.PICTURE
-      };
+        const options: CameraOptions = {
+          quality: 100,
+          destinationType: this.camera.DestinationType.DATA_URL,
+          encodingType: this.camera.EncodingType.JPEG,
+          mediaType: this.camera.MediaType.PICTURE
+        };
 
-      this.camera.getPicture(options).then((imageData: string) => {
-        // imageData is either a base64 encoded string or a file URI
-        // If it's base64:
-        const photo = new Photo();
-        photo.base64ImageData = 'data:image/png;base64,' + imageData;
+        this.camera.getPicture(options).then((imageData: string) => {
+          // imageData is either a base64 encoded string or a file URI
+          // If it's base64:
+          const photo = new Photo();
+          photo.base64ImageData = 'data:image/png;base64,' + imageData;
 
-        //navigate to photo page with the data
-        this.navCtrl.push(EventAlbumPhotoPage, {photo, event: this.event});
+          //navigate to photo page with the data
+          this.navCtrl.push(EventAlbumPhotoPage, {photo, event: this.event});
 
-      }, (err) => {
-        // Handle error
-        this.logger.log(err);
+        }, (err) => {
+          // Handle error
+          this.logger.log(err);
+        });
+
       });
-
-    });
   }
 
   registerToEvents() {
+    const self = this;
+    this.registerToEvent(PhotoActions.photoTagged).subscribe(photo => {
+
+      //only when added a new tag
+      if (photo.isNewTag) {
+        //increment tags counters
+        self.eventDispatcherService.emit({
+          type: AnimationActions.updateEventAnimationCounters, payload: {
+            eventKey: photo.eventKey,
+            tagsIncrement: 1
+          }
+        });
+        photo.isNewTag = false;
+      }
+    });
   }
 
   onSelectPhoto(photo: Photo) {

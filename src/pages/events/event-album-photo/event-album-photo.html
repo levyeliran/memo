@@ -1,5 +1,5 @@
 <page-header [isDisplayMenu]="false"
-             [pageTitle]="isNewPhoto ? 'Add new photo to album!' : 'Photo Details'"
+             [pageTitle]="isNewPhoto ? 'Add Photo!' : 'Photo Details'"
              [buttons]="headerButtons"></page-header>
 
 <ion-content #pageWrapper>
@@ -38,7 +38,7 @@
                     (click)="onCancelEffect(appConst.photoEditingTools.contrast)"></ion-icon>
         </ion-item>
         <ion-item *ngIf="activeTool === appConst.photoEditingTools.sharpen">
-          <ion-range class="sharpen" min="0" max="100" [(ngModel)]="sharpen"
+          <ion-range class="sharpen" min="3" max="100" [(ngModel)]="sharpen"
                      (ionChange)="onEffectSelected(appConst.photoEditingTools.sharpen)">
             <ion-icon range-left small name="eye"></ion-icon>
             <ion-icon range-right name="eye"></ion-icon>

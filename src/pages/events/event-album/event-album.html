@@ -7,10 +7,10 @@
 
   <div class="event-album-grid" *ngIf="photos.length > 0">
     <div class="grid-row" *ngFor="let row of photosGridModel">
-      <div class="grid-col {{col.class}}"*ngFor="let col of row">
+      <div class="grid-col col-image"*ngFor="let col of row">
         <img src="{{col.photo.fileThumbnailURL}}" (click)="onSelectPhoto(col.photo)" />
         <div class="my-emoji-wrapper">
-          <ion-icon *ngIf="col.hasEmoji" name="pricetag">
+          <ion-icon *ngIf="!!col.photo.myEmojiTagKey" name="pricetag">
           </ion-icon>
         </div>
       </div>

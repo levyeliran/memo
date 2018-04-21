@@ -65,6 +65,18 @@ export const EventStatus = {
 };
 
 
+/////////////////////////////////////////////////////////
+export class AnimationStore{
+  animation: EventAnimation;
+}
+export class EventAnimation{
+  key:string;
+  photosCount: number;
+  tagsCount: number;
+  requiredStatus: boolean;
+  lastCreationDate: any;
+
+}
 
 /////////////////////////////////////////////////////////
 
@@ -85,12 +97,9 @@ export class Photo{
   key:any;
   eventKey:any;
   creatorKey:any;
-  isOwnPhoto:boolean;
-  isThumbnail:boolean;
   creatorName:string;
   creationDate:any;
   fileName:string;
-  fileType:string;
   width:number;
   height:number;
   size:number;
@@ -99,6 +108,7 @@ export class Photo{
   storageMetadata:any;
   tagsMetaData:PhotoTagsMetaData;
   myEmojiTagKey:string;
+  isNewTag:boolean;
   base64ImageData:string;
   photoImage:any;
 }
@@ -178,3 +188,16 @@ export class UserProfile {
   creationDate:any;
 }
 
+
+/////////////////////////////////////////////////////////
+export class AppSettingsStore{
+  settings: AppSettings;
+}
+export class AppSettings{
+  key:string;
+  userKey:string;
+  saveFilesToDevice:boolean;
+  scheduleAnimationHourly:boolean;
+  acceptNotifications:boolean;
+  creationDate:any;
+}

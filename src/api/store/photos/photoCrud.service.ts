@@ -28,7 +28,7 @@ export class PhotoCrud {
   }
 
   registerToEvents() {
-    console.log("PhotoCrud OnInit");
+    this.logger.log("PhotoCrud OnInit");
 
     const getEventPhotosSub = this.eventDispatcherService.on(PhotoActions.getEventPhotos);
     getEventPhotosSub.subscribe(this.getEventPhotos.bind(this));
@@ -51,7 +51,7 @@ export class PhotoCrud {
   }
 
   unsubscribeEvents() {
-    console.log("PhotoCrud OnDestroy");
+    this.logger.log("PhotoCrud OnDestroy");
     this.photoCrudSubscriptions.forEach(s => s.unsubscribe());
   }
 
@@ -169,19 +169,8 @@ export class PhotoCrud {
     const tegRef = this.fb.database().ref()
       .child(`tagToEventPhoto/${photo.eventKey}/${photo.key}/${AppUtils.userKey}`);
     tegRef.update(tagData).then((t) => {
-      this.onTagSuccess(photo, emojiKey);
+      this.dispatchAck({type: PhotoActions.photoTagged, payload: photo});
     });
-  }
-
-  private onTagSuccess(photo: Photo, emojiKey: string) {
-    photo.myEmojiTagKey = emojiKey;
-
-    //add to photo metadata
-    //photo.tagsMetaData
-
-
-    //dispatch an ack
-    this.dispatchAck({type: PhotoActions.photoTagged});
   }
 
   private removeUIProperties(photo: Photo) {
@@ -189,6 +178,7 @@ export class PhotoCrud {
     photo.photoImage = null;
     photo.storageMetadata = null;
     photo.tagsMetaData = null;
+    photo.isNewTag = null;
     return photo;
   }
 

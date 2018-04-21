@@ -67,4 +67,11 @@ export class AppUtils{
     return '';
   }
 
+  static isDateGraterThan(date1 = null, date2 = null){
+    if(date1 && date2){
+      (new Date(date1)).getTime() > (new Date(date2)).getTime()
+    }
+    return false;
+  }
+
 }

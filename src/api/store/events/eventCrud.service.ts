@@ -14,7 +14,6 @@ import {AppLogger} from "../../utilities/appLogger";
 export class EventCrud{
 
   logger: AppLogger;
-  storeTreeNode = 'events';
   eventCrudSubscriptions: any[];
 
   constructor(public eventDispatcherService: EventDispatcherService,
@@ -25,7 +24,7 @@ export class EventCrud{
   }
 
   registerToEvents() {
-    console.log("EventCrud OnInit");
+    this.logger.log("EventCrud OnInit");
 
     const getEventSub = this.eventDispatcherService.on(EventActions.getEvent);
     getEventSub.subscribe(this.getEvent.bind(this));
@@ -37,7 +36,7 @@ export class EventCrud{
     createEventSub.subscribe(this.createEvent.bind(this));
 
     const updateEventSub = this.eventDispatcherService.on(EventActions.updateEvent);
-    createEventSub.subscribe(this.updateEvent);
+    updateEventSub.subscribe(this.updateEvent);
 
     //add all subjects to list - we unsubscribe to them when close the app
     this.eventCrudSubscriptions.push(getEventSub);
@@ -47,12 +46,12 @@ export class EventCrud{
   }
 
   unsubscribeEvents() {
-    console.log("EventCrud OnDestroy");
+    this.logger.log("EventCrud OnDestroy");
     this.eventCrudSubscriptions.forEach(s => s.unsubscribe());
   }
 
   private getEvent(eventKey: string) {
-    this.db.list<Event>(`${this.storeTreeNode}/${eventKey}`).valueChanges().subscribe((payload) => {
+    this.db.list<Event>(`events/${eventKey}`).valueChanges().subscribe((payload) => {
       //update the store with the retrieved event
       this.store.dispatch({type: EventActions.getEvent, payload});
 
@@ -78,7 +77,7 @@ export class EventCrud{
     const self = this;
     event = this.removeUIProperties(event);
 
-    const pushRef = this.fb.database().ref().child(`${this.storeTreeNode}`).push();
+    const pushRef = this.fb.database().ref().child('events').push();
     event.key = pushRef.key;
     event.creationDate = (new Date()).toString();
     event.creatorKey = AppUtils.userKey;
@@ -92,7 +91,7 @@ export class EventCrud{
 
   private updateEvent(event: Event) {
     event = this.removeUIProperties(event);
-    this.db.list<Event>(`${this.storeTreeNode}`).update(event.key, event).then((event) => {
+    this.db.list<Event>('events').update(event.key, event).then((event) => {
       //dispatch an ack
       this.dispatchAck({type: EventActions.eventUpdated});
     });

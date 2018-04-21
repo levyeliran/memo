@@ -6,6 +6,12 @@ page-event-album {
     .scroll-content{
       padding-bottom: 60px !important;
     }
+
+    ion-spinner{
+      position: absolute;
+      left: 48%;
+      top: 44%;
+    }
   }
   .event-album-grid {
     .grid-row {
@@ -22,7 +28,7 @@ page-event-album {
 
         &.col-image{
           float: left;
-          width: 31.7%;
+          width: 31.5%;
           margin-left: 3px;
           margin-right: 3px;
         }

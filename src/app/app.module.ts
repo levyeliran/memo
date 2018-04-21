@@ -37,6 +37,7 @@ import { Contacts } from '@ionic-native/contacts';
 import { AndroidPermissions } from "@ionic-native/android-permissions";
 import { NativeAudio } from '@ionic-native/native-audio';
 //import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { BackgroundMode } from '@ionic-native/background-mode';
 import { StoreModule } from '@ngrx/store';
 import { eventReducer } from "../api/store/events/event.reducer";
 import {AppStoreService} from "../api/store/appStore.service";
@@ -55,6 +56,10 @@ import {ProfileCrud} from "../api/store/profile/profileCrud.service";
 //import {GoogleMaps} from '@ionic-native/google-maps';
 
 import { InAppBrowser } from '@ionic-native/in-app-browser';
+import {animationReducer} from "../api/store/animation/animation.reducer";
+import {AppSettingsReducer} from "../api/store/app/appSettings.reducer";
+import {AnimationCrud} from "../api/store/animation/animationCrud.service";
+import {AppSettingsCrud} from "../api/store/app/appSettingsCrud.service";
 
 // Initialize Firebase configuration
 const FBConfig = {
@@ -95,6 +100,8 @@ const FBConfig = {
       eventStore: eventReducer,
       photoStore: photoReducer,
       profileStore: profileReducer,
+      animationReducer: animationReducer,
+      AppSettingsReducer: AppSettingsReducer
     }),
     IonicStorageModule, //local storage api
     AngularFireDatabaseModule,
@@ -125,6 +132,8 @@ const FBConfig = {
     EventCrud,
     PhotoCrud,
     ProfileCrud,
+    AnimationCrud,
+    AppSettingsCrud,
     AppStoreService,
     AppLocalStorage,
     AppPermission,
@@ -134,6 +143,7 @@ const FBConfig = {
     Camera,
     Contacts,
     InAppBrowser,
+    BackgroundMode,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ],
   exports: [] //components that we want to make available

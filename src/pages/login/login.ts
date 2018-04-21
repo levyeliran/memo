@@ -93,33 +93,39 @@ export class LoginPage extends BaseComponent implements OnInit {
   onValidateCredentials() {
 
     let errorMessage = '';
-    let valid = false;
+    let valid = true;
     if (this.disableLogin) {
-      valid = true;
+      valid = false;
     }
 
     if (!this.validateName(this.loginData.fullName)) {
-      errorMessage += `<div>Name must contain at least 2 characters</div>`;
-      valid = true;
+      errorMessage += `<li>Name must contain at least 2 characters</li>`;
+      valid = false;
     }
 
     if (!this.validatePhoneNumber(this.loginData.phone)) {
-      errorMessage += `<div>Phone must contain 10 digits, starting with 0</div>`;
-      valid = true;
+      errorMessage += `<li>Phone must contain 10 digits, starting with 0</li>`;
+      valid = false;
     }
 
     if (!this.validateEmail(this.loginData.email)) {
-      errorMessage += `<div>Email format is not valid</div>`;
-      valid = true;
+      errorMessage += `<li>Email format is not valid</li>`;
+      valid = false;
     }
 
     if (!this.validatePassword(this.loginData.password)) {
-      errorMessage += `<div>Password must contain at least 8 characters (at least one number, one lowercase and one uppercase letter)</div>`;
-      valid = true;
+      errorMessage += `<li>Password must contain at least 8 characters:
+                          <ul>
+                            <li>Number</li>
+                            <li>Lowercase OR uppercase character</li>
+                            <li>One of the following ! @ # _ -</li>
+                          </ul>
+                       </li>`;
+      valid = false;
     }
 
     if (errorMessage) {
-      errorMessage = `<div class="login-validation-alert-container">${errorMessage}</div>`;
+      errorMessage = `<ul class="login-validation-alert-container">${errorMessage}</ul>`;
       this.presentAlert(errorMessage);
     }
 
@@ -144,21 +150,21 @@ export class LoginPage extends BaseComponent implements OnInit {
 
   validatePhoneNumber(phone) {
     // exactly 10 digits, starts with 0
-    const re = /(^[0]\d).{10}/;
+    const re = /(0[0-9]).{8}/;
     return re.test(phone);
   }
 
   validateName(name) {
     // only numbers and (lowercase or uppercase), _ - letter
     // at least 2 characters
-    const re = /(\d[a-z][A-Z] _-).{2,}/;
+    const re = /([a-zA-Z _-]).{1,}/;
     return re.test(name);
   }
 
   validatePassword(password) {
-    // at least one number, one lowercase and one uppercase letter
+    // at least one number, one lowercase OR one uppercase letter, one of the following !@#_-
     // at least 8 characters
-    const re = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/;
+    const re = /((?=.*[0-9])(?=.*[a-zA-Z])(?=.*[!@#_-])).{8,}/;
     return re.test(password);
   }
 

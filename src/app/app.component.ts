@@ -13,6 +13,8 @@ import {AppLocalStorage} from "../api/utilities/appLocalStorage.service";
 import {EventCrud} from "../api/store/events/eventCrud.service";
 import {PhotoCrud} from "../api/store/photos/photoCrud.service";
 import {ProfileCrud} from "../api/store/profile/profileCrud.service";
+import {AnimationCrud} from "../api/store/animation/animationCrud.service";
+import {AppSettingsCrud} from "../api/store/app/appSettingsCrud.service";
 
 @Component({
   templateUrl: 'app.html',
@@ -36,11 +38,17 @@ export class MemoApp extends BaseComponent implements OnInit, OnDestroy {
               private eventCrud: EventCrud,
               private photoCrud: PhotoCrud,
               private profileCrud: ProfileCrud,
+              private animationCrud: AnimationCrud,
+              private appSettingsCrud: AppSettingsCrud,
               public eventDispatcherService: EventDispatcherService) {
     super(eventDispatcherService);
+
+    //start services listeners
     this.eventCrud.registerToEvents();
     this.photoCrud.registerToEvents();
     this.profileCrud.registerToEvents();
+    this.animationCrud.registerToEvents();
+    this.appSettingsCrud.registerToEvents();
   }
 
   ngOnInit() {
@@ -119,6 +127,8 @@ export class MemoApp extends BaseComponent implements OnInit, OnDestroy {
     this.eventCrud.unsubscribeEvents();
     this.photoCrud.unsubscribeEvents();
     this.profileCrud.unsubscribeEvents();
+    this.animationCrud.unsubscribeEvents();
+    this.appSettingsCrud.unsubscribeEvents();
     //un-subscribe to all registered events
     //WE USE THIS ONLY HERE, THIS WILL CLEAR ALL EVENTS FOR ENTIRE APP ON CLOSE!!!
     this.eventDispatcherService.clearAllAppEvents();

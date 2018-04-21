@@ -6,6 +6,7 @@ import {AppUtils} from "../../api/utilities/appUtils";
 import {EventAlbumPage} from "../events/event-album/event-album";
 import {PhotoActions} from "../../api/store/photos/photoActions";
 import {EventDispatcherService} from "../../api/dispatcher/appEventDispathcer.service";
+import {AnimationActions} from "../../api/store/animation/animationActions";
 
 @Component({
   selector: 'page-home',
@@ -75,9 +76,8 @@ export class HomePage implements OnInit, OnDestroy {
   }
 
   onEventOpen(event: Event) {
-    //navigate to event album - if its exist
-    //get the event photos
     this.eventDispatcherService.emit({type: PhotoActions.getEventPhotos, payload: event.key});
+    this.eventDispatcherService.emit({type: AnimationActions.getEventAnimation, payload: event.key});
     //navigate to album (over the main-tabs)
     this.navCtrl.parent.parent.push(EventAlbumPage, {event});
   }

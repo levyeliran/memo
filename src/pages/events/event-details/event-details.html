@@ -4,4 +4,33 @@
 
 <ion-content padding>
 
+<!--
+bowtie icon
+date
+initials
+
+-----
+
+square with:
+title and small image according to event type
+start with end hour
+
+------
+
+description
+guests list
+
+map of location? or place name
+
+start event button (for creator)
+
+-->
+
+  <button class="start-event-btn" ion-button clear full
+          (click)="onStartEvent()"
+          *ngIf="isCreatorEvent && !event.isPast"
+          [disabled]="!event.isActive" >
+    <div>Start!</div>
+  </button>
+
 </ion-content>
