@@ -42,6 +42,9 @@ export class MemoApp extends BaseComponent implements OnInit, OnDestroy {
               private appSettingsCrud: AppSettingsCrud,
               public eventDispatcherService: EventDispatcherService) {
     super(eventDispatcherService);
+  }
+
+  ngOnInit() {
 
     //start services listeners
     this.eventCrud.registerToEvents();
@@ -49,9 +52,6 @@ export class MemoApp extends BaseComponent implements OnInit, OnDestroy {
     this.profileCrud.registerToEvents();
     this.animationCrud.registerToEvents();
     this.appSettingsCrud.registerToEvents();
-  }
-
-  ngOnInit() {
 
     //init the app menu
     this.menuPages = [

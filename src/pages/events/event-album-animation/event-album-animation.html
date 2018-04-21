@@ -13,6 +13,8 @@
 </ion-header>
 
 
-<ion-content padding>
-
+<ion-content>
+  <iframe *ngIf="animationURL"
+          [src]="animationURL"
+          width="100%" height="100%" frameborder="0" ></iframe>
 </ion-content>

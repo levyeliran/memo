@@ -52,7 +52,8 @@ export class EventAlbumPage extends BaseComponent implements OnInit, OnDestroy {
         disableNewPhoto = true;
       }
     }
-    const animationBtn = new HeaderButton('film', this.onViewAnimation.bind(this), !this.hasAnimation || this.displaySpinner);
+    const animationBtn = new HeaderButton('film', this.onViewAnimation.bind(this), false);
+      //!this.hasAnimation || this.displaySpinner);
     const newPhotoBtn = new HeaderButton('camera', this.onAddNewPhoto.bind(this), disableNewPhoto);
     this.headerButtons = [
       animationBtn,

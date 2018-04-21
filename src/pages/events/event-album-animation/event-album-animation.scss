@@ -1,3 +1,12 @@
 page-event-album-animation {
 
+  ion-content{
+    .scroll-content{
+      margin-top: 0px !important;
+
+      iframe{
+        background: white;
+      }
+    }
+  }
 }

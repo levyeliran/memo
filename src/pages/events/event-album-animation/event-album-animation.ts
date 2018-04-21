@@ -1,10 +1,10 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import {NavController, NavParams} from 'ionic-angular';
 import {EventDispatcherService} from "../../../api/dispatcher/appEventDispathcer.service";
 import {BaseComponent} from "../../../api/common/baseComponent/baseComponent";
-import { InAppBrowser } from '@ionic-native/in-app-browser';
 import {AppStoreService} from "../../../api/store/appStore.service";
 import {Event} from "../../../api/common/appTypes";
+import {DomSanitizer, SafeResourceUrl} from '@angular/platform-browser';
 
 @Component({
   selector: 'page-event-album-animation',
@@ -12,19 +12,17 @@ import {Event} from "../../../api/common/appTypes";
 })
 export class EventAlbumAnimationPage extends BaseComponent implements OnInit, OnDestroy {
 
-  animationURL = "https://us-central1-memo-11ade.cloudfunctions.net/animation";
+  baseURL = "https://us-central1-memo-11ade.cloudfunctions.net/animation";
+  animationURL: SafeResourceUrl;
   event: Event;
-  animationStoreSubscription:any;
-  lastCreationDate:any;
-  needRefreshAnimation = false;
-  browser: any;
+  animationStoreSubscription: any;
 
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
               public appStoreService: AppStoreService,
               public eventDispatcherService: EventDispatcherService,
-              private iab: InAppBrowser) {
+              public sanitizer: DomSanitizer) {
     super(eventDispatcherService);
 
     this.event = this.navParams.get('event');
@@ -37,36 +35,47 @@ export class EventAlbumAnimationPage extends BaseComponent implements OnInit, On
 
 
   ngOnInit() {
-    const self = this;
     //https://www.photo-mark.com/notes/image-preloading/
     //A better way to preload images for web galleries
 
     //send Event Key!!!!
 
-    //update the animation icon
+/*    //update the animation icon
     this.animationStoreSubscription = this.appStoreService._animationStore().subscribe((_store) => {
       if (_store && _store.animation && _store.animation.lastCreationDate) {
         self.lastCreationDate = _store.animation.lastCreationDate;
         self.needRefreshAnimation = self.appUtils.isDateGraterThan(_store.animation.lastCreationDate, self.lastCreationDate);
-      }
 
-      if(!self.browser){
-        //https://cordova.apache.org/docs/en/latest/reference/cordova-plugin-inappbrowser/
-        self.browser = this.iab.create(`${self.animationURL}?eventKey=${_store.animation.key}`);
-        self.browser.show();
-      }
+        if (!self.browser) {
+          //https://cordova.apache.org/docs/en/latest/reference/cordova-plugin-inappbrowser/
+          self.browser = self.iab.create(`${self.beseURL}?eventKey=${self.event.key}`,"_blank");
+          self.browser.show();
+        }
 
-      if(self.needRefreshAnimation && self.browser){
-        //reload the animation when needed.
-        self.browser.reload();
-        self.needRefreshAnimation = false;
+        if (self.needRefreshAnimation && self.browser) {
+          //reload the animation when needed.
+          self.browser.reload();
+          self.needRefreshAnimation = false;
+        }
+
       }
+    });*/
+
+    /*self.browser = self.iab.create(
+      `${self.animationURL}?eventKey=${self.event.key}`,
+      "_self",
+      {
+      location: "no", zoom : 'no'
     });
+    self.browser.show();*/
+
+     this.animationURL = this.sanitizer.bypassSecurityTrustResourceUrl(`${this.baseURL}?eventKey=${this.event.key}`);
+     console.log(this.animationURL);
 
   }
 
   //http://cssslider.com/wordpress-slider-15.html
-  registerToEvents(){
+  registerToEvents() {
 
   }
 

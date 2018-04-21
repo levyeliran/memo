@@ -21,6 +21,7 @@ export class EventCrud{
               public fb: FirebaseApp,
               public db: AngularFireDatabase) {
     this.eventCrudSubscriptions = [];
+    this.logger = new AppLogger();
   }
 
   registerToEvents() {

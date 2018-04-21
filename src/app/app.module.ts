@@ -55,7 +55,6 @@ import {ProfileCrud} from "../api/store/profile/profileCrud.service";
 
 //import {GoogleMaps} from '@ionic-native/google-maps';
 
-import { InAppBrowser } from '@ionic-native/in-app-browser';
 import {animationReducer} from "../api/store/animation/animation.reducer";
 import {AppSettingsReducer} from "../api/store/app/appSettings.reducer";
 import {AnimationCrud} from "../api/store/animation/animationCrud.service";
@@ -142,7 +141,6 @@ const FBConfig = {
     NativeAudio,
     Camera,
     Contacts,
-    InAppBrowser,
     BackgroundMode,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ],
