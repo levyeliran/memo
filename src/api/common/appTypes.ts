@@ -7,6 +7,14 @@ export class HeaderButton {
     this.onClick = onClick;
     this.disabled = disabled;
   }
+
+  changeIcon(iconName:string){
+    this.iconName = iconName;
+  }
+
+  changeStatus(isDisable:boolean){
+    this.disabled = isDisable;
+  }
 }
 
 //////////////////////////////////////////////////////////
@@ -18,6 +26,8 @@ export class EventParticipant{
   id:string;
   name:string;
   phone:string;
+  isVip:boolean;
+  isSelected:boolean;
 }
 export class Event{
   key:any;
@@ -106,6 +116,7 @@ export class Photo{
   fileURL:string;
   fileThumbnailURL:string;
   storageMetadata:any;
+  selectedEffects:any;
   tagsMetaData:PhotoTagsMetaData;
   myEmojiTagKey:string;
   isNewTag:boolean;

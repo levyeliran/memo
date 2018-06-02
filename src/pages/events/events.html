@@ -18,6 +18,7 @@
       <ion-icon name="add-circle"></ion-icon>
       <div>CREATE EVENT</div>
     </button>
+    <div class="create-selected-date">{{appUtils.getDateStrFormat(selectedDate)}}</div>
   </div>
 
   <div class="event-action-btn" *ngIf="selectedDateEvent.status == eventStatus.invited && !selectedDateEvent.isPast">
@@ -36,9 +37,8 @@
     </button>
   </div>
 
-
-  <div class="empty-state" *ngIf="!selectedDate">
-    SELECT A DATE
+  <div class="empty-state" *ngIf="!isCreationValidDate && !(selectedDateEvent && selectedDateEvent.key)">
+    SELECT A VALID DATE
   </div>
 
 

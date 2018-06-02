@@ -9,11 +9,17 @@ page-create-event {
   }
 
   .swiper-pagination-fraction, .swiper-pagination-custom, .swiper-container-horizontal > .swiper-pagination-bullets{
-    bottom: 55px !important;
+    top: 5px !important;
   }
 
   ion-slide {
     &.step1 {
+      ion-icon[name="bowtie"]{
+        font-size: 2.2em;
+        position: relative;
+        bottom: 20px;
+      }
+
       .event-date {
         margin: auto
       }
@@ -28,6 +34,19 @@ page-create-event {
 
       .event-card {
         height: 120px;
+      }
+
+      .initials-label{
+        input{
+          text-transform: uppercase;
+        }
+      }
+      .list-md .item-input:last-child {
+        border:none;
+      }
+
+      .list-md .item-input:last-child .item-inner {
+        border-bottom: 1px solid #dedede;
       }
 
     }
@@ -72,6 +91,11 @@ page-create-event {
 
     }
     &.step4 {
+      background-image: url('../../../assets/images/effects/whiteLanternsGrillanda.png');
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position-y: 30px;
+
       .beer-icons-wrapper {
         ion-icon {
 

@@ -3,7 +3,7 @@ import {NavController, NavParams} from 'ionic-angular';
 import {EventDispatcherService} from "../../../api/dispatcher/appEventDispathcer.service";
 import {BaseComponent} from "../../../api/common/baseComponent/baseComponent";
 import {AppStoreService} from "../../../api/store/appStore.service";
-import {Event} from "../../../api/common/appTypes";
+import {Event, HeaderButton} from "../../../api/common/appTypes";
 import {DomSanitizer, SafeResourceUrl} from '@angular/platform-browser';
 
 @Component({
@@ -15,6 +15,9 @@ export class EventAlbumAnimationPage extends BaseComponent implements OnInit, On
   baseURL = "https://us-central1-memo-11ade.cloudfunctions.net/animation";
   animationURL: SafeResourceUrl;
   event: Event;
+  headerButtons: HeaderButton[];
+  animationAudio:any;
+  volumeIcon:string;
   animationStoreSubscription: any;
 
 
@@ -26,6 +29,13 @@ export class EventAlbumAnimationPage extends BaseComponent implements OnInit, On
     super(eventDispatcherService);
 
     this.event = this.navParams.get('event');
+    this.volumeIcon = 'volume-up';
+    const animationAudioBtn = new HeaderButton(this.volumeIcon, this.onAnimationAudioChanged.bind(this), false);
+    this.headerButtons = [
+      animationAudioBtn
+    ];
+
+
     //set animation events
     this.registerToEvents();
   }
@@ -72,6 +82,26 @@ export class EventAlbumAnimationPage extends BaseComponent implements OnInit, On
      this.animationURL = this.sanitizer.bypassSecurityTrustResourceUrl(`${this.baseURL}?eventKey=${this.event.key}`);
      console.log(this.animationURL);
 
+     //create animation audio instance in a loop
+    this.animationAudio = new Audio('assets/sounds/animationMusic.mp3');
+    this.animationAudio.controls = true;
+    this.animationAudio.addEventListener('ended', this.loopAnimationAudio.bind(this), false);
+    this.animationAudio.play();
+  }
+
+  loopAnimationAudio(){
+    this.animationAudio.currentTime = 0;
+    this.animationAudio.play();
+  }
+
+  onAnimationAudioChanged(){
+    if(this.animationAudio.muted){
+      this.headerButtons[0].changeIcon('volume-up');
+    }
+    else {
+      this.headerButtons[0].changeIcon('volume-off');
+    }
+    this.animationAudio.muted = !this.animationAudio.muted;
   }
 
   //http://cssslider.com/wordpress-slider-15.html
@@ -81,6 +111,9 @@ export class EventAlbumAnimationPage extends BaseComponent implements OnInit, On
 
   ngOnDestroy() {
     //unregister to events
-    this.animationStoreSubscription.unsubscribe();
+    //this.animationStoreSubscription.unsubscribe();
+    this.animationAudio.pause();
+    this.animationAudio.currentTime = 0;
+    this.animationAudio.removeEventListener('ended', this.loopAnimationAudio)
   }
 }

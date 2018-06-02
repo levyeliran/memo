@@ -23,18 +23,23 @@
         <ion-item>
           <ion-label>Event Type</ion-label>
           <ion-select interface="popover" [(ngModel)]="event.typeKey">
-            <ion-option value="1">Wedding</ion-option>
+            <ion-option value="1">Birthday</ion-option>
+            <ion-option value="2">Wedding</ion-option>
+            <ion-option value="3">New Born</ion-option>
+            <ion-option value="4">Ber Mitzvah</ion-option>
+            <ion-option value="5">Bachelor Party</ion-option>
+            <ion-option value="6">Prom</ion-option>
             <ion-option value="-1">Other</ion-option>
           </ion-select>
         </ion-item>
 
         <ion-item>
-          <ion-label floating>Event Title</ion-label>
+          <ion-label>Event Title</ion-label>
           <ion-input type="text" [(ngModel)]="event.title"></ion-input>
         </ion-item>
 
-        <ion-item>
-          <ion-label floating>Event Name Initials (For example: R&T)</ion-label>
+        <ion-item class="initials-label">
+          <ion-label>Event Initials (i.e: R&T)</ion-label>
           <ion-input type="text" [(ngModel)]="event.initials" maxlength="3"></ion-input>
         </ion-item>
 
@@ -69,7 +74,6 @@
         </ion-list>
       </ion-item>
 
-
       <ion-item>
         <ion-textarea rows="2" maxLength="200" placeholder="Enter a short description"
                       [(ngModel)]="event.description"></ion-textarea>
@@ -77,14 +81,10 @@
 
 
       <ion-item>
-        <ion-label>Invite Friends (Max 10)</ion-label>
-        <ion-select multiple="true" cancelText="Cancel" okText="Done!" [(ngModel)]="invitedFriends"
-                    (ionChange)="onInviteFriendsChanged()">
-          <ion-option *ngFor="let contact of contactsList" [value]="contact">
-            <div class="contact-name">{{contact.name}}</div>
-            <div class="contact-phone">{{contact.phone}}</div>
-          </ion-option>
-        </ion-select>
+        <button ion-button icon-left (click)="onInviteFriends()" [disabled]="!contactsList.length">
+          <ion-icon name="add-circle"></ion-icon>
+          Invite Friends
+        </button>
       </ion-item>
 
     </ion-slide>

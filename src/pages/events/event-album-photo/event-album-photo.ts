@@ -234,6 +234,7 @@ export class EventAlbumPhotoPage extends BaseComponent implements OnInit, OnDest
 
   onAddPhoto() {
     this.loader.present();
+    this.photo.selectedEffects = Object.keys(this.selectedEffects);
     this.photo.eventKey = this.event.key;
     this.eventDispatcherService.emit({type: PhotoActions.addPhotoToAlbum, payload: this.photo});
   }
@@ -263,6 +264,7 @@ export class EventAlbumPhotoPage extends BaseComponent implements OnInit, OnDest
     return this.editor.onSharpen(data, this.sharpen, this.photoCanvas.width, this.photoCanvas.height);
   }
 
+  //!!!!!!!!!!!! record all types on the photo entity, need for analytics (madadim in proj book)
   onGrayEffect(data: any) {
     return this.editor.onGrayEffect(data);
   }

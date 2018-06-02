@@ -15,4 +15,5 @@ export const EventActions = {
   eventCreated: 'eventCreated',
   eventReceived: 'eventReceived',
   eventsReceived: 'eventsReceived',
+  eventsInvitedFriendsReceived: 'eventsInvitedFriendsReceived',
 };

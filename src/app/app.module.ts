@@ -14,6 +14,7 @@ import {AppSettingsPage } from "../pages/app-settings/app-settings";
 import { CreateEventPage } from "../pages/events/create-event/create-event";
 import { EventAlbumPage } from "../pages/events/event-album/event-album";
 import {EventDetailsPage} from "../pages/events/event-details/event-details";
+import {SelectFriendsPage} from "../pages/events/select-friends/select-friends";
 
 //import { StatusBar } from '@ionic-native/status-bar';
 //import { SplashScreen } from '@ionic-native/splash-screen';
@@ -85,6 +86,7 @@ const FBConfig = {
     EventAlbumAnimationPage,
     EventAlbumPhotoPage,
     EventDetailsPage,
+    SelectFriendsPage,
     PageHeaderComponent
   ],
   imports: [
@@ -123,6 +125,7 @@ const FBConfig = {
     EventAlbumAnimationPage,
     EventAlbumPhotoPage,
     EventDetailsPage,
+    SelectFriendsPage,
     PageHeaderComponent
   ],
   providers: [ // SINGLETON services

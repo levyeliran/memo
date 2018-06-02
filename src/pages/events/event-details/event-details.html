@@ -1,15 +1,12 @@
 <page-header [isDisplayMenu]="false"
-             [pageTitle]="event.title"
+             [pageTitle]="(event.initials + ' event details')"
              [buttons]="headerButtons"></page-header>
 
+<!--https://pngtree.com/so/light-effect-->
 <ion-content padding>
 
-<!--
-bowtie icon
-date
-initials
 
------
+<!--
 
 square with:
 title and small image according to event type
@@ -26,11 +23,28 @@ start event button (for creator)
 
 -->
 
-  <button class="start-event-btn" ion-button clear full
+  <div class="event-details-wrapper">
+    <div class="intro">
+      <ion-icon name="bowtie"></ion-icon>
+      <ion-label class="event-date">{{event.startDate}}</ion-label>
+    </div>
+
+    <div class="details-wrapper">
+      <div class="event-title">
+        {{event.title}}
+      </div>
+      <div class="event-description">
+        {{event.description}}
+      </div>
+    </div>
+
+  </div>
+
+  <button  class="start-event-btn" ion-button full
           (click)="onStartEvent()"
           *ngIf="isCreatorEvent && !event.isPast"
           [disabled]="!event.isActive" >
-    <div>Start!</div>
+    <div>START EVENT!</div>
   </button>
 
 </ion-content>

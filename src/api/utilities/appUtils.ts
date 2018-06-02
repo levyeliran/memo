@@ -74,4 +74,13 @@ export class AppUtils{
     return false;
   }
 
+  static fixPhoneNumber(phone:string =''){
+    return phone
+      .replace('+','')
+      .replace('(','')
+      .replace(')', '')
+      .replace('-', '')
+      .replace(' ', '')
+  }
+
 }

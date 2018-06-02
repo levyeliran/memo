@@ -1,0 +1,46 @@
+page-select-friends {
+
+  .invited-friends-wrapper{
+
+    .details-wrapper{
+      margin-top: 5px;
+      border-bottom: 1px solid gray;
+      height: 50px;
+      display: flex;
+
+      .vip-friend-icon-wrapper{
+        width: 7%;
+        ion-icon{
+          font-size: 1.5em;
+          color:gray;
+
+          &.vip-star{
+            color:gold;
+          }
+        }
+      }
+
+      .friend-details-wrapper{
+        flex-direction: column;
+        width: 86%;
+        .name{
+          font-weight: 600;
+        }
+        .phone{
+
+        }
+      }
+
+      .add-friend-action-wrapper{
+        ion-icon{
+          font-size: 1.5em;
+          color:gray;
+          &.added{
+            color: $blue-light-color;
+          }
+        }
+      }
+    }
+  }
+
+}

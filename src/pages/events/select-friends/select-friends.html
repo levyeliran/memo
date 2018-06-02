@@ -1,0 +1,26 @@
+<page-header [isDisplayMenu]="false"
+             [pageTitle]="'Invite Friends'"
+             [buttons]="headerButtons"></page-header>
+
+<ion-content padding>
+  <div class="invited-friends-wrapper">
+    <div class="details-wrapper" *ngFor="let friend of contactsList">
+      <div class="vip-friend-icon-wrapper">
+        <ion-icon class="vip-star" name="star" (click)="onVipFriend(friend)" *ngIf="friend.isVip"></ion-icon>
+        <ion-icon name="star" (click)="onVipFriend(friend, true)" *ngIf="!friend.isVip"></ion-icon>
+      </div>
+      <div class="friend-details-wrapper">
+        <div class="name">{{friend.name}}</div>
+        <div class="phone">{{friend.phone}}</div>
+      </div>
+      <div class="add-friend-action-wrapper">
+        <ion-icon class="added" name="add-circle"
+                  (click)="onInviteFriendsChanged(friend)"
+                  *ngIf="friend.isSelected"></ion-icon>
+        <ion-icon name="add-circle"
+                  (click)="onInviteFriendsChanged(friend)"
+                  *ngIf="!friend.isSelected"></ion-icon>
+      </div>
+    </div>
+  </div>
+</ion-content>

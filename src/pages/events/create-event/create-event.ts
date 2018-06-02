@@ -7,6 +7,7 @@ import {EventDispatcherService} from "../../../api/dispatcher/appEventDispathcer
 import {AppLocalStorage} from "../../../api/utilities/appLocalStorage.service";
 import {googlemaps} from "googlemaps";
 import {Contacts} from "@ionic-native/contacts";
+import {SelectFriendsPage} from "../select-friends/select-friends";
 
 @Component({
   selector: 'page-create-event',
@@ -52,18 +53,19 @@ export class CreateEventPage extends BaseComponent implements OnInit {
       ['displayName', 'phoneNumbers'],
       {filter: "", multiple: true})
       .then( contacts => {
-      self.contactsList = contacts.map(c=>{
+
+      self.contactsList = contacts
+        .filter(c => c.phoneNumbers)
+        .map(c=>{
         const phone = c.phoneNumbers.filter(ph => ph.type === "mobile");
         if(phone.length){
-          const number = phone[0].value
+          const number = this.appUtils.fixPhoneNumber(phone[0].value)
           const ef:EventParticipant = {
-            id: number
-              .replace('(','')
-              .replace(')', '')
-              .replace('-', '')
-              .replace(' ', ''), //id should be only the digits
+            id: number, //id should be only the digits
             name: c.displayName,
-            phone: number
+            phone: number,
+            isVip: false,
+            isSelected: false
           };
           return ef;
         }
@@ -94,6 +96,10 @@ export class CreateEventPage extends BaseComponent implements OnInit {
     });
   }
 
+  onInviteFriends(){
+    this.navCtrl.push(SelectFriendsPage, {contactsList: this.contactsList});
+  }
+
   onCancelPlaceItem() {
     this.event.location = new EventLocation();
   }
@@ -110,14 +116,6 @@ export class CreateEventPage extends BaseComponent implements OnInit {
     this.autocompleteItems = [];
   }
 
-  onInviteFriendsChanged() {
-    if (this.invitedFriends.length > 10) {
-      //alert here
-      this.invitedFriends.pop();
-    }
-  }
-
-
   validateEvent(): Boolean {
     return !(this.event.title &&
       this.event.initials &&
@@ -132,15 +130,10 @@ export class CreateEventPage extends BaseComponent implements OnInit {
 
     const self = this;
     this.prepareForSave();
+    this.logger.log(this.invitedFriends);
 
     //lock the create button
     this.eventDispatcherService.emit({type: EventActions.createEvent, payload: this.event});
-
-    //event was created successfully
-    this.registerToEvent(EventActions.eventCreated).subscribe(() => {
-      //navigate "back"
-      self.navCtrl.pop();
-    });
   }
 
   prepareForSave() {
@@ -156,6 +149,24 @@ export class CreateEventPage extends BaseComponent implements OnInit {
     this.event.endDate = new Date(this.selectedDate).setHours(24, 0, 0);
     this.event.participatesDetails = this.invitedFriends;
     this.event.initials = this.event.initials.toUpperCase();
+  }
+
+  registerToEvents() {
+    const self = this;
+    //event was created successfully
+    this.registerToEvent(EventActions.eventCreated).subscribe(() => {
+
+      //unregister to events
+      this.unregisterToEvent(EventActions.eventCreated);
+      this.unregisterToEvent(EventActions.eventsInvitedFriendsReceived);
+
+      //navigate "back"
+      self.navCtrl.pop();
+    });
+
+    this.registerToEvent(EventActions.eventsInvitedFriendsReceived).subscribe(invitedFriends => {
+      self.invitedFriends = invitedFriends.slice();
+    });
   }
 
 }

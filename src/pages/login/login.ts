@@ -42,7 +42,7 @@ export class LoginPage extends BaseComponent implements OnInit {
       this.angAuth.auth
         .signInWithEmailAndPassword(this.loginData.email, this.loginData.password)
         .then(auth => {
-          this.logger.log(`user ${this.loginData.email} was signed IN`);
+          this.logger.log(`user ${this.loginData.email} was signed IN to Memo app`);
         })
         .catch(err => {
           this.logger.log(`user ${this.loginData.email} was signed UP to Memo app`);

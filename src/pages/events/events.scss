@@ -31,10 +31,16 @@ page-events {
     .button-inner{
       font-size: 1.7em;
     }
+
+    .create-selected-date{
+      position: relative;
+      top: -10px;
+      font-size: 15px;
+    }
   }
 
   .empty-state{
-    font-size: 2em;
+    font-size: 1.7em;
     font-weight: bold;
     margin:auto;
     text-align: center;

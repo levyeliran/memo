@@ -1,12 +1,32 @@
 page-event-album-animation {
 
   ion-content{
+
     .scroll-content{
       margin-top: 0px !important;
 
       iframe{
-        background: white;
+        //remove! once the animation is done.
+        margin-top: 20%;
+        border: 1px solid white;
       }
+    }
+
+    .event-details{
+      bottom: 20px;
+      position: fixed;
+      height: 26%;
+      width: 100%;
+      background-image: url('../../../assets/images/effects/fiveSmallSpotsBottomUp.png');
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position-y: bottom;
+
+      text-align: center;
+      padding-top: 10%;
+      font-size: 25px;
+      font-weight: 600;
+      color: wheat;
     }
   }
 }

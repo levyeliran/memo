@@ -3,7 +3,6 @@ import {Platform, Nav, Menu} from 'ionic-angular';
 import {AboutPage} from '../pages/about/about';
 import {LoginPage} from "../pages/login/login";
 import {MainTabsPage} from "../pages/main-tabs/main-tabs";
-import {AppSettingsPage} from "../pages/app-settings/app-settings";
 import {EventDispatcherService} from "../api/dispatcher/appEventDispathcer.service";
 import {AppDispatchTypes} from "../api/common/dispatchTypes";
 import {BaseComponent} from "../api/common/baseComponent/baseComponent";
@@ -55,7 +54,7 @@ export class MemoApp extends BaseComponent implements OnInit, OnDestroy {
 
     //init the app menu
     this.menuPages = [
-      {title: 'Settings', component: AppSettingsPage},
+     /* {title: 'Settings', component: AppSettingsPage},*/
       {title: 'About App', component: AboutPage},
       {title: 'Sign out', component: this}
     ];

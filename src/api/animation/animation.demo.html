@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <link rel="stylesheet" href="animate.min.css">
+  <script
+    src="https://code.jquery.com/jquery-3.3.1.min.js"
+    integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+    crossorigin="anonymous"></script>
+
+  <script type="application/javascript">
+
+    var animationConfig = {
+      totalTimeInMillisecond: 13000,
+      imagesData: {
+        "1": {
+          elementId: "firstImg",
+          delayInMillisecond: 0,
+          elementStyle: '#firstImg{width: 50%; top: 10%; left:30%; position: absolute; border: 5px solid lightblue;}',
+          element:'<img id="firstImg" class="hidden" src="https://firebasestorage.googleapis.com/v0/b/memo-11ade.appspot.com/o/thumb_-L129T5PnR7Va49yYXrR%5D52w0SkcAASNacMNtQtcc5o4ANu43%5D-LAbgllhFZTOB-0S3CQE.png?alt=media&token=c953847d-99f4-4400-a92c-4d453fd3a00b" />',
+          animationScript: '$("#firstImg").animateCss("animated jackInTheBox duration2s", function(){' +
+          '$("#firstImg").animateCss("pulse duration2s", function(){' +
+          '$("#firstImg").animateCss("zoomOutLeft duration2s", function(){$("#firstImg").remove();});' +
+          '});' +
+          '});'
+        },
+        "2": {
+          elementId: "secondImg",
+          delayInMillisecond: 5000,
+          elementStyle: '#secondImg{width: 50%; top: 10%; left:30%; position: absolute; border: 5px solid lightsalmon;}',
+          element:'<img id="secondImg" class="hidden" src="https://firebasestorage.googleapis.com/v0/b/memo-11ade.appspot.com/o/thumb_-L129T5PnR7Va49yYXrR%5De4Zl6z3T5He7Z3SIrP0U3lLuVhm2%5D-L9LbEuqyzO0xie9dTU_.png?alt=media&token=dd3ac897-beae-4cb8-8711-9afe2e511f38" />',
+          animationScript: '$("#secondImg").animateCss("animated jackInTheBox duration2s", function(){' +
+          '$("#secondImg").animateCss("pulse duration5s", function(){' +
+          '$("#secondImg").animateCss("zoomOutLeft duration2s", function(){$("#secondImg").remove();});' +
+          '});' +
+          '});'
+        }
+      }
+    };
+
+    $.fn.extend({
+      animateCss: function (animationName, callback) {
+        var animationEnd = (function (el) {
+          var animations = {
+            animation: 'animationend',
+            OAnimation: 'oAnimationEnd',
+            MozAnimation: 'mozAnimationEnd',
+            WebkitAnimation: 'webkitAnimationEnd',
+          };
+
+          for (var t in animations) {
+            if (el.style[t] !== undefined) {
+              return animations[t];
+            }
+          }
+        })(document.createElement('div'));
+
+        this.addClass('animated ' + animationName).one(animationEnd, function () {
+          $(this).removeClass('animated ' + animationName);
+
+          if (typeof callback === 'function') callback();
+        });
+
+        return this;
+      }
+    });
+
+    var str2DOMElement = function(html) {
+      var frame = document.createElement('iframe');
+      frame.style.display = 'none';
+      document.body.appendChild(frame);
+      frame.contentDocument.open();
+      frame.contentDocument.write(html);
+      frame.contentDocument.close();
+      var bodyEl = frame.contentDocument.body.firstChild;
+      document.body.removeChild(frame);
+      return bodyEl;
+    };
+
+    $(document).ready(function () {
+      var imagesData = Object.keys(animationConfig.imagesData);
+      imagesData.forEach(function (key, index) {
+        var data = animationConfig.imagesData[key];
+        console.log(data);
+
+        var style = document.createElement('style');
+        style.type = 'text/css';
+        style.appendChild(document.createTextNode(data.elementStyle));
+        document.head.append(style);
+
+        document.body.append(str2DOMElement(data.element));
+
+        var t = setTimeout(function(){
+          var script = document.createElement('script');
+          script.type = 'text/javascript';
+          script.text = data.animationScript;
+          document.head.append(script);
+
+          console.log(data.elementId + 'timeout was cleared(' + t + ')');
+          clearTimeout(t);
+        }, data.delayInMillisecond);
+      });
+    });
+
+  </script>
+  <style>
+    body {
+      padding: 0;
+      margin: 0;
+    }
+
+    .delay2s {
+      animation-delay: 2s;
+      /*
+            animation-iteration-count: infinite;*/
+    }
+
+    .delay5s {
+      animation-delay: 5s;
+      /*
+            animation-iteration-count: infinite;*/
+    }
+
+    .delay8s {
+      animation-delay: 8s;
+      /*
+            animation-iteration-count: infinite;*/
+    }
+
+
+
+    .duration2s {
+      animation-duration: 2s;
+      /*      animation-delay: 2s;
+            animation-iteration-count: infinite;*/
+    }
+
+    .duration5s {
+      animation-duration: 5s;
+      /*      animation-delay: 2s;
+            animation-iteration-count: infinite;*/
+    }
+
+    .duration8s {
+      animation-duration: 8s;
+      /*      animation-delay: 2s;
+            animation-iteration-count: infinite;*/
+    }
+
+    .hidden{
+      visibility: hidden;
+    }
+
+    .animated{
+      visibility: visible;
+    }
+
+  </style>
+</head>
+<body>
+<!--<img
+  id="firstImg"
+  class="animated"
+  src="https://firebasestorage.googleapis.com/v0/b/memo-11ade.appspot.com/o/-L129T5PnR7Va49yYXrR%5D52w0SkcAASNacMNtQtcc5o4ANu43%5D-L9fhh61hPxoX5j-DVBa.png?alt=media&token=bb7027ad-3afc-4de1-ba2e-8c3313933792">-->
+</body>
+</html>

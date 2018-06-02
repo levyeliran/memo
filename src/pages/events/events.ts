@@ -95,9 +95,9 @@ export class EventsPage implements OnInit, OnDestroy {
     this.selectedDate = e;
 
     const eventDateKey = this.appUtils.getDateStrFormat(e);
-    this.isCreationValidDate = this.appUtils.isFutureDate(e);
     const event = this.calendarEventsToDateMap[eventDateKey];
 
+    this.isCreationValidDate = this.appUtils.isFutureDate(e);
     //find the event if exist on the selected date
     if(event) {
         this.selectedDateEvent = event;
