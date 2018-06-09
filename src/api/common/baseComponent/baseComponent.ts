@@ -5,6 +5,8 @@ import {AppUtils} from "../../utilities/appUtils";
 import {Action} from "@ngrx/store";
 import {AppLogger} from "../../utilities/appLogger";
 
+
+
 export class BaseComponent {
 
   public appConst = AppConstants;

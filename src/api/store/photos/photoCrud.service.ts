@@ -3,7 +3,7 @@ import {EventDispatcherService} from "../../dispatcher/appEventDispathcer.servic
 import {Action, Store} from "@ngrx/store";
 import {AngularFireDatabase} from "angularfire2/database";
 import {AppStore} from "../appStore.interface";
-import {Photo, PhotoTagsMetaData} from "../../common/appTypes";
+import {EmojiTagData, Photo, PhotoTagsMetaData} from "../../common/appTypes";
 import {FirebaseApp} from 'angularfire2';
 import {AppUtils} from "../../utilities/appUtils";
 import * as firebase from 'firebase/app';
@@ -89,7 +89,8 @@ export class PhotoCrud {
           const emojiTagData = {
             creatorName: ft[uk].creatorName,
             creatorKey: ft[uk].creatorKey,
-            emojiTagKey: ft[uk].emojiTagKey
+            emojiTagKey: ft[uk].emojiTagKey,
+            emojiTagCategoryKey: ft[uk].emojiTagCategoryKey
           };
           if (photoData) {
             //add data to the photo tags list
@@ -155,20 +156,22 @@ export class PhotoCrud {
 
   private tagPhoto(payload: any) {
     const photo: Photo = payload.photo;
+    const isVipUser: boolean = payload.isVipUser;
     const emojiKey: string = payload.emojiKey;
 
-    const tagData: any = {
+    const tagData: EmojiTagData = {
       eventKey: photo.eventKey,
       photoKey: photo.key,
       emojiTagKey: emojiKey,
+      isVipUser: isVipUser,
       creatorKey: AppUtils.userKey,
       creatorName: AppUtils.fullName,
       creationDate: (new Date()).toString()
     };
 
-    const tegRef = this.fb.database().ref()
-      .child(`tagToEventPhoto/${photo.eventKey}/${photo.key}/${AppUtils.userKey}`);
-    tegRef.update(tagData).then((t) => {
+    this.fb.database().ref()
+      .child(`tagToEventPhoto/${photo.eventKey}/${photo.key}/${AppUtils.userKey}`)
+      .update(tagData).then((t) => {
       this.dispatchAck({type: PhotoActions.photoTagged, payload: photo});
     });
   }

@@ -1,6 +1,10 @@
 page-about {
 
   .app-animation{
+    background: url("../../assets/images/effects/goldRing.png");
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position-y: 5px;
     width:100%;
     height: 100%;
     margin: auto;
@@ -21,7 +25,7 @@ page-about {
 
       img {
         width: 140px;
-        margin: 5px 5px 0px 20px;
+        margin: 5px 5px 1px 20px;
       }
     }
     .app-name-wrapper {
@@ -57,6 +61,10 @@ page-about {
       top: 58%;
       left: 10%;
       margin-right: 17%;
+    }
+
+    .created-by-row{
+      font-weight: 600;
     }
   }
 

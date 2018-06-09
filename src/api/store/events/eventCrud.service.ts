@@ -33,6 +33,9 @@ export class EventCrud{
     const getEventsSub = this.eventDispatcherService.on(EventActions.getEvents);
     getEventsSub.subscribe(this.getEvents.bind(this));
 
+    const getEventTypesSub = this.eventDispatcherService.on(EventActions.getEventTypes);
+    getEventTypesSub.subscribe(this.getEventTypes.bind(this));
+
     const createEventSub = this.eventDispatcherService.on(EventActions.createEvent);
     createEventSub.subscribe(this.createEvent.bind(this));
 
@@ -42,6 +45,7 @@ export class EventCrud{
     //add all subjects to list - we unsubscribe to them when close the app
     this.eventCrudSubscriptions.push(getEventSub);
     this.eventCrudSubscriptions.push(getEventsSub);
+    this.eventCrudSubscriptions.push(getEventTypesSub);
     this.eventCrudSubscriptions.push(createEventSub);
     this.eventCrudSubscriptions.push(updateEventSub);
   }
@@ -63,7 +67,7 @@ export class EventCrud{
 
   private getEvents() {
 
-      this.db.list(`userToEvent/${AppUtils.userKey}`).valueChanges()
+    this.db.list(`userToEvent/${AppUtils.userKey}`).valueChanges()
       .subscribe(userEvents => {
 
         //update the store with the retrieved events
@@ -71,6 +75,19 @@ export class EventCrud{
 
         //dispatch an ack
         this.dispatchAck({type: EventActions.eventsReceived});
+      });
+  }
+
+  private getEventTypes() {
+
+    this.db.list(`eventType`).valueChanges()
+      .subscribe(userTypes => {
+
+        //update the store with the retrieved events
+        this.store.dispatch({type: EventActions.getEventTypes, payload: userTypes});
+
+        //dispatch an ack
+        this.dispatchAck({type: EventActions.eventTypesReceived});
       });
   }
 
@@ -100,6 +117,7 @@ export class EventCrud{
 
   private removeUIProperties(event: Event) {
     event.status = null;
+    event.isVipUser = null;
     return event;
   }
 

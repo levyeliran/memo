@@ -11,13 +11,13 @@
 
   <script type="application/javascript">
 
-    var animationConfig = {
+    const animationConfig = {
       totalTimeInMillisecond: 13000,
       imagesData: {
         "1": {
           elementId: "firstImg",
           delayInMillisecond: 0,
-          elementStyle: '#firstImg{width: 50%; top: 10%; left:30%; position: absolute; border: 5px solid lightblue;}',
+          elementStyle: '#firstImg{width: 100%; position: absolute; border: 5px solid lightblue;}',
           element:'<img id="firstImg" class="hidden" src="https://firebasestorage.googleapis.com/v0/b/memo-11ade.appspot.com/o/thumb_-L129T5PnR7Va49yYXrR%5D52w0SkcAASNacMNtQtcc5o4ANu43%5D-LAbgllhFZTOB-0S3CQE.png?alt=media&token=c953847d-99f4-4400-a92c-4d453fd3a00b" />',
           animationScript: '$("#firstImg").animateCss("animated jackInTheBox duration2s", function(){' +
           '$("#firstImg").animateCss("pulse duration2s", function(){' +
@@ -28,11 +28,11 @@
         "2": {
           elementId: "secondImg",
           delayInMillisecond: 5000,
-          elementStyle: '#secondImg{width: 50%; top: 10%; left:30%; position: absolute; border: 5px solid lightsalmon;}',
+          elementStyle: '#secondImg{width: 100%; position: absolute; border: 5px solid lightsalmon;}',
           element:'<img id="secondImg" class="hidden" src="https://firebasestorage.googleapis.com/v0/b/memo-11ade.appspot.com/o/thumb_-L129T5PnR7Va49yYXrR%5De4Zl6z3T5He7Z3SIrP0U3lLuVhm2%5D-L9LbEuqyzO0xie9dTU_.png?alt=media&token=dd3ac897-beae-4cb8-8711-9afe2e511f38" />',
           animationScript: '$("#secondImg").animateCss("animated jackInTheBox duration2s", function(){' +
           '$("#secondImg").animateCss("pulse duration5s", function(){' +
-          '$("#secondImg").animateCss("zoomOutLeft duration2s", function(){$("#secondImg").remove();});' +
+          '$("#secondImg").animateCss("zoomOutRight duration2s", function(){$("#secondImg").remove();});' +
           '});' +
           '});'
         }
@@ -66,7 +66,7 @@
       }
     });
 
-    var str2DOMElement = function(html) {
+    const str2DOMElement = function(html) {
       var frame = document.createElement('iframe');
       frame.style.display = 'none';
       document.body.appendChild(frame);
@@ -99,9 +99,10 @@
 
           console.log(data.elementId + 'timeout was cleared(' + t + ')');
           clearTimeout(t);
-        }, data.delayInMillisecond);
+        }, data.delayInMillisecond-200);
       });
     });
+
 
   </script>
   <style>

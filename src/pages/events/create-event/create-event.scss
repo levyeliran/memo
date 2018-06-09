@@ -76,6 +76,13 @@ page-create-event {
           overflow: auto;
         }
       }
+
+      .invite-friend-btn {
+        &.item-button{
+          padding: 1.8rem 0.6em;
+          font-size: 1.7rem;
+        }
+      }
     }
     &.step3 {
       .skip-btn {
@@ -83,11 +90,6 @@ page-create-event {
         top: 0px;
         left: 40%;
       }
-
-      .invited-friends-list {
-
-      }
-
 
     }
     &.step4 {

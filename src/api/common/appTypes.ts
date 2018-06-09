@@ -20,6 +20,7 @@ export class HeaderButton {
 //////////////////////////////////////////////////////////
 export class EventStore{
   events: Event[] = [];
+  eventTypes: EventType[] = [];
   currentEvent: Event;
 }
 export class EventParticipant{
@@ -50,9 +51,13 @@ export class Event{
   status:number;
   isActive:boolean;
   hasAnimation:boolean;
+  isVipUser:boolean;
   isPast:boolean;
 }
-
+export class EventType{
+  key:any;
+  description:string;
+}
 export class EventLocation{
   key:string;
   placeId: string;
@@ -80,12 +85,12 @@ export class AnimationStore{
   animation: EventAnimation;
 }
 export class EventAnimation{
-  key:string;
-  photosCount: number;
-  tagsCount: number;
-  requiredStatus: boolean;
-  lastCreationDate: any;
-
+  eventKey:string;
+  event:Event;
+  photos:Photo[];
+  photosCount: number = 0;
+  PhotoWithMinTagsCount: number = 0;
+  creationDate: any;
 }
 
 /////////////////////////////////////////////////////////
@@ -99,15 +104,21 @@ export class PhotoTagsMetaData {
   emojiTags:EmojiTagData[] = [];
 }
 export class EmojiTagData {
+  eventKey:string;
+  photoKey:string;
   emojiTagKey:string;
+  emojiTagCategoryKey:string;
+  isVipUser:boolean;
   creatorKey:string;
   creatorName:string;
+  creationDate:string;
 }
 export class Photo{
   key:any;
   eventKey:any;
   creatorKey:any;
   creatorName:string;
+  isVipUser:boolean;
   creationDate:any;
   fileName:string;
   width:number;
@@ -125,65 +136,17 @@ export class Photo{
 }
 
 //consts
-export const emojiMepper = {
-  like:{
-    title: "Like",
-    iconClass: ""
-  },
-  tearsOfJoy:{
-    title: "Tears Of Joy",
-    iconClass: ""
-  },
-  blowingAKiss:{
-    title: "Blowing A Kiss",
-    iconClass: ""
-  },
-  heartEyes:{
-    title: "Heart Eyes",
-    iconClass: ""
-  },
-  crazy:{
-    title: "Crazy",
-    iconClass: ""
-  },
-  shushing:{
-    title: "Shushing",
-    iconClass: ""
-  },
-  winking:{
-    title:  "Winking",
-    iconClass: ""
-  },
-  sunglasses:{
-    title: "Sunglasses",
-    iconClass: ""
-  },
-  grimacing:{
-    title: "Grimacing",
-    iconClass: ""
-  },
-  angry:{
-    title: "Angry",
-    iconClass: ""
-  },
-  dizzy:{
-    title: "Dizzy",
-    iconClass: ""
-  },
-  sleeping:{
-    title: "Sleeping",
-    iconClass: ""
-  },
-  smilingWithHorns:{
-    title: "Smiling With Horns",
-    iconClass: ""
-  },
-  pileOfPoo:{
-    title: "Pile Of Poo",
-    iconClass: ""
-  }
+export const emojiCategories = {
+  love: 1,
+  sweet: 2,
+  fun: 3,
+  party: 4,
+  sad: 5,
+  touching: 6,
+  wow: 7,
+  shock:8,
+  bad: 9
 };
-
 
 //////////////////////////////////////////////////////////
 

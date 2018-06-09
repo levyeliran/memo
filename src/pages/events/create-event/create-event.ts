@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {NavController, NavParams, Slides} from 'ionic-angular';
 import {Event, EventLocation, EventParticipant} from "../../../api/common/appTypes";
 import {EventActions} from "../../../api/store/events/eventActions";
@@ -8,18 +8,21 @@ import {AppLocalStorage} from "../../../api/utilities/appLocalStorage.service";
 import {googlemaps} from "googlemaps";
 import {Contacts} from "@ionic-native/contacts";
 import {SelectFriendsPage} from "../select-friends/select-friends";
+import {AppStoreService} from "../../../api/store/appStore.service";
 
 @Component({
   selector: 'page-create-event',
   templateUrl: 'create-event.html',
 })
-export class CreateEventPage extends BaseComponent implements OnInit {
+export class CreateEventPage extends BaseComponent implements OnInit, OnDestroy {
 
   event: Event;
   contactsList:any[];
   invitedFriends: EventParticipant[];
   eventStartHour: any = "12:00";
   selectedDate: any;
+  eventTypes:any[];
+  eventStoreSubscription:any;
   autocompleteItems: any = [];
   autocomplete: any = {};
   acService: any;
@@ -29,7 +32,7 @@ export class CreateEventPage extends BaseComponent implements OnInit {
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
               public eventDispatcherService: EventDispatcherService,
-              public appLocalStorage: AppLocalStorage,
+              public appStoreService: AppStoreService,
               public contacts: Contacts) {
 
     super(eventDispatcherService);
@@ -49,6 +52,13 @@ export class CreateEventPage extends BaseComponent implements OnInit {
     this.autocomplete = {
       query: ''
     };
+    //update the calender each time the store has been changed
+    this.eventStoreSubscription = this.appStoreService._eventStore().subscribe((_store)=>{
+      if(_store && _store.eventTypes){
+        this.eventTypes = _store.eventTypes;
+      }
+    });
+    this.registerToEvents();
     this.contacts.find(
       ['displayName', 'phoneNumbers'],
       {filter: "", multiple: true})
@@ -73,6 +83,11 @@ export class CreateEventPage extends BaseComponent implements OnInit {
       }).filter(c => c);
       self.logger.log(self.contactsList);
     });
+  }
+
+  ngOnDestroy() {
+    //unregister to events
+    this.eventStoreSubscription.unsubscribe();
   }
 
   onUpdateSearchPlace() {

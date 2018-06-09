@@ -5,7 +5,6 @@ import {EventDispatcherService} from "../../../api/dispatcher/appEventDispathcer
 import {Event, HeaderButton, Photo} from "../../../api/common/appTypes";
 import {PhotoActions} from "../../../api/store/photos/photoActions";
 import {Editor} from "../../../components/photoEditor/Editor";
-import {AnimationActions} from "../../../api/store/animation/animationActions";
 
 @Component({
   selector: 'page-event-album-photo',
@@ -58,21 +57,21 @@ export class EventAlbumPhotoPage extends BaseComponent implements OnInit, OnDest
     //select the own emoji
 
     let emojis = [
-      {imagePath: 'assets/images/emoji/2.png', key: '2'},
-      {imagePath: 'assets/images/emoji/3.png', key: '3'},
-      {imagePath: 'assets/images/emoji/5.png', key: '5'},
-      {imagePath: 'assets/images/emoji/6.png', key: '6'},
-      {imagePath: 'assets/images/emoji/7.png', key: '7'},
-      {imagePath: 'assets/images/emoji/9.png', key: '9'},
-      {imagePath: 'assets/images/emoji/10.png', key: '10'},
-      {imagePath: 'assets/images/emoji/11.png', key: '11'},
-      {imagePath: 'assets/images/emoji/12.png', key: '12'},
-      {imagePath: 'assets/images/emoji/13.png', key: '13'},
-      {imagePath: 'assets/images/emoji/14.png', key: '14'},
-      {imagePath: 'assets/images/emoji/15.png', key: '15'},
-      {imagePath: 'assets/images/emoji/18.png', key: '18'},
-      {imagePath: 'assets/images/emoji/20.png', key: '20'},
-      {imagePath: 'assets/images/emoji/23.png', key: '23'}
+      {imagePath: 'assets/images/emoji/2.png', key: '2', emojiTagCategoryKey: 2},
+      {imagePath: 'assets/images/emoji/3.png', key: '3', emojiTagCategoryKey: 3},
+      {imagePath: 'assets/images/emoji/5.png', key: '5', emojiTagCategoryKey: 4},
+      {imagePath: 'assets/images/emoji/6.png', key: '6', emojiTagCategoryKey: 5},
+      {imagePath: 'assets/images/emoji/7.png', key: '7', emojiTagCategoryKey: 8},
+      {imagePath: 'assets/images/emoji/9.png', key: '9', emojiTagCategoryKey: 2},
+      {imagePath: 'assets/images/emoji/10.png', key: '10', emojiTagCategoryKey: 3},
+      {imagePath: 'assets/images/emoji/11.png', key: '11', emojiTagCategoryKey: 5},
+      {imagePath: 'assets/images/emoji/12.png', key: '12', emojiTagCategoryKey: 7},
+      {imagePath: 'assets/images/emoji/13.png', key: '13', emojiTagCategoryKey: 4},
+      {imagePath: 'assets/images/emoji/14.png', key: '14', emojiTagCategoryKey: 4},
+      {imagePath: 'assets/images/emoji/15.png', key: '15', emojiTagCategoryKey: 7},
+      {imagePath: 'assets/images/emoji/18.png', key: '18', emojiTagCategoryKey: 1},
+      {imagePath: 'assets/images/emoji/20.png', key: '20', emojiTagCategoryKey: 1},
+      {imagePath: 'assets/images/emoji/23.png', key: '23', emojiTagCategoryKey: 6}
     ];
 
     const photoTagKey = this.photo.myEmojiTagKey;
@@ -95,7 +94,7 @@ export class EventAlbumPhotoPage extends BaseComponent implements OnInit, OnDest
       this.photo.tagsMetaData.emojiTags.reduce((acc, tmd) => {
         if (!acc.find(t => t.key === tmd.emojiTagKey)) {
           acc.push(
-            {imagePath: `assets/images/emoji/${tmd.emojiTagKey}.png`, key: tmd.emojiTagKey}
+            {imagePath: `assets/images/emoji/${tmd.emojiTagKey}.png`, key: tmd.emojiTagKey, emojiTagCategoryKey: tmd.emojiTagCategoryKey}
           );
         }
         return acc;
@@ -180,19 +179,7 @@ export class EventAlbumPhotoPage extends BaseComponent implements OnInit, OnDest
 
   ionViewDidLeave() {
     //set the selected emoji tag to the photo on page leave.
-    if (this.selectedEmoji) {
-      this.photo.isNewTag = !this.photo.myEmojiTagKey;
-      this.eventDispatcherService.emit({
-        type: PhotoActions.tagPhoto, payload: {
-          photo: this.photo,
-          emojiKey: this.selectedEmoji.key
-        }
-      });
-    }
-
-    //reset the selected emoji
-    this.selectedEmoji = null;
-
+    this.onAddPhotoTag();
   }
 
   ngOnDestroy() {
@@ -223,11 +210,11 @@ export class EventAlbumPhotoPage extends BaseComponent implements OnInit, OnDest
       //save the photo to the storage
       this.eventDispatcherService.emit({type: PhotoActions.savePhotoToStorage, payload: photo});
 
-      //increment photos counters
+     /* //increment photos counters
       this.eventDispatcherService.emit({type: AnimationActions.updateEventAnimationCounters, payload: {
         eventKey: photo.eventKey,
         photosIncrement: 1
-      }});
+      }});*/
     });
 
   }
@@ -235,8 +222,26 @@ export class EventAlbumPhotoPage extends BaseComponent implements OnInit, OnDest
   onAddPhoto() {
     this.loader.present();
     this.photo.selectedEffects = Object.keys(this.selectedEffects);
+    this.photo.isVipUser = !!this.event.isVipUser;
     this.photo.eventKey = this.event.key;
     this.eventDispatcherService.emit({type: PhotoActions.addPhotoToAlbum, payload: this.photo});
+  }
+
+  onAddPhotoTag(){
+    if (this.selectedEmoji) {
+      this.photo.isNewTag = !this.photo.myEmojiTagKey;
+      this.eventDispatcherService.emit({
+        type: PhotoActions.tagPhoto, payload: {
+          photo: this.photo,
+          isVipUser: !!this.event.isVipUser,
+          emojiKey: this.selectedEmoji.key,
+          emojiTagCategoryKey: this.selectedEmoji.emojiTagCategoryKey
+        }
+      });
+    }
+
+    //reset the selected emoji
+    this.selectedEmoji = null;
   }
 
   onEmojiClick(emoji: any) {

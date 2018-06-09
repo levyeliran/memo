@@ -1,6 +1,6 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {NavController, NavParams} from 'ionic-angular';
-import {Event, HeaderButton, Photo, PhotoTagsMetaData} from "../../../api/common/appTypes";
+import {Event, EventAnimation, HeaderButton, Photo, PhotoTagsMetaData} from "../../../api/common/appTypes";
 import {EventAlbumAnimationPage} from "../event-album-animation/event-album-animation";
 import {EventAlbumPhotoPage} from "../event-album-photo/event-album-photo";
 import {BaseComponent} from "../../../api/common/baseComponent/baseComponent";
@@ -20,15 +20,19 @@ import {AnimationActions} from "../../../api/store/animation/animationActions";
 })
 export class EventAlbumPage extends BaseComponent implements OnInit, OnDestroy {
 
+
+  MIN_PHOTOS_FOR_AMINATION = 20
+  MIN_TAGS_PER_PHOTO_FOR_AMINATION = 5
+  MIN_PHOTO_WITH_TAGS_FOR_AMINATION = 5
   event: Event;
   headerButtons: HeaderButton[];
   photos: Photo[];
   photosTags: PhotoTagsMetaData[];
   photosGridModel: any[];
   photoStoreSubscription: any;
-  animationStoreSubscription: any;
+  eventStoreSubscription: any;
   displaySpinner = false;
-  hasAnimation = false;
+  animation: EventAnimation;
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
@@ -52,8 +56,7 @@ export class EventAlbumPage extends BaseComponent implements OnInit, OnDestroy {
         disableNewPhoto = true;
       }
     }
-    const animationBtn = new HeaderButton('film', this.onViewAnimation.bind(this), false);
-      //!this.hasAnimation || this.displaySpinner);
+    const animationBtn = new HeaderButton('film', this.onViewAnimation.bind(this), !this.event.hasAnimation);
     const newPhotoBtn = new HeaderButton('camera', this.onAddNewPhoto.bind(this), disableNewPhoto);
     this.headerButtons = [
       animationBtn,
@@ -63,6 +66,10 @@ export class EventAlbumPage extends BaseComponent implements OnInit, OnDestroy {
     this.photosTags = [];
     this.photosGridModel = [];
     this.displaySpinner = true;
+    this.animation = new EventAnimation();
+    this.animation.photos = [];
+    this.animation.eventKey = this.event.key;
+    this.animation.event = Object.assign({}, this.event);
     //set album events
     this.registerToEvents();
   }
@@ -70,10 +77,14 @@ export class EventAlbumPage extends BaseComponent implements OnInit, OnDestroy {
   ngOnInit() {
 
     const self = this;
+    //init the store with all relevant events
+    this.eventDispatcherService.emit({type: EventActions.getEvent, payload: this.event.key});
+
     //update the album each time the store has been changed
     this.photoStoreSubscription = this.appStoreService._photoStore().subscribe((_store) => {
       if (_store && _store.photos && _store.photos.length) {
         self.photos = _store.photos;
+        self.animation.photosCount = self.photos.length;
       }
 
       if (_store && _store.photosTags && _store.photosTags.length) {
@@ -84,6 +95,9 @@ export class EventAlbumPage extends BaseComponent implements OnInit, OnDestroy {
           const pTags = self.photosTags.find(pt => pt.photoKey == photo.key);
           if (pTags) {
             photo.tagsMetaData = pTags;
+            if(photo.tagsMetaData.emojiTags.length >= self.MIN_TAGS_PER_PHOTO_FOR_AMINATION){
+              self.animation.PhotoWithMinTagsCount++;
+            }
 
             //check if the current user had tags photos
             const myEmojiTag = pTags.emojiTags.find(et => et.creatorKey === self.appUtils.userKey);
@@ -91,16 +105,22 @@ export class EventAlbumPage extends BaseComponent implements OnInit, OnDestroy {
               photo.myEmojiTagKey = myEmojiTag.emojiTagKey;
             }
           }
+          self.animation.photos.push(Object.assign({},photo));
         });
+
+        self.createAnimationCheck()
+
       }
       self.displaySpinner = false;
       self.createAlbumModel();
     });
 
     //update the animation icon
-    this.animationStoreSubscription = this.appStoreService._animationStore().subscribe((_store) => {
-      if (_store && _store.animation && _store.animation.lastCreationDate) {
-        self.hasAnimation = true;
+    this.eventStoreSubscription = this.appStoreService._eventStore().subscribe((_store) => {
+      if (_store && _store.currentEvent) {
+        self.event = Object.assign({}, _store.currentEvent);
+        //update the animation status on each event update
+        self.headerButtons[0].changeStatus(!self.event.hasAnimation);
       }
     });
   }
@@ -108,7 +128,7 @@ export class EventAlbumPage extends BaseComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     //unregister to events
     this.photoStoreSubscription.unsubscribe();
-    this.animationStoreSubscription.unsubscribe();
+    this.eventStoreSubscription.unsubscribe();
     this.unregisterToEvent(PhotoActions.photoTagged);
   }
 
@@ -174,18 +194,18 @@ export class EventAlbumPage extends BaseComponent implements OnInit, OnDestroy {
   }
 
   registerToEvents() {
-    const self = this;
+    //const self = this;
     this.registerToEvent(PhotoActions.photoTagged).subscribe(photo => {
 
       //only when added a new tag
       if (photo.isNewTag) {
-        //increment tags counters
+/*        //increment tags counters
         self.eventDispatcherService.emit({
           type: AnimationActions.updateEventAnimationCounters, payload: {
             eventKey: photo.eventKey,
             tagsIncrement: 1
           }
-        });
+        });*/
         photo.isNewTag = false;
       }
     });
@@ -193,7 +213,17 @@ export class EventAlbumPage extends BaseComponent implements OnInit, OnDestroy {
 
   onSelectPhoto(photo: Photo) {
     //navigate to photo page
-    this.navCtrl.push(EventAlbumPhotoPage, {photo});
+    this.navCtrl.push(EventAlbumPhotoPage, {photo, event: this.event});
+  }
+
+  createAnimationCheck(){
+    if(this.animation.photosCount >= this.MIN_PHOTOS_FOR_AMINATION &&
+    this.animation.PhotoWithMinTagsCount >= this.MIN_PHOTO_WITH_TAGS_FOR_AMINATION){
+      //trigger create animation
+      //update the event
+      this.eventDispatcherService.emit({type: AnimationActions.createEventAnimation, payload: this.animation});
+
+    }
   }
 
 }

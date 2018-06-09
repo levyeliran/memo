@@ -1,11 +1,13 @@
 export const AnimationActions = {
   //store + crud events
   getEventAnimation:'getEventAnimation',
-  updateEventAnimation:'updateEventAnimation',
-  updateEventAnimationCounters:'updateEventAnimationCounters',
+  createEventAnimation:'createEventAnimation',
+  //updateEventAnimation:'updateEventAnimation',
+  //updateEventAnimationCounters:'updateEventAnimationCounters',
 
   //ack events
   eventAnimationReceived: 'eventAnimationReceived',
-  eventAnimationUpdated: 'eventAnimationUpdated',
+  eventAnimationCreated: 'eventAnimationCreated',
+  //eventAnimationUpdated: 'eventAnimationUpdated',
   eventAnimationCountersUpdated: 'eventAnimationCountersUpdated'
 };

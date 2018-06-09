@@ -27,17 +27,19 @@ export class AnimationCrud {
     const getEventAnimationSub = this.eventDispatcherService.on(AnimationActions.getEventAnimation);
     getEventAnimationSub.subscribe(this.getEventAnimation.bind(this));
 
-    const updateEventAnimationSub = this.eventDispatcherService.on(AnimationActions.updateEventAnimation);
-    updateEventAnimationSub.subscribe(this.updateEventAnimation.bind(this));
+    const createEventAnimationSub = this.eventDispatcherService.on(AnimationActions.createEventAnimation);
+    createEventAnimationSub.subscribe(this.createEventAnimation.bind(this));
 
+/*
     const updateEventAnimationCountersSub = this.eventDispatcherService.on(AnimationActions.updateEventAnimationCounters);
     updateEventAnimationCountersSub.subscribe(this.updateEventAnimationCounters.bind(this));
+*/
 
 
     //add all subjects to list - we unsubscribe to them when close the app
     this.animationCrudSubscriptions.push(getEventAnimationSub);
-    this.animationCrudSubscriptions.push(updateEventAnimationSub);
-    this.animationCrudSubscriptions.push(updateEventAnimationCountersSub);
+    this.animationCrudSubscriptions.push(createEventAnimationSub);
+    //this.animationCrudSubscriptions.push(updateEventAnimationCountersSub);
   }
 
   unsubscribeEvents() {
@@ -55,16 +57,17 @@ export class AnimationCrud {
     });
   }
 
-  private updateEventAnimation(animation: EventAnimation) {
+  private createEventAnimation(animation: EventAnimation) {
     animation = this.removeUIProperties(animation);
-    this.db.list<EventAnimation>('eventAnimation')
-      .update(animation.key, animation)
-      .then((animation) => {
+    this.db.list<EventAnimation>('pendingEventAnimation')
+      .update(animation.eventKey, animation)
+      .then((_animation) => {
         //dispatch an ack
-        this.dispatchAck({type: AnimationActions.eventAnimationUpdated});
+        this.dispatchAck({type: AnimationActions.eventAnimationCreated});
       });
   }
 
+/*
   private updateEventAnimationCounters(payload: any) {
 
     const self = this;
@@ -92,11 +95,10 @@ export class AnimationCrud {
       });
     }
   }
+*/
 
   private removeUIProperties(animation: EventAnimation) {
-    animation.lastCreationDate = null;
-    animation.tagsCount = null;
-    animation.photosCount = null;
+    animation.creationDate = null;
     return animation;
   }
 

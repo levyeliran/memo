@@ -41,11 +41,13 @@ export class AppStoreService{
 
     //init the store with all relevant events
     this.eventDispatcherService.emit({type: EventActions.getEvents});
+    this.eventDispatcherService.emit({type: EventActions.getEventTypes});
     this.eventDispatcherService.emit({type: ProfileActions.getUserProfile});
     this.eventDispatcherService.emit({type: AppSettingsActions.getAppSettings});
 
     return Promise.all([
       this.eventDispatcherService.on(EventActions.eventsReceived),
+      this.eventDispatcherService.on(EventActions.eventTypesReceived),
       this.eventDispatcherService.on(ProfileActions.userProfileReceived),
       this.eventDispatcherService.on(AppSettingsActions.appSettingsReceived)
     ]);
