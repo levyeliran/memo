@@ -56,7 +56,7 @@ export class EventAlbumPage extends BaseComponent implements OnInit, OnDestroy {
         disableNewPhoto = true;
       }
     }
-    const animationBtn = new HeaderButton('film', this.onViewAnimation.bind(this), !this.event.hasAnimation);
+    const animationBtn = new HeaderButton('film', this.onViewAnimation.bind(this), false);//!this.event.hasAnimation);
     const newPhotoBtn = new HeaderButton('camera', this.onAddNewPhoto.bind(this), disableNewPhoto);
     this.headerButtons = [
       animationBtn,
@@ -120,7 +120,7 @@ export class EventAlbumPage extends BaseComponent implements OnInit, OnDestroy {
       if (_store && _store.currentEvent) {
         self.event = Object.assign({}, _store.currentEvent);
         //update the animation status on each event update
-        self.headerButtons[0].changeStatus(!self.event.hasAnimation);
+        //self.headerButtons[0].changeStatus(!self.event.hasAnimation);
       }
     });
   }

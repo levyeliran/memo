@@ -158,11 +158,13 @@ export class PhotoCrud {
     const photo: Photo = payload.photo;
     const isVipUser: boolean = payload.isVipUser;
     const emojiKey: string = payload.emojiKey;
+    const emojiTagCategoryKey: string = payload.emojiTagCategoryKey;
 
     const tagData: EmojiTagData = {
       eventKey: photo.eventKey,
       photoKey: photo.key,
       emojiTagKey: emojiKey,
+      emojiTagCategoryKey: emojiTagCategoryKey,
       isVipUser: isVipUser,
       creatorKey: AppUtils.userKey,
       creatorName: AppUtils.fullName,

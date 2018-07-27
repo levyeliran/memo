@@ -9,7 +9,7 @@
          class="{{isNewPhoto ? 'hide' : ''}}"/>
     <canvas #photoPreviewCanvas class="{{isNewPhoto ? '' : 'hide'}}"></canvas>
     <canvas #orgCanvas class="hide"></canvas>
-    <div class="self-upload-indicator">
+    <div class="self-upload-indicator {{isNewPhoto ? 'hide' : ''}}">
       Uploaded by me!
     </div>
     <div *ngIf="tagsMetaData" class="tagged-emojis-wrapper">

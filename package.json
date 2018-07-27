@@ -12,7 +12,7 @@
         "ionic:serve": "ionic-app-scripts serve",
         "ionic:watch": "ionic-app-scripts watch",
         "ionic:androidApk": "ionic cordova build --release android",
-        "ionic:ionApk": "ionic cordova build --release android",
+        "ionic:ionApk": "ionic cordova build --debug android",
         "emulateBrowser": "ionic cordova emulate android -l -c",
         "deviceDebug": "ionic cordova run android --device -l --debug"
     },

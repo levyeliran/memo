@@ -41,10 +41,17 @@ start event button (for creator)
   </div>
 
   <button  class="start-event-btn" ion-button full
-          (click)="onStartEvent()"
-          *ngIf="isCreatorEvent && !event.isPast"
-          [disabled]="!event.isActive" >
+           (click)="onStartEvent()"
+           *ngIf="isCreatorEvent && !event.isPast && !event.isActive"
+           [disabled]="!event.isActive" >
     <div>START EVENT!</div>
+  </button>
+
+  <button  class="start-event-btn" ion-button full
+           (click)="onToggleJoinLeaveEvent()"
+           *ngIf="!isCreatorEvent && !event.isPast && !event.isActive"
+           [disabled]="event.isActive" >
+    <div>{{participantEventStatus}} EVENT!</div>
   </button>
 
 </ion-content>

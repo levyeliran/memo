@@ -17,6 +17,7 @@ export class EventDetailsPage extends BaseComponent implements OnInit, OnDestroy
   event: Event;
   headerButtons: HeaderButton[];
   isCreatorEvent = false;
+  participantEventStatus: '';
 
   constructor(public navCtrl: NavController,
               public eventDispatcherService: EventDispatcherService,
@@ -52,6 +53,13 @@ export class EventDetailsPage extends BaseComponent implements OnInit, OnDestroy
     this.event.isActive = true;
     //update the event
     this.eventDispatcherService.emit({type: EventActions.updateEvent, payload: this.event});
+  }
+
+  onToggleJoinLeaveEvent() {
+    //this.event.isActive = true;
+    //update the event
+    this.eventDispatcherService.emit({type: EventActions.joinEvent, payload: this.event});
+    this.eventDispatcherService.emit({type: EventActions.leaveEvent, payload: this.event});
   }
 
 }
