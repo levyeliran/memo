@@ -7,7 +7,7 @@ export const animationReducer = (state: AnimationStore = new AnimationStore(), a
   const logger: AppLogger = new AppLogger();
 
   switch (action.type) {
-    case AnimationActions.getEventAnimation:
+    case AnimationActions.getEventAnimationConfiguration:
       logger.log(action);
       state.animation = action.payload;
       return Object.assign({}, state);

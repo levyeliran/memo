@@ -1,5 +1,5 @@
 <page-header [isDisplayMenu]="false"
-             [pageTitle]="(event.initials + ' event details')"
+             [pageTitle]="(event.initials + ' event')"
              [buttons]="headerButtons"></page-header>
 
 <!--https://pngtree.com/so/light-effect-->
@@ -34,7 +34,7 @@ start event button (for creator)
         {{event.title}}
       </div>
       <div class="event-description">
-        {{event.description}}
+        {{event.description || 'Take a photo of our best moments, we think your POV is a great reflection of this moment!'}}
       </div>
     </div>
 

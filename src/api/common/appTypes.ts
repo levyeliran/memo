@@ -82,7 +82,7 @@ export const EventStatus = {
 
 /////////////////////////////////////////////////////////
 export class AnimationStore{
-  animation: EventAnimation;
+  animation: EventAnimationConfiguration;
 }
 export class EventAnimation{
   eventKey:string;
@@ -91,6 +91,16 @@ export class EventAnimation{
   photosCount: number = 0;
   PhotoWithMinTagsCount: number = 0;
   creationDate: any;
+}
+
+export class EventAnimationConfiguration{
+  eventKey:string;
+  animationData:any;
+  animationBodyHTML:any;
+  creationDate:any;
+  additionalHTML:any;
+  script:any;
+  style:any;
 }
 
 /////////////////////////////////////////////////////////

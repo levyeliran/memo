@@ -1,18 +1,68 @@
 page-event-album-animation {
 
-  ion-content{
+  ion-content {
 
-    .scroll-content{
+    .scroll-content {
       margin-top: 0px !important;
 
-      iframe{
-        //remove! once the animation is done.
-        margin-top: 20%;
-        border: 1px solid white;
+      iframe {
+        margin-top: 15%;
+        border-top: 7px dashed white;
+        border-bottom: 7px dashed white;
       }
+
+      .topLeft1 {
+        position: absolute;
+        width: 30%;
+        left: 10%;
+        top: 25%;
+      }
+      .topLeft2 {
+        position: absolute;
+        width: 30%;
+        left: 10%;
+        top: 14%;
+      }
+      .topRight1 {
+        position: absolute;
+        width: 30%;
+        right: 10%;
+        top: 20%;
+      }
+      .topRight2 {
+        position: absolute;
+        width: 30%;
+        right: 17%;
+        top: 25%;
+      }
+      .btmLeft1 {
+        position: absolute;
+        width: 30%;
+        left: 10%;
+        top: 65%;
+      }
+      .btmLeft2 {
+        position: absolute;
+        width: 30%;
+        left: 10%;
+        top: 75%;
+      }
+      .btmRight1 {
+        position: absolute;
+        width: 30%;
+        right: 10%;
+        top: 75%;
+      }
+      .btmRight2 {
+        position: absolute;
+        width: 30%;
+        right: 17%;
+        top: 65%;
+      }
+
     }
 
-    .event-details{
+    .event-details {
       bottom: 20px;
       position: fixed;
       height: 26%;
@@ -29,4 +79,9 @@ page-event-album-animation {
       color: wheat;
     }
   }
+
+  .animation-wrapper {
+
+  }
+
 }

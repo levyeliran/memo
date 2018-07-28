@@ -52,12 +52,24 @@ page-home {
   }
 
   .card-subtitle {
-    font-size: 1.2em;
+    font-size: 1.3em;
     font-weight: bold;
     position: absolute;
     top: 60%;
     width: 100%;
-    color: $orange-color;
+    text-shadow: 0px 0px 5px black;
+
+    &.past{
+      color: $blue-light-color;
+    }
+
+    &.present{
+      color: $orange-color;
+    }
+
+    &.future{
+      color: $green-light-color;
+    }
   }
 
   .empty-state {

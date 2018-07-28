@@ -1,9 +1,8 @@
 <page-header [isDisplayMenu]="false"
-             [pageTitle]="event.initials + ' Album'"
+             [pageTitle]="(event.initials + ' moments')"
              [buttons]="headerButtons"></page-header>
 
 <ion-content padding>
-
 
   <div class="event-album-grid" *ngIf="photos.length > 0">
     <div class="grid-row" *ngFor="let row of photosGridModel">

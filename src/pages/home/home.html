@@ -12,7 +12,9 @@
       <ion-icon class="heart-separator" name="heart"></ion-icon>
       {{event.startDateStr}}
     </div>
-    <div class="card-subtitle">SAVE THE DATE!</div>
+    <div class="card-subtitle future" *ngIf="!event.isPast && !event.isActive">SAVE THE DATE!</div>
+    <div class="card-subtitle present" *ngIf="event.isActive">SHARE YOUR MOMENT!</div>
+    <div class="card-subtitle past" *ngIf="event.isPast">UNTIL NEXT TIME...</div>
     <ion-icon name="eye" class="view-album" *ngIf="isEventViewAvailable(event)"></ion-icon>
     <ion-icon name="images" class="update-album" *ngIf="isEventUpdateAvailable(event)"></ion-icon>
   </ion-card>

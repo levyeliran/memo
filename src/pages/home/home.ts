@@ -77,7 +77,7 @@ export class HomePage implements OnInit, OnDestroy {
 
   onEventOpen(event: Event) {
     this.eventDispatcherService.emit({type: PhotoActions.getEventPhotos, payload: event.key});
-    this.eventDispatcherService.emit({type: AnimationActions.getEventAnimation, payload: event.key});
+    this.eventDispatcherService.emit({type: AnimationActions.getEventAnimationConfiguration, payload: event.key});
     //navigate to album (over the main-tabs)
     this.navCtrl.parent.parent.push(EventAlbumPage, {event});
   }

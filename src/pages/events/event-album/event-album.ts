@@ -1,6 +1,9 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {NavController, NavParams} from 'ionic-angular';
-import {Event, EventAnimation, HeaderButton, Photo, PhotoTagsMetaData} from "../../../api/common/appTypes";
+import {
+  Event, EventAnimation, EventAnimationConfiguration, HeaderButton, Photo,
+  PhotoTagsMetaData
+} from "../../../api/common/appTypes";
 import {EventAlbumAnimationPage} from "../event-album-animation/event-album-animation";
 import {EventAlbumPhotoPage} from "../event-album-photo/event-album-photo";
 import {BaseComponent} from "../../../api/common/baseComponent/baseComponent";
@@ -31,8 +34,10 @@ export class EventAlbumPage extends BaseComponent implements OnInit, OnDestroy {
   photosGridModel: any[];
   photoStoreSubscription: any;
   eventStoreSubscription: any;
+  animationStoreSubscription: any;
   displaySpinner = false;
   animation: EventAnimation;
+  animationConfiguration: EventAnimationConfiguration;
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
@@ -74,11 +79,12 @@ export class EventAlbumPage extends BaseComponent implements OnInit, OnDestroy {
     this.registerToEvents();
   }
 
+
   ngOnInit() {
 
     const self = this;
     //init the store with all relevant events
-    this.eventDispatcherService.emit({type: EventActions.getEvent, payload: this.event.key});
+    //this.eventDispatcherService.emit({type: EventActions.getEvent, payload: this.event.key});
 
     //update the album each time the store has been changed
     this.photoStoreSubscription = this.appStoreService._photoStore().subscribe((_store) => {
@@ -123,12 +129,26 @@ export class EventAlbumPage extends BaseComponent implements OnInit, OnDestroy {
         //self.headerButtons[0].changeStatus(!self.event.hasAnimation);
       }
     });
+
+    //update the animation configuration
+    this.animationStoreSubscription = this.appStoreService._animationStore().subscribe((_store) => {
+      if (_store && _store.animation) {
+        self.animationConfiguration = Object.assign({}, _store.animation);
+        //update the animation status on each event update
+        //self.headerButtons[0].changeStatus(!self.event.hasAnimation);
+      }
+    });
+
+    this.registerToEvent(AnimationActions.eventAnimationConfigurationReceived).subscribe(conf => {
+      self.animationConfiguration = conf;
+    })
   }
 
   ngOnDestroy() {
     //unregister to events
     this.photoStoreSubscription.unsubscribe();
     this.eventStoreSubscription.unsubscribe();
+    this.animationStoreSubscription.unsubscribe();
     this.unregisterToEvent(PhotoActions.photoTagged);
   }
 
@@ -161,7 +181,10 @@ export class EventAlbumPage extends BaseComponent implements OnInit, OnDestroy {
   }
 
   onViewAnimation() {
-    this.navCtrl.push(EventAlbumAnimationPage, {event: this.event});
+    this.navCtrl.push(EventAlbumAnimationPage, {
+      event: this.event,
+      animationConfiguration: this.animationConfiguration
+    });
   }
 
   onAddNewPhoto() {

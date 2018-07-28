@@ -6,7 +6,7 @@ import {AppStore} from "../appStore.interface";
 import {Action} from '@ngrx/store';
 import {AppLogger} from "../../utilities/appLogger";
 import {AnimationActions} from "./animationActions";
-import {EventAnimation} from "../../common/appTypes";
+import {EventAnimation, EventAnimationConfiguration} from "../../common/appTypes";
 
 @Injectable()
 export class AnimationCrud {
@@ -24,7 +24,7 @@ export class AnimationCrud {
   registerToEvents() {
     console.log("AnimationCrud OnInit");
 
-    const getEventAnimationSub = this.eventDispatcherService.on(AnimationActions.getEventAnimation);
+    const getEventAnimationSub = this.eventDispatcherService.on(AnimationActions.getEventAnimationConfiguration);
     getEventAnimationSub.subscribe(this.getEventAnimation.bind(this));
 
     const createEventAnimationSub = this.eventDispatcherService.on(AnimationActions.createEventAnimation);
@@ -47,13 +47,16 @@ export class AnimationCrud {
     this.animationCrudSubscriptions.forEach(s => s.unsubscribe());
   }
 
+
   private getEventAnimation(eventKey: string) {
-    this.db.list<Event>(`eventAnimation/${eventKey}`).valueChanges().subscribe((payload) => {
+    this.db.object(`eventAnimation/${eventKey}`)
+      .valueChanges()
+      .subscribe((animation: EventAnimationConfiguration) => {
       //update the store with the retrieved event animation
-      this.store.dispatch({type: AnimationActions.getEventAnimation, payload});
+      this.store.dispatch({type: AnimationActions.getEventAnimationConfiguration, payload: animation});
 
       //dispatch an ack
-      this.dispatchAck({type: AnimationActions.eventAnimationReceived});
+      this.dispatchAck({type: AnimationActions.eventAnimationConfigurationReceived, payload: animation});
     });
   }
 

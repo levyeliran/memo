@@ -1,11 +1,14 @@
 <page-header [isDisplayMenu]="false"
-             [pageTitle]="event.initials + ' animation'"
+             [pageTitle]="(event.initials + ' animation')"
              [buttons]="headerButtons"></page-header>
 
 <ion-content>
-  <iframe *ngIf="animationURL"
+  <iframe id="animationIframe" *ngIf="animationURL"
           [src]="animationURL"
           width="100%" height="50%" frameborder="0"></iframe>
+
+  <img id="gifImg" class="btmLeft1" src="assets/images/gifs/fireworks4.gif"/>
+
   <div class="event-details">
     {{event.title || 'Special moments'}}
   </div>
